@@ -1,0 +1,23 @@
+{
+    "last_directory": "F:/down/comet-20260124morning_c_a",
+    "play_speed": 10,
+    "stacking": {
+        "brightness": 97,
+        "contrast": 1,
+        "mode": "average",
+        "gamma_value": 0.5,
+        "high_performance": true,
+        "use_negative": false,
+        "angular_velocity_angle": 60.9,
+        "angular_velocity_speed": 2.6
+    },
+    "astap": {
+        "astap_path": "F:\\astap\\astap.exe",
+        "search_radius": 180,
+        "fov": 0.0,
+        "star_count": 200,
+        "min_pixels": 2.0,
+        "use_sip": false,
+        "update_header": true
+    }
+}

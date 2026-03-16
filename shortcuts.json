@@ -1,0 +1,189 @@
+{
+    "shortcuts": {
+        "load_image": {
+            "name": "导入图片",
+            "default": "F1",
+            "current": "F1"
+        },
+        "pause": {
+            "name": "暂停",
+            "default": "F2",
+            "current": "F2"
+        },
+        "magnifier": {
+            "name": "放大镜",
+            "default": "F3",
+            "current": "F3"
+        },
+        "report_coord": {
+            "name": "报告定位",
+            "default": "F4",
+            "current": "F4"
+        },
+        "stack": {
+            "name": "叠加图像",
+            "default": "F5",
+            "current": "F5"
+        },
+        "process_parse": {
+            "name": "在线解析",
+            "default": "F6",
+            "current": "F6"
+        },
+        "process_astap_solve": {
+            "name": "本地盲解",
+            "default": "F7",
+            "current": "F7"
+        },
+        "report": {
+            "name": "报告展示",
+            "default": "",
+            "current": ""
+        },
+        "mpc_report": {
+            "name": "MPC报告",
+            "default": "F8",
+            "current": "F8"
+        },
+        "import_asteroid_comet": {
+            "name": "导入小行星和彗星",
+            "default": "F9",
+            "current": "F9"
+        },
+        "import_variable_star": {
+            "name": "导入变星",
+            "default": "F10",
+            "current": "F10"
+        },
+        "prev_image": {
+            "name": "前一张",
+            "default": "Left",
+            "current": "Left"
+        },
+        "next_image": {
+            "name": "后一张",
+            "default": "Right",
+            "current": "Right"
+        },
+        "wheel_mode": {
+            "name": "切换滚轮模式",
+            "default": "Ctrl+1",
+            "current": "Ctrl+1"
+        },
+        "auto_histogram": {
+            "name": "自动直方图",
+            "default": "Alt+D",
+            "current": "Alt+D"
+        },
+        "horizontal_flip": {
+            "name": "水平翻转",
+            "default": "Ctrl+2",
+            "current": "Ctrl+2"
+        },
+        "vertical_flip": {
+            "name": "垂直翻转",
+            "default": "Ctrl+3",
+            "current": "Ctrl+3"
+        },
+        "rotate_left": {
+            "name": "左旋转",
+            "default": "Ctrl+4",
+            "current": "Ctrl+4"
+        },
+        "rotate_right": {
+            "name": "右旋转",
+            "default": "Ctrl+5",
+            "current": "Ctrl+5"
+        },
+        "save_image": {
+            "name": "保存图片",
+            "default": "Ctrl+S",
+            "current": "Ctrl+S"
+        },
+        "show_fits_header": {
+            "name": "显示FITS头文件",
+            "default": "Ctrl+F",
+            "current": "Ctrl+F"
+        },
+        "image_list": {
+            "name": "图片列表",
+            "default": "",
+            "current": ""
+        },
+        "play_backward": {
+            "name": "向前播放",
+            "default": "",
+            "current": ""
+        },
+        "play_forward": {
+            "name": "向后播放",
+            "default": "",
+            "current": ""
+        },
+        "speed": {
+            "name": "播放速度",
+            "default": "",
+            "current": ""
+        },
+        "goto": {
+            "name": "XY坐标定位",
+            "default": "",
+            "current": ""
+        },
+        "zoom_in": {
+            "name": "放大",
+            "default": "",
+            "current": ""
+        },
+        "zoom_out": {
+            "name": "缩小",
+            "default": "",
+            "current": ""
+        },
+        "draw_line": {
+            "name": "画辅助线",
+            "default": "",
+            "current": ""
+        },
+        "hide_lines": {
+            "name": "隐藏辅助线",
+            "default": "",
+            "current": ""
+        },
+        "line_settings": {
+            "name": "辅助线设置",
+            "default": "",
+            "current": ""
+        },
+        "red_filter": {
+            "name": "红色滤镜",
+            "default": "",
+            "current": ""
+        },
+        "green_filter": {
+            "name": "绿色滤镜",
+            "default": "",
+            "current": ""
+        },
+        "blue_filter": {
+            "name": "蓝色滤镜",
+            "default": "",
+            "current": ""
+        },
+        "reset_filter": {
+            "name": "原色",
+            "default": "",
+            "current": ""
+        },
+        "batch_photometry": {
+            "name": "批量测光",
+            "current": "F11",
+            "default": "F11"
+        },
+        "auto_animation": {
+            "name": "自动动画",
+            "current": "Ctrl+L",
+            "default": "F12"
+        }
+    }
+}
