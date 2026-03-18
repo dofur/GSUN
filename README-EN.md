@@ -7,7 +7,7 @@ It is designed for astronomical research and education, providing powerful FITS 
 This software aims to replace Astrometrica, Comethunter, MaxIm in amateur sky surveys, allowing most survey inspection tasks in one tool.
 
 > Tip: Use Tsinghua mirror for faster dependency installation:
-> `pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`
+> `pip install -r requirements.txt`
 
 **Author**: Guoyou Sun
 **Website**: [http://sunguoyou.lamost.org/](http://sunguoyou.lamost.org/)
@@ -143,4 +143,4 @@ Install database (e.g., D20) in the same folder as `astap.exe`.
 
 ### Recommended
 ```bash
-pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install -r requirements.txt
