@@ -113,6 +113,94 @@ from astropy.io import fits
 import warnings
 warnings.filterwarnings('ignore')
 from catalog_query import CatalogQuery
+from PyQt5.QtWidgets import QApplication
+
+# 翻译字典
+PHOTOMETRY_TRANSLATIONS = {
+    "zh_CN": {
+        "confirm": "确认",
+        "save": "保存",
+        "reference_star": "参考星",
+        "clear_reference": "清除参考星",
+        "target_star": "目标星",
+        "move_object": "移动天体",
+        "execute_photometry": "执行测光",
+        "aperture_radius": "孔径半径",
+        "inner_radius": "内径",
+        "outer_radius": "外径",
+        "select_reference_first": "请先选择参考星或目标星，然后在图像上双击选择位置",
+        "reference_star_info": "参考星",
+        "target_star_info": "目标星",
+        "not_selected": "未选择",
+        "photometry_params": "测光参数",
+        "star_selection": "选星信息",
+        "photometry_operation": "测光操作",
+        "star_control": "选星控制",
+        "image_list": "图像列表",
+        "image_display": "图像显示",
+        "photometry_complete": "测光完成",
+        "batch_photometry": "批量测光",
+        "please_select_ref_or_target": "请先选择参考星或目标星",
+        "please_select_both": "请先选择参考星和目标星",
+        "params_confirmed": "参数已确认，标记已更新",
+        "photometry_params_saved": "测光参数已保存",
+        "delete_ref_star": "删除参考星",
+        "delete_target_star": "删除目标星",
+        "filename": "文件名",
+        "size": "尺寸",
+        "index": "索引",
+        "ucac4_mag": "UCAC4星等",
+        "got_ucac4_mag": "已获取UCAC4星等",
+        "failed_get_ucac4": "获取UCAC4星等失败",
+        "use_default_mag": "将使用默认0等",
+    },
+    "en_US": {
+        "confirm": "Confirm",
+        "save": "Save",
+        "reference_star": "Reference Star",
+        "clear_reference": "Clear Reference",
+        "target_star": "Target Star",
+        "move_object": "Move Object",
+        "execute_photometry": "Execute Photometry",
+        "aperture_radius": "Aperture Radius",
+        "inner_radius": "Inner Radius",
+        "outer_radius": "Outer Radius",
+        "select_reference_first": "Please select reference star or target star first, then double-click on image to select position",
+        "reference_star_info": "Reference Star",
+        "target_star_info": "Target Star",
+        "not_selected": "Not Selected",
+        "photometry_params": "Photometry Parameters",
+        "star_selection": "Star Selection",
+        "photometry_operation": "Photometry Operation",
+        "star_control": "Star Control",
+        "image_list": "Image List",
+        "image_display": "Image Display",
+        "photometry_complete": "Photometry Complete",
+        "batch_photometry": "Batch Photometry",
+        "please_select_ref_or_target": "Please select reference star or target star first",
+        "please_select_both": "Please select both reference star and target star",
+        "params_confirmed": "Parameters confirmed, markers updated",
+        "photometry_params_saved": "Photometry parameters saved",
+        "delete_ref_star": "Delete Reference Star",
+        "delete_target_star": "Delete Target Star",
+        "filename": "Filename",
+        "size": "Size",
+        "index": "Index",
+        "ucac4_mag": "UCAC4 Magnitude",
+        "got_ucac4_mag": "Got UCAC4 magnitude",
+        "failed_get_ucac4": "Failed to get UCAC4 magnitude",
+        "use_default_mag": "Will use default 0 magnitude",
+    }
+}
+
+def photometry_translate(key):
+    """测光模块翻译函数"""
+    try:
+        app = QApplication.instance()
+        lang = getattr(app, 'current_language', 'zh_CN') if app else 'zh_CN'
+        return PHOTOMETRY_TRANSLATIONS.get(lang, PHOTOMETRY_TRANSLATIONS['zh_CN']).get(key, key)
+    except:
+        return PHOTOMETRY_TRANSLATIONS['zh_CN'].get(key, key)
 
 
 class FullscreenWindow(QMainWindow):
@@ -487,12 +575,12 @@ class DraggableStarMarker(QGraphicsItem):
         """右键菜单事件"""
         print(f"右键菜单事件触发: star_type={self.star_type}, index={self.index}")
         menu = QMenu()
-        
+
         if self.star_type == 'reference':
-            remove_action = menu.addAction("删除参考星")
+            remove_action = menu.addAction(photometry_translate("delete_ref_star"))
             remove_action.triggered.connect(self.remove_reference_star)
         else:
-            remove_action = menu.addAction("删除目标星")
+            remove_action = menu.addAction(photometry_translate("delete_target_star"))
             remove_action.triggered.connect(self.remove_target_star)
         
         print(f"右键菜单已创建，准备显示...")
@@ -850,7 +938,7 @@ class PhotometryWindow(QMainWindow):
         layout.setSpacing(5)  # 减少间距
         
         # 标题
-        title = QLabel("图像显示")
+        title = QLabel(photometry_translate("image_display"))
         title.setStyleSheet("""
             QLabel {
                 font-size: 16px;
@@ -860,9 +948,9 @@ class PhotometryWindow(QMainWindow):
             }
         """)
         layout.addWidget(title)
-        
+
         # 图片信息显示（在图像框上方）
-        self.image_info_label = QLabel("未选择图像")
+        self.image_info_label = QLabel(photometry_translate("not_selected"))
         self.image_info_label.setStyleSheet("""
             QLabel {
                 color: white;
@@ -906,7 +994,7 @@ class PhotometryWindow(QMainWindow):
         layout.setSpacing(10)
         
         # 标题
-        title = QLabel("图像列表")
+        title = QLabel(photometry_translate("image_list"))
         title.setStyleSheet("""
             QLabel {
                 font-size: 16px;
@@ -954,7 +1042,7 @@ class PhotometryWindow(QMainWindow):
         layout.setSpacing(10)
         
         # 标题
-        title = QLabel("选星信息")
+        title = QLabel(photometry_translate("star_selection"))
         title.setStyleSheet("""
             QLabel {
                 font-size: 16px;
@@ -966,7 +1054,7 @@ class PhotometryWindow(QMainWindow):
         layout.addWidget(title)
         
         # 参考星信息
-        reference_group = QGroupBox("参考星")
+        reference_group = QGroupBox(photometry_translate("reference_star_info"))
         reference_group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold;
@@ -983,8 +1071,8 @@ class PhotometryWindow(QMainWindow):
             }
         """)
         reference_layout = QVBoxLayout(reference_group)
-        
-        self.reference_info_label = QLabel("未选择")
+
+        self.reference_info_label = QLabel(photometry_translate("not_selected"))
         self.reference_info_label.setStyleSheet("""
             QLabel {
                 color: #666;
@@ -996,7 +1084,7 @@ class PhotometryWindow(QMainWindow):
         layout.addWidget(reference_group)
         
         # 目标星信息
-        target_group = QGroupBox("目标星")
+        target_group = QGroupBox(photometry_translate("target_star_info"))
         target_group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold;
@@ -1013,8 +1101,8 @@ class PhotometryWindow(QMainWindow):
             }
         """)
         target_layout = QVBoxLayout(target_group)
-        
-        self.target_info_label = QLabel("未选择")
+
+        self.target_info_label = QLabel(photometry_translate("not_selected"))
         self.target_info_label.setStyleSheet("""
             QLabel {
                 color: #666;
@@ -1035,7 +1123,7 @@ class PhotometryWindow(QMainWindow):
         layout.setSpacing(10)
         
         # 标题
-        title = QLabel("测光操作")
+        title = QLabel(photometry_translate("photometry_operation"))
         title.setStyleSheet("""
             QLabel {
                 font-size: 16px;
@@ -1045,9 +1133,9 @@ class PhotometryWindow(QMainWindow):
             }
         """)
         layout.addWidget(title)
-        
+
         # 选星控制区
-        star_selection_group = QGroupBox("选星控制")
+        star_selection_group = QGroupBox(photometry_translate("star_control"))
         star_selection_group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold;
@@ -1069,7 +1157,7 @@ class PhotometryWindow(QMainWindow):
         buttons_layout.setSpacing(10)
         
         # 参考星按钮
-        self.reference_star_btn = QPushButton("参考星")
+        self.reference_star_btn = QPushButton(photometry_translate("reference_star"))
         self.reference_star_btn.setStyleSheet("""
             QPushButton {
                 background-color: #FF9800;
@@ -1092,9 +1180,9 @@ class PhotometryWindow(QMainWindow):
         """)
         self.reference_star_btn.clicked.connect(self.on_reference_star_clicked)
         buttons_layout.addWidget(self.reference_star_btn)
-        
+
         # 清除参考星按钮
-        self.clear_reference_btn = QPushButton("清除参考星")
+        self.clear_reference_btn = QPushButton(photometry_translate("clear_reference"))
         self.clear_reference_btn.setStyleSheet("""
             QPushButton {
                 background-color: #F44336;
@@ -1119,7 +1207,7 @@ class PhotometryWindow(QMainWindow):
         buttons_layout.addWidget(self.clear_reference_btn)
         
         # 目标星按钮
-        self.target_star_btn = QPushButton("目标星")
+        self.target_star_btn = QPushButton(photometry_translate("target_star"))
         self.target_star_btn.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;
@@ -1142,9 +1230,9 @@ class PhotometryWindow(QMainWindow):
         """)
         self.target_star_btn.clicked.connect(self.on_target_star_clicked)
         buttons_layout.addWidget(self.target_star_btn)
-        
+
         # 移动天体按钮
-        self.moving_target_btn = QPushButton("移动天体")
+        self.moving_target_btn = QPushButton(photometry_translate("move_object"))
         self.moving_target_btn.setStyleSheet("""
             QPushButton {
                 background-color: #9C27B0;
@@ -1171,7 +1259,7 @@ class PhotometryWindow(QMainWindow):
         star_selection_layout.addLayout(buttons_layout)
         
         # 选择提示
-        self.selection_hint = QLabel("请先选择参考星或目标星，然后在图像上双击选择位置")
+        self.selection_hint = QLabel(photometry_translate("select_reference_first"))
         self.selection_hint.setStyleSheet("""
             QLabel {
                 color: #666;
@@ -1186,7 +1274,7 @@ class PhotometryWindow(QMainWindow):
         layout.addWidget(star_selection_group)
         
         # 测光参数设置
-        params_group = QGroupBox("测光参数")
+        params_group = QGroupBox(photometry_translate("photometry_params"))
         params_group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold;
@@ -1211,7 +1299,7 @@ class PhotometryWindow(QMainWindow):
         params_row_layout.setSpacing(10)
         
         # 孔径半径
-        aperture_label = QLabel("孔径半径:")
+        aperture_label = QLabel(photometry_translate("aperture_radius") + ":")
         aperture_label.setStyleSheet("color: #333;")
         self.aperture_spinbox = QDoubleSpinBox()
         self.aperture_spinbox.setRange(1.0, 100.0)
@@ -1229,7 +1317,7 @@ class PhotometryWindow(QMainWindow):
         params_row_layout.addWidget(self.aperture_spinbox)
         
         # 内径
-        inner_label = QLabel("内径:")
+        inner_label = QLabel(photometry_translate("inner_radius") + ":")
         inner_label.setStyleSheet("color: #333;")
         self.inner_spinbox = QDoubleSpinBox()
         self.inner_spinbox.setRange(1.0, 100.0)
@@ -1247,7 +1335,7 @@ class PhotometryWindow(QMainWindow):
         params_row_layout.addWidget(self.inner_spinbox)
         
         # 外径
-        outer_label = QLabel("外径:")
+        outer_label = QLabel(photometry_translate("outer_radius") + ":")
         outer_label.setStyleSheet("color: #333;")
         self.outer_spinbox = QDoubleSpinBox()
         self.outer_spinbox.setRange(1.0, 100.0)
@@ -1271,9 +1359,9 @@ class PhotometryWindow(QMainWindow):
         
         # 第二行：确认按钮和UCAC4星等选项
         params_row2_layout = QHBoxLayout()
-        
+
         # 确认按钮
-        confirm_button = QPushButton("确认")
+        confirm_button = QPushButton(photometry_translate("confirm"))
         confirm_button.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;
@@ -1297,7 +1385,7 @@ class PhotometryWindow(QMainWindow):
         params_row2_layout.addStretch()
         
         # UCAC4星等选项
-        self.ucac4_checkbox = QCheckBox("获取UCAC4星等")
+        self.ucac4_checkbox = QCheckBox(photometry_translate("get_ucac4_mag"))
         self.ucac4_checkbox.setStyleSheet("""
             QCheckBox {
                 color: #333;
@@ -1327,7 +1415,7 @@ class PhotometryWindow(QMainWindow):
         layout.addWidget(params_group)
         
         # 测光操作按钮
-        self.photometry_btn = QPushButton("执行测光")
+        self.photometry_btn = QPushButton(photometry_translate("execute_photometry"))
         self.photometry_btn.setStyleSheet("""
             QPushButton {
                 background-color: #2196F3;
@@ -1463,7 +1551,7 @@ class PhotometryWindow(QMainWindow):
         shape = img_info.get('shape', 'Unknown')
         
         self.image_info_label.setText(
-            f"文件名: {filename} | 尺寸: {shape} | 索引: {index + 1}/{len(self.images)}"
+            f"{photometry_translate('filename')}: {filename} | {photometry_translate('size')}: {shape} | {photometry_translate('index')}: {index + 1}/{len(self.images)}"
         )
         
         # 在测光模块中显示当前图像
@@ -1540,7 +1628,7 @@ class PhotometryWindow(QMainWindow):
     def on_image_display_double_clicked(self, scene_pos):
         """测光模块图像双击事件"""
         if self.selection_mode is None:
-            self.status_label.setText("请先选择参考星或目标星")
+            self.status_label.setText(photometry_translate("please_select_ref_or_target"))
             return
         
         # 获取当前图像数据
@@ -1746,7 +1834,7 @@ class PhotometryWindow(QMainWindow):
         filename = img_info.get('filename', 'Unknown')
         shape = img_info.get('shape', 'Unknown')
         self.image_info_label.setText(
-            f"文件名: {filename} | 尺寸: {shape} | 索引: {next_index + 1}/{len(self.images)}"
+            f"{photometry_translate('filename')}: {filename} | {photometry_translate('size')}: {shape} | {photometry_translate('index')}: {next_index + 1}/{len(self.images)}"
         )
         
         # 显示当前图像
@@ -2126,7 +2214,7 @@ class PhotometryWindow(QMainWindow):
     def on_photometry_clicked(self):
         """执行测光"""
         if len(self.reference_star_list) == 0 or not self.target_star:
-            self.status_label.setText("请先选择参考星和目标星")
+            self.status_label.setText(photometry_translate("please_select_both"))
             return
         
         self.status_label.setText("正在执行测光...")
@@ -2262,7 +2350,7 @@ class PhotometryWindow(QMainWindow):
                                         
                                         if star_info and 'magnitude' in star_info:
                                             reference_magnitude = star_info['magnitude']
-                                            self.status_label.setText(f"已获取UCAC4星等: {reference_magnitude:.3f}")
+                                            self.status_label.setText(f"{photometry_translate('got_ucac4_mag')}: {reference_magnitude:.3f}")
                                             print(f"参考星UCAC4星等: {reference_magnitude:.3f}")
                                         else:
                                             print("UCAC4查询未找到匹配的恒星")
@@ -2291,10 +2379,10 @@ class PhotometryWindow(QMainWindow):
                         QMessageBox.warning(self, "警告", "无法获取图像处理器，将使用默认0等")
                         reference_magnitude = None
                 except Exception as e:
-                    print(f"获取UCAC4星等失败: {e}")
+                    print(f"{photometry_translate('failed_get_ucac4')}: {e}")
                     import traceback
                     traceback.print_exc()
-                    QMessageBox.warning(self, "警告", f"获取UCAC4星等失败: {e}\n将使用默认0等")
+                    QMessageBox.warning(self, "警告", f"{photometry_translate('failed_get_ucac4')}: {e}\n{photometry_translate('use_default_mag')}")
                     reference_magnitude = None
             else:
                 print("多颗参考星但未勾选UCAC4")
@@ -2753,8 +2841,8 @@ class PhotometryWindow(QMainWindow):
             
             # 保存参数到JSON文件
             self.save_photometry_params_to_json()
-            
-            self.status_label.setText("参数已确认，标记已更新")
+
+            self.status_label.setText(photometry_translate("params_confirmed"))
             print("标记已更新")
         except Exception as e:
             print(f"确认参数失败: {e}")
@@ -2771,7 +2859,7 @@ class PhotometryWindow(QMainWindow):
                 'use_ucac4': self.ucac4_checkbox.isChecked()
             }
             # 在实际应用中，这里可以保存到文件或配置中
-            self.status_label.setText("测光参数已保存")
+            self.status_label.setText(photometry_translate("photometry_params_saved"))
         except Exception as e:
             print(f"保存参数失败: {e}")
     
@@ -2908,8 +2996,8 @@ class PhotometryWindow(QMainWindow):
             
             with open(config_file, 'w', encoding='utf-8') as f:
                 json.dump(params, f, indent=4, ensure_ascii=False)
-            
-            self.status_label.setText("测光参数已保存")
+
+            self.status_label.setText(photometry_translate("photometry_params_saved"))
             print(f"测光参数已保存到: {config_file}")
             
         except Exception as e:
@@ -2936,8 +3024,8 @@ class PhotometryWindow(QMainWindow):
             self.inner_spinbox.setValue(params.get('inner_radius', 15.0))
             self.outer_spinbox.setValue(params.get('outer_radius', 20.0))
             self.ucac4_checkbox.setChecked(params.get('use_ucac4', False))
-            
-            self.status_label.setText("测光参数已加载")
+
+            self.status_label.setText(photometry_translate("photometry_params_loaded"))
             print(f"测光参数已从{config_file}加载")
             
         except Exception as e:
