@@ -3,7 +3,7 @@
 
 作者: Guoyou Sun (孙国佑)
 网站: http://sunguoyou.lamost.org/
-版本: V4.0
+版本: V4.1
 
 版权所有 © 2025-2030 Guoyou Sun (孙国佑)
 
@@ -191,12 +191,813 @@ from skimage import transform as tf
 from photometry_module import PhotometryWindow
 
 
+TRANSLATIONS = {
+    "zh_CN": {
+        "donation_title": "赞赏支持",
+        "donation_thanks": "感谢您的支持！",
+        "donation_desc": "星视 GSUN View 是免费开源的天文软件，您的赞赏将支持软件的持续开发和维护。",
+        "donation_method": "赞赏方式：",
+        "donation_scan": "请扫描上方二维码进行赞赏支持。感谢您对天文科学研究的支持！",
+        "donation_author": "作者：天体收藏家-孙国佑 网站：http://sunguoyou.lamost.org/ 版本：V4.1",
+        "donation_close": "关闭",
+        "settings_title": "应用设置",
+        "path_settings": "路径设置",
+        "asteroid_db_path": "小天体数据库路径:",
+        "variable_star_path": "变星数据库路径:",
+        "table_path": "采集表路径:",
+        "download_path": "下载路径:",
+        "browse": "浏览...",
+        "observatory_params": "观测站参数",
+        "api_key": "盲解API密钥:",
+        "observatory_code": "观测地代码:",
+        "mpc_start": "MPC起始编号:",
+        "mpc_start_tip": "MPC报告起始编号，7位字符，例如：SGY0001",
+        "asteroid_mag_limit": "小行星极限星等:",
+        "asteroid_mag_tip": "仅标注不比该星等更暗的小行星 (值越小显示越少)",
+        "photometry_settings": "测光设置",
+        "ucac4_path": "UCAC4路径:",
+        "aperture_radius": "孔径半径(像素):",
+        "aperture_tip": "测光孔径半径（像素），用于提取恒星光通量",
+        "sky_inner": "天空环内径(像素):",
+        "sky_inner_tip": "天空背景环内径（像素），用于计算背景",
+        "sky_outer": "天空环外径(像素):",
+        "sky_outer_tip": "天空背景环外径（像素），用于计算背景",
+        "ref_star_count": "参考星数量:",
+        "ref_star_tip": "用于差分测光的参考星数量",
+        "shortcut_settings": "快捷键设置",
+        "shortcut_hint": "点击快捷键输入框后，按下您想要设置的快捷键组合",
+        "function_name": "功能名称",
+        "current_shortcut": "当前快捷键",
+        "action": "操作",
+        "reset_to_default": "恢复默认",
+        "language": "语言/language:",
+        "author_info": "作者：Guoyou Sun(孙国佑)",
+        "save": "保存",
+        "cancel": "取消",
+        "loading": "加载中",
+        "language_changed": "语言已更改，部分界面需要重启程序才能完全生效。",
+        "batch_align_new": "列表对齐",
+        "align_subtract": "对齐-相减",
+        "pseudo_flatfield_align": "伪平场-对齐",
+        "pseudo_flatfield_align_subtract": "伪平场-对齐-相减",
+        "batch_history_align": "批量历史新图对齐",
+        "crop": "剪切",
+        "auto_animation": "自动动画",
+        "process": "处理",
+        "online_solve": "在线解析",
+        "local_solve": "本地解析",
+        "astap_settings": "本地解析配置",
+        "solve": "解析",
+        "single_flatfield": "单张伪平场",
+        "batch_flatfield": "列表伪平场",
+        "two_image_align": "两张对齐",
+        "sun_guoyou_website": "孙国佑个人网站",
+        "xingming_observatory": "星明天文台",
+        "common_tools": "常用网站及工具",
+        "psp_supernova": "PSP公众超新星",
+        "gsun_website": "星视开源网站",
+        "website": "网址",
+        "donation": "赞赏",
+        "load_images": "导入图片",
+        "import_image": "导入图像",
+        "search_image": "搜索图像",
+        "settings": "设置",
+        "image_list": "图片列表",
+        "copy_coord": "复制坐标",
+        "cancel_marker": "取消标记",
+        "show_inner_only": "只显示内圈",
+        "play_forward": "向前播放",
+        "play_backward": "向后播放",
+        "pause": "暂停",
+        "stop": "停止",
+        "prev_image": "前一张",
+        "next_image": "后一张",
+        "prev_image_nav": "上一张图像",
+        "next_image_nav": "下一张图像",
+        "play_speed": "播放速度",
+        "xy_position": "XY坐标定位",
+        "radec_position": "天文坐标定位",
+        "report_position": "报告定位（CCOR）",
+        "zoom_in": "放大",
+        "zoom_out": "缩小",
+        "draw_line": "画辅助线",
+        "hide_lines": "隐藏辅助线",
+        "line_settings": "辅助线设置",
+        "measure_distance": "测量角离",
+        "clear_measure": "清除测量",
+        "red_filter": "红色滤镜",
+        "green_filter": "绿色滤镜",
+        "blue_filter": "蓝色滤镜",
+        "original_color": "原色",
+        "invert_color": "反色",
+        "stack_images": "叠加图像",
+        "screen_stretch": "Screen Stretch",
+        "auto_histogram": "自动直方图",
+        "photometry": "批量测光",
+        "import_asteroid_comet": "导入小行星和彗星",
+        "import_variable_star": "导入变星",
+        "hide_show_asteroid": "隐藏/显示小天体标记",
+        "flip_horizontal": "水平翻转",
+        "flip_vertical": "垂直翻转",
+        "rotate_left": "向左旋转90度",
+        "rotate_right": "向右旋转90度",
+        "save_as": "另存为",
+        "report_display": "报告展示（CCOR）",
+        "mpc_report": "MPC报告",
+        "mpc_report_dialog": "MPC报告",
+        "batch_photometry": "批量测光",
+        "photometry_result": "测光结果",
+        "export_csv": "导出CSV",
+        "show_star_info": "查看目标信息",
+        "add_marker": "添加标记",
+        "clear_markers": "清除标记",
+        "click_record": "点击记录",
+        "report_content": "报告内容",
+        "report_filename": "文件名",
+        "report_time": "时间",
+        "report_ra": "RA",
+        "report_dec": "DEC",
+        "report_coords": "坐标",
+        "report_coord_diff": "坐标差值",
+        "report_speed": "速度(像素/小时)",
+        "generate_report": "生成报告",
+        "clear_records": "清空记录",
+        "close": "关闭",
+        "batch_photometry_tab": "批量测光",
+        "stacking_tab": "叠加",
+        "show_fits_header": "查看FITS头",
+        "fits_info": "FITS信息",
+        "image_settings": "图像设置",
+        "window_settings": "窗口设置",
+        "star_info": "目标信息",
+        "filename": "文件名",
+        "time": "时间",
+        "coordinates": "坐标",
+        "magnitude": "星等",
+        "pixel": "Pixel",
+        "xy_coords": "XY坐标",
+        "astap_settings": "ASTAP设置",
+        "about": "关于",
+        "help": "帮助",
+        "zoom": "倍数",
+        "up": "上",
+        "down": "下",
+        "left": "左",
+        "right": "右",
+        "confirm": "确定",
+        "mpc_id": "MPC编号",
+        "mpc_data": "MPC数据",
+        "file": "File",
+        "edit": "编辑",
+        "view": "视图",
+        "tools": "工具",
+        "window": "窗口",
+        "help_menu": "帮助",
+        "open": "打开",
+        "exit": "退出",
+        "load_batch": "批量导入",
+        "export_all": "导出全部",
+        "preferences": "偏好设置",
+        "show_toolbar": "显示工具栏",
+        "interface_language": "界面语言 / Interface Language",
+        "settings": "Settings",
+        "show_statusbar": "显示状态栏",
+        "fullscreen": "全屏",
+        "exit_fullscreen": "退出全屏",
+        "no_image_loaded": "尚未加载图片",
+        "replace_image_list": '是否替换当前图像列表？\n选择"是"将替换当前列表，选择"否"将添加到当前列表',
+        "loading_image": "正在加载图像...",
+        "no_time_info": "该图像没有时间信息，将只记录坐标。生成报告时可能会受到限制。",
+        "import_options": "导入选项",
+        "new_images_loaded": "新增加载 {count} 张图像，总计 {total} 张",
+        "confirm_overwrite": "确定要覆盖保存到原文件吗？\n\n{filename}\n\n此操作不可撤销！",
+        "histogram_success": "已成功对 {count} 张FITS图像应用统一的自动直方图处理！\n统一参数: min={min_val:.2f}, max={max_val:.2f}",
+        "initializing": "正在初始化...",
+        "stacking": "叠加",
+        "astrometric_position": "天文定位",
+        "coordinate_position": "坐标定位",
+        "image_list": "图片列表",
+        "screen_stretch_dialog": "Screen Stretch",
+        "auxiliary_line_settings": "辅助线设置",
+        "photometry_tab": "测光",
+        "save": "保存",
+        "cancel": "取消",
+        "ok": "确定",
+        "warning": "警告",
+        "error": "错误",
+        "info": "信息",
+        "complete": "完成",
+        "pix_position": "像素坐标定位",
+        "astro_position": "天文坐标定位",
+        "report_position_title": "报告定位（CCOR）",
+        "wcs_error": "WCS错误",
+        "no_wcs_info": "当前图像没有WCS信息，无法进行天文坐标定位",
+        "coord_conversion_error": "坐标转换错误",
+        "supported_format": "支持格式: 12:34:56.7 +12:34:56.7 或 12:34:56.7,+12:34:56.7",
+        "jump_to_coord": "定位到天文坐标",
+        "astap_config": "ASTAP 配置",
+        "shortcut_settings": "修改快捷键",
+        "photometry_result": "差分测光结果",
+        "app_title": "星视 GSUN View",
+        "import_asteroid_comet": "导入小行星和彗星数据库",
+        "import_asteroid": "导入小行星数据库",
+        "import_comet": "导入彗星数据库",
+        "import_variable_star": "导入变星数据库",
+        "parse_progress": "解析进度",
+        "apply_wcs": "应用WCS",
+        "astap_solving": "ASTAP 盲解",
+        "batch_flatfield": "批量伪平场处理",
+        "list_flatfield": "列表伪平场",
+        "processing": "处理中",
+        "aligning": "对齐中",
+        "batch_align": "批量图像对齐",
+        "batch_aligning": "批量对齐",
+        "stacking_settings": "叠加设置",
+        "aux_line_settings": "辅助线设置",
+        "report_coord": "报告坐标功能",
+        "playback_speed": "播放速度调节",
+        "auto_animation": "自动动画",
+        "coord_position": "坐标定位",
+        "confirm_crop": "确认剪切",
+        "stacking_processing": "图像叠加处理中",
+        "image_list": "图片列表",
+        "download_progress": "下载进度",
+        "importing": "导入中",
+        "search_image": "搜索图像",
+        "select_image": "选择图像",
+        "search_result": "搜索结果",
+        "batch_histogram": "批量自动直方图处理",
+        "image_settings": "图片设置",
+        "fits_header": "FITS头文件信息",
+        "confirm": "确认",
+        "ready": "就绪",
+        "jump_to": "跳转定位",
+        "cancel": "取消",
+        "coord_position": "坐标定位",
+        "x_coord": "X坐标",
+        "y_coord": "Y坐标",
+        "import_complete": "导入完成",
+        "asteroid_count": "小行星：{count}个",
+        "comet_count": "彗星：{count}个",
+        "total_count": "总计：{count}个",
+        "confirm_exit": "确认退出",
+        "confirm_close_viewer": "确定要关闭图像查看器吗？",
+        "close": "关闭",
+        "please_load_image": "请先加载图片",
+        "please_import_image": "请先导入图片",
+        "select": "选择",
+        "delete_selected": "删除选中",
+        "confirm_delete": "确认删除",
+        "confirm_delete_images": "确定要删除选中的 {count} 张图片吗？",
+        "ok": "确定",
+        "save": "保存",
+        "clear": "清空",
+        "image_query": "图像查询",
+        "catalog_query": "目录查询",
+        "known_query": "已知查询",
+        "target_info": "目标信息",
+        "select_reference": "参考星",
+        "clear_reference": "清除参考星",
+        "select_target": "目标星",
+        "move_object": "移动天体",
+        "execute_photometry": "执行测光",
+        "aperture_radius": "孔径半径",
+        "inner_radius": "内径",
+        "outer_radius": "外径",
+        "brightness": "亮度",
+        "brightness_adjust": "亮度调整",
+        "contrast_threshold": "对比度阈值调整",
+        "stacking_mode": "叠加方式",
+        "gamma_value": "伽马值",
+        "invert_effect": "使用反色效果（增强暗区域）",
+        "hint": "提示",
+        "success": "成功",
+        "mpc_saved_to_report": "MPC数据已保存到报告栏",
+        "copied_to_clipboard": "已复制选中行的所有信息到剪贴板",
+        "copied_ra_dec": "已复制RA/DEC坐标到剪贴板",
+        "no_valid_ra_dec": "选中的记录中没有有效的RA/DEC坐标",
+        "stopped_guide_mode_for_play": "已停止辅助线绘制模式以开始播放",
+        "mpc_id_data_required": "MPC编号或数据不能为空",
+        "mpc_id_format_error": "MPC编号必须为7位数，且只能包含大小写字母和数字",
+        "format_error": "格式错误",
+        "save_failed": "保存失败: {error}",
+        "save_shortcut_failed": "保存快捷键配置失败！",
+        "save_settings_error": "保存设置时出错: {error}",
+        "no_wcs_info": "当前图像没有WCS信息",
+        "query_failed": "查询失败: {error}",
+        "display_image_error": "显示图像时出错: {error}",
+        "no_records_available": "没有可用的记录！",
+        "no_valid_time_info": "所有记录均无有效时间信息，无法生成标准格式报告！",
+        "report_generated": "报告已生成！",
+        "generate_report_error": "生成报告时出错: {error}",
+        "apply_processing_error": "应用图像处理时出错: {error}",
+        "no_valid_images": "没有加载任何有效图像！",
+        "database_path_not_set": "未找到本地MPCORB.DAT或CometEls.txt，请在设置中指定小天体数据库路径",
+        "wcs_coords_invalid": "WCS中心坐标无效: RA={ra:.3f}, DEC={dec:.3f}",
+        "import_asteroid_comet_failed": "导入小行星和彗星失败: {error}",
+        "asteroid_db_not_found": "未找到本地MPCORB.DAT，请在设置中指定小天体数据库路径",
+        "import_failed": "导入失败: {error}",
+        "import_asteroid_failed": "导入小行星失败: {error}",
+        "comet_db_not_found": "未找到本地CometEls.txt，请在设置中指定小天体数据库路径",
+        "import_comet_failed": "导入彗星失败: {error}",
+        "mark_asteroid_failed": "标记小行星失败: {error}",
+        "variable_star_db_not_found": "未找到变星数据库文件，请在设置中指定变星数据库路径",
+        "import_variable_star_failed": "导入变星失败: {error}",
+        "please_load_image_first_exclaim": "请先加载图像！",
+        "skipped_duplicate_files": "跳过 {count} 个重复文件",
+        "no_image_loaded": "未加载图片",
+        "image_data_empty": "当前图片数据为空",
+        "no_known_asteroid_nearby": "附近未检索到已知小行星",
+        "need_at_least_2_images": "需要至少导入2张图片才能进行{action}",
+        "align": "对齐",
+        "align_and_subtract": "对齐并相减",
+        "process": "处理",
+        "paused_for_guide_mode": "已暂停播放以启用辅助线绘制模式",
+        "paused_for_measure_mode": "已暂停播放以启用测量模式",
+        "paused_for_crop_mode": "已暂停播放以启用剪切模式",
+        "no_animation_generated": "未生成动画",
+        "please_load_image_first": "请先加载图片",
+        "deleted_records": "已删除 {count} 条记录。",
+        "please_select_image_to_download": "请先选择要下载的图像",
+        "please_select_content_to_copy": "请先选择要复制的内容",
+        "note": "注",
+        "brightness_hint": "降低亮度（<100%）可以更好地观察彗星尾迹",
+        "threshold_note": "数值表示最亮的百分之几的像素将被强调显示",
+        "coords": "坐标",
+        "example": "例如",
+        "language_changed_msg": "语言已更改。",
+        "report_coord_title": "报告坐标功能",
+        "enter_report_data": "请输入报告坐标数据，格式为：HH:MM x y，例如 20:30 426 1057",
+        "mark_coordinates": "标记坐标",
+        "clear_markers": "清除标记",
+        "aux_line_operations": "辅助线操作",
+        "delete_last_aux_line": "删除最后一条辅助线",
+        "delete_all_aux_lines": "删除所有辅助线",
+        "export_aux_lines": "导出辅助线",
+        "import_aux_lines": "导入辅助线",
+        "flip_horizontal": "水平翻转",
+        "flip_vertical": "垂直翻转",
+        "rotate_left": "向左旋转90度",
+        "rotate_right": "向右旋转90度",
+        "flip_success": "翻转成功",
+        "flipped_all_horizontal": "已对所有 {count} 张图像进行水平翻转",
+        "flipped_all_vertical": "已对所有 {count} 张图像进行垂直翻转",
+        "rotated_all_90_cw": "已对所有 {count} 张图像顺时针旋转90度",
+        "rotated_all_90_ccw": "已对所有 {count} 张图像逆时针旋转90度",
+        "image_flipped": "图像已{direction}翻转",
+        "zoom": "缩放",
+        "import_success": "导入成功",
+        "asteroid_imported": "小行星导入成功: {count} 个",
+        "comet_imported": "彗星导入成功: {count} 个",
+        "context_menu": "菜单",
+        "copy": "复制",
+        "paste": "粘贴",
+        "cut": "剪切",
+        "delete": "删除",
+        "select_all": "全选",
+        "copy_coord": "复制坐标",
+        "cancel_marker": "取消标记",
+        "show_inner_only": "只显示内圈",
+        "aperture_settings": "测光圈设置",
+        "aperture_radius_menu": "孔径半径",
+        "inner_radius_menu": "内环半径",
+        "outer_radius_menu": "外环半径",
+        "pixel": "像素",
+        "asteroid": "小行星",
+        "variable_star": "变星",
+        "supernova": "超新星",
+        "threshold": "阈值",
+        "gamma": "伽马值",
+        "stacking_mode_average": "平均值叠加",
+        "stacking_mode_maximum": "最大值叠加 (适合CCOR)",
+        "stacking_mode_report": "按报告叠加 (适合CCOR)",
+        "stacking_mode_angular": "根据角度速度叠加 (需WCS)",
+        "stacking_failed": "图像叠加失败！请检查图像是否兼容。",
+        "comet_report_data": "彗星报告数据",
+        "enter_report_format": "请输入彗星报告数据，格式为：HH:MM x y，例如 20:30 426 1057",
+        "angular_velocity_settings": "角度速度叠加设置",
+        "enter_angular_velocity": "请输入移动角度和速度（需要WCS信息）：",
+        "auto_histogram": "已对{count}张FITS图像应用统一的自动直方图处理",
+        "auto_histogram_detail": "已对 {count} 张FITS图像应用统一的自动直方图处理 (min={min_val:.2f}, max={max_val:.2f})",
+        "missing_wcs": "当前图片缺少WCS坐标，无法导入小行星和彗星数据库",
+        "missing_wcs_asteroid": "当前图片缺少WCS坐标，无法导入小行星数据库",
+        "missing_wcs_comet": "当前图片缺少WCS坐标，无法导入彗星数据库",
+        "missing_wcs_variable": "当前图片缺少WCS坐标，无法导入变星数据库",
+        "missing_wcs_mark": "当前图片缺少WCS坐标，无法标记",
+        "filename": "文件名",
+        "get_ucac4_mag": "获取UCAC4星等",
+        "photometry_params_loaded": "测光参数已加载",
+    },
+    "en_US": {
+        "donation_title": "Donation Support",
+        "donation_thanks": "Thank you for your support!",
+        "donation_desc": "GSUN View is free and open-source astronomical software. Your donation will support continued development.",
+        "donation_method": "Donation method:",
+        "donation_scan": "Please scan the QR code above to make a donation. Thank you for supporting astronomical research!",
+        "donation_author": "Author: Guoyou Sun Website: http://sunguoyou.lamost.org/ Version: V4.1",
+        "donation_close": "Close",
+        "settings_title": "Application Settings",
+        "path_settings": "Path Settings",
+        "asteroid_db_path": "Asteroid Database Path:",
+        "variable_star_path": "Variable Star Database Path:",
+        "table_path": "Table Path:",
+        "download_path": "Download Path:",
+        "browse": "Browse...",
+        "observatory_params": "Observatory Parameters",
+        "api_key": "Astrometry API Key:",
+        "observatory_code": "Observatory Code:",
+        "mpc_start": "MPC Start Number:",
+        "mpc_start_tip": "MPC report start number, 7 characters, e.g. SGY0001",
+        "asteroid_mag_limit": "Asteroid Magnitude Limit:",
+        "asteroid_mag_tip": "Only label asteroids not fainter than this magnitude (smaller = fewer)",
+        "photometry_settings": "Photometry Settings",
+        "ucac4_path": "UCAC4 Path:",
+        "aperture_radius": "Aperture Radius (pixels):",
+        "aperture_tip": "Photometry aperture radius (pixels), used to extract stellar flux",
+        "sky_inner": "Sky Inner Radius (pixels):",
+        "sky_inner_tip": "Sky background annulus inner radius (pixels), used to calculate background",
+        "sky_outer": "Sky Outer Radius (pixels):",
+        "sky_outer_tip": "Sky background annulus outer radius (pixels), used to calculate background",
+        "ref_star_count": "Reference Star Count:",
+        "ref_star_tip": "Number of reference stars for differential photometry",
+        "shortcut_settings": "Shortcut Settings",
+        "shortcut_hint": "Click the shortcut input box, then press the key combination you want to set",
+        "function_name": "Function Name",
+        "current_shortcut": "Current Shortcut",
+        "action": "Action",
+        "reset_to_default": "Reset to Default",
+        "language": "Language:",
+        "author_info": "Author: Guoyou Sun",
+        "save": "Save",
+        "cancel": "Cancel",
+        "loading": "Loading",
+        "interface_language": "Interface Language",
+        "language_changed": "Language changed. Some interfaces require restart to take full effect.",
+        "batch_align_new": "List Align",
+        "align_subtract": "Align-Subtract",
+        "pseudo_flatfield_align": "Pseudo Flatfield-Align",
+        "pseudo_flatfield_align_subtract": "Pseudo Flatfield-Align-Subtract",
+        "batch_history_align": "Batch History Align",
+        "crop": "Crop",
+        "auto_animation": "Auto Animation",
+        "process": "Process",
+        "online_solve": "Online Solve",
+        "local_solve": "Local Solve",
+        "astap_settings": "ASTAP Settings",
+        "solve": "Solve",
+        "single_flatfield": "Single Flatfield",
+        "batch_flatfield": "Batch Flatfield",
+        "two_image_align": "Two Image Align",
+        "sun_guoyou_website": "Guoyou Sun's Website",
+        "xingming_observatory": "Xingming Observatory",
+        "common_tools": "Common Tools",
+        "psp_supernova": "PSP Supernova",
+        "gsun_website": "GSUN Open Source",
+        "website": "Websites",
+        "donation": "Donation",
+        "load_images": "Load Images",
+        "import_image": "Import Image",
+        "search_image": "Search Image",
+        "settings": "Settings",
+        "image_list": "Image List",
+        "copy_coord": "Copy Coordinates",
+        "cancel_marker": "Cancel Marker",
+        "show_inner_only": "Show Inner Only",
+        "play_forward": "Play Forward",
+        "play_backward": "Play Backward",
+        "pause": "Pause",
+        "stop": "Stop",
+        "prev_image": "Previous",
+        "next_image": "Next",
+        "prev_image_nav": "Previous Image",
+        "next_image_nav": "Next Image",
+        "play_speed": "Play Speed",
+        "xy_position": "XY Position",
+        "radec_position": "RA/Dec Position",
+        "report_position": "Report Position (CCOR)",
+        "zoom_in": "Zoom In",
+        "zoom_out": "Zoom Out",
+        "draw_line": "Draw Line",
+        "hide_lines": "Hide Lines",
+        "line_settings": "Line Settings",
+        "measure_distance": "Measure Distance",
+        "clear_measure": "Clear Measure",
+        "red_filter": "Red Filter",
+        "green_filter": "Green Filter",
+        "blue_filter": "Blue Filter",
+        "original_color": "Original",
+        "invert_color": "Invert Color",
+        "stack_images": "Stack Images",
+        "screen_stretch": "Screen Stretch",
+        "auto_histogram": "Auto Histogram",
+        "photometry": "Photometry",
+        "import_asteroid_comet": "Import Asteroids & Comets",
+        "import_variable_star": "Import Variable Stars",
+        "hide_show_asteroid": "Hide/Show Asteroid Markers",
+        "flip_horizontal": "Flip Horizontal",
+        "flip_vertical": "Flip Vertical",
+        "rotate_left": "Rotate Left 90°",
+        "rotate_right": "Rotate Right 90°",
+        "save_as": "Save As",
+        "report_display": "Report Display (CCOR)",
+        "mpc_report": "MPC Report",
+        "mpc_report_dialog": "MPC Report",
+        "batch_photometry": "Batch Photometry",
+        "photometry_result": "Photometry Result",
+        "export_csv": "Export CSV",
+        "show_star_info": "View Target Info",
+        "add_marker": "Add Marker",
+        "clear_markers": "Clear Markers",
+        "click_record": "Click Record",
+        "report_content": "Report Content",
+        "report_filename": "Filename",
+        "report_time": "Time",
+        "report_ra": "RA",
+        "report_dec": "DEC",
+        "report_coords": "Coordinates",
+        "report_coord_diff": "Coord Diff",
+        "report_speed": "Speed (px/hr)",
+        "generate_report": "Generate Report",
+        "clear_records": "Clear Records",
+        "close": "Close",
+        "batch_photometry_tab": "Batch Photometry",
+        "stacking_tab": "Stacking",
+        "show_fits_header": "View FITS Header",
+        "fits_info": "FITS Info",
+        "image_settings": "Image Settings",
+        "window_settings": "Window Settings",
+        "star_info": "Target Info",
+        "filename": "Filename",
+        "time": "Time",
+        "coordinates": "Coordinates",
+        "magnitude": "Magnitude",
+        "pixel": "Pixel",
+        "xy_coords": "XY Coords",
+        "astap_settings": "ASTAP Settings",
+        "about": "About",
+        "help": "Help",
+        "zoom": "Zoom",
+        "up": "Up",
+        "down": "Down",
+        "left": "Left",
+        "right": "Right",
+        "confirm": "Confirm",
+        "mpc_id": "MPC ID",
+        "mpc_data": "MPC Data",
+        "file": "File",
+        "edit": "Edit",
+        "view": "View",
+        "tools": "Tools",
+        "window": "Window",
+        "help_menu": "Help",
+        "open": "Open",
+        "exit": "Exit",
+        "load_batch": "Batch Import",
+        "export_all": "Export All",
+        "preferences": "Preferences",
+        "show_toolbar": "Show Toolbar",
+        "show_statusbar": "Show Statusbar",
+        "fullscreen": "Fullscreen",
+        "exit_fullscreen": "Exit Fullscreen",
+        "no_image_loaded": "No image loaded",
+        "replace_image_list": "Replace current image list?\nSelect 'Yes' to replace, select 'No' to add to current list.",
+        "loading_image": "Loading image...",
+        "no_time_info": "This image has no time information. Coordinates will only be recorded. Report generation may be limited.",
+        "import_options": "Import Options",
+        "new_images_loaded": "New {count} images loaded, total {total} images",
+        "confirm_overwrite": "Are you sure you want to overwrite the original file?\n\n{filename}\n\nThis operation cannot be undone!",
+        "histogram_success": "Successfully applied uniform auto histogram processing to {count} FITS images!\nUniform parameters: min={min_val:.2f}, max={max_val:.2f}",
+        "initializing": "Initializing...",
+        "stacking": "Stacking",
+        "astrometric_position": "Astrometric Position",
+        "coordinate_position": "Coordinate Position",
+        "image_list": "Image List",
+        "screen_stretch_dialog": "Screen Stretch",
+        "auxiliary_line_settings": "Auxiliary Line Settings",
+        "photometry_tab": "Photometry",
+        "save": "Save",
+        "cancel": "Cancel",
+        "ok": "OK",
+        "warning": "Warning",
+        "error": "Error",
+        "info": "Info",
+        "complete": "Complete",
+        "pix_position": "Pixel Coordinate Position",
+        "astro_position": "Astronomical Coordinate Position",
+        "report_position_title": "Report Position (CCOR)",
+        "wcs_error": "WCS Error",
+        "no_wcs_info": "Current image has no WCS information, cannot perform astronomical coordinate positioning",
+        "coord_conversion_error": "Coordinate Conversion Error",
+        "supported_format": "Supported formats: 12:34:56.7 +12:34:56.7 or 12:34:56.7,+12:34:56.7",
+        "jump_to_coord": "Jump to astronomical coordinate",
+        "astap_config": "ASTAP Settings",
+        "shortcut_settings": "Modify Shortcuts",
+        "photometry_result": "Photometry Result",
+        "app_title": "GSUN View",
+        "import_asteroid_comet": "Import Asteroid and Comet Database",
+        "import_asteroid": "Import Asteroid Database",
+        "import_comet": "Import Comet Database",
+        "import_variable_star": "Import Variable Star Database",
+        "parse_progress": "Parsing Progress",
+        "apply_wcs": "Apply WCS",
+        "astap_solving": "ASTAP Solving",
+        "batch_flatfield": "Batch Pseudo Flat-field Processing",
+        "list_flatfield": "List Pseudo Flat-field",
+        "processing": "Processing",
+        "aligning": "Aligning",
+        "batch_align": "Batch Image Alignment",
+        "batch_aligning": "Batch Aligning",
+        "stacking_settings": "Stacking Settings",
+        "aux_line_settings": "Auxiliary Line Settings",
+        "report_coord": "Report Coordinate Function",
+        "playback_speed": "Playback Speed Adjustment",
+        "auto_animation": "Auto Animation",
+        "coord_position": "Coordinate Position",
+        "confirm_crop": "Confirm Crop",
+        "stacking_processing": "Image Stacking Processing",
+        "image_list": "Image List",
+        "download_progress": "Download Progress",
+        "importing": "Importing",
+        "search_image": "Search Image",
+        "select_image": "Select Image",
+        "search_result": "Search Result",
+        "batch_histogram": "Batch Auto Histogram Processing",
+        "image_settings": "Image Settings",
+        "fits_header": "FITS Header Information",
+        "confirm": "Confirm",
+        "ready": "Ready",
+        "jump_to": "Jump To",
+        "cancel": "Cancel",
+        "coord_position": "Coordinate Position",
+        "x_coord": "X Coord",
+        "y_coord": "Y Coord",
+        "import_complete": "Import Complete",
+        "asteroid_count": "Asteroids: {count}",
+        "comet_count": "Comets: {count}",
+        "total_count": "Total: {count}",
+        "confirm_exit": "Confirm Exit",
+        "confirm_close_viewer": "Are you sure you want to close the image viewer?",
+        "close": "Close",
+        "please_load_image": "Please load an image first",
+        "please_import_image": "Please import images first",
+        "select": "Select",
+        "delete_selected": "Delete Selected",
+        "confirm_delete": "Confirm Delete",
+        "confirm_delete_images": "Are you sure you want to delete {count} selected images?",
+        "ok": "OK",
+        "save": "Save",
+        "clear": "Clear",
+        "image_query": "Image Query",
+        "catalog_query": "Catalog Query",
+        "known_query": "Known Query",
+        "target_info": "Target Info",
+        "select_reference": "Reference Star",
+        "clear_reference": "Clear Reference",
+        "select_target": "Target Star",
+        "move_object": "Move Object",
+        "execute_photometry": "Execute Photometry",
+        "aperture_radius": "Aperture Radius",
+        "inner_radius": "Inner Radius",
+        "outer_radius": "Outer Radius",
+        "brightness": "Brightness",
+        "brightness_adjust": "Brightness Adjustment",
+        "contrast_threshold": "Contrast Threshold",
+        "stacking_mode": "Stacking Mode",
+        "gamma_value": "Gamma Value",
+        "invert_effect": "Use Invert Effect (Enhance Dark Areas)",
+        "hint": "Hint",
+        "success": "Success",
+        "mpc_saved_to_report": "MPC data saved to report panel",
+        "copied_to_clipboard": "Copied selected row information to clipboard",
+        "copied_ra_dec": "Copied RA/DEC coordinates to clipboard",
+        "no_valid_ra_dec": "No valid RA/DEC coordinates in selected records",
+        "stopped_guide_mode_for_play": "Stopped guide line mode to start playback",
+        "mpc_id_data_required": "MPC ID or data cannot be empty",
+        "mpc_id_format_error": "MPC ID must be 7 characters, containing only letters and numbers",
+        "format_error": "Format Error",
+        "save_failed": "Save failed: {error}",
+        "save_shortcut_failed": "Failed to save shortcut configuration!",
+        "save_settings_error": "Error saving settings: {error}",
+        "no_wcs_info": "Current image has no WCS information",
+        "query_failed": "Query failed: {error}",
+        "display_image_error": "Error displaying image: {error}",
+        "no_records_available": "No records available!",
+        "no_valid_time_info": "All records lack valid time information, cannot generate standard format report!",
+        "report_generated": "Report generated!",
+        "generate_report_error": "Error generating report: {error}",
+        "apply_processing_error": "Error applying image processing: {error}",
+        "no_valid_images": "No valid images loaded!",
+        "database_path_not_set": "Local MPCORB.DAT or CometEls.txt not found, please specify minor body database path in settings",
+        "wcs_coords_invalid": "WCS center coordinates invalid: RA={ra:.3f}, DEC={dec:.3f}",
+        "import_asteroid_comet_failed": "Failed to import asteroids and comets: {error}",
+        "asteroid_db_not_found": "Local MPCORB.DAT not found, please specify minor body database path in settings",
+        "import_failed": "Import failed: {error}",
+        "import_asteroid_failed": "Failed to import asteroids: {error}",
+        "comet_db_not_found": "Local CometEls.txt not found, please specify minor body database path in settings",
+        "import_comet_failed": "Failed to import comets: {error}",
+        "mark_asteroid_failed": "Failed to mark asteroids: {error}",
+        "variable_star_db_not_found": "Variable star database file not found, please specify variable star database path in settings",
+        "import_variable_star_failed": "Failed to import variable stars: {error}",
+        "please_load_image_first_exclaim": "Please load image first!",
+        "skipped_duplicate_files": "Skipped {count} duplicate files",
+        "no_image_loaded": "No image loaded",
+        "image_data_empty": "Current image data is empty",
+        "no_known_asteroid_nearby": "No known asteroids found nearby",
+        "need_at_least_2_images": "Need at least 2 images to {action}",
+        "align": "align",
+        "align_and_subtract": "align and subtract",
+        "process": "process",
+        "paused_for_guide_mode": "Paused playback to enable guide line mode",
+        "paused_for_measure_mode": "Paused playback to enable measurement mode",
+        "paused_for_crop_mode": "Paused playback to enable crop mode",
+        "no_animation_generated": "No animation generated",
+        "please_load_image_first": "Please load image first",
+        "deleted_records": "Deleted {count} records.",
+        "please_select_image_to_download": "Please select image to download",
+        "please_select_content_to_copy": "Please select content to copy",
+        "note": "Note",
+        "brightness_hint": "Lowering brightness (<100%) can better observe comet tails",
+        "threshold_note": "Value indicates the percentage of brightest pixels to be highlighted",
+        "coords": "Coordinates",
+        "example": "Example",
+        "language_changed_msg": "Language changed.",
+        "report_coord_title": "Report Coordinate Function",
+        "enter_report_data": "Please enter report coordinate data, format: HH:MM x y, e.g. 20:30 426 1057",
+        "mark_coordinates": "Mark Coordinates",
+        "clear_markers": "Clear Markers",
+        "aux_line_operations": "Auxiliary Line Operations",
+        "delete_last_aux_line": "Delete Last Auxiliary Line",
+        "delete_all_aux_lines": "Delete All Auxiliary Lines",
+        "export_aux_lines": "Export Auxiliary Lines",
+        "import_aux_lines": "Import Auxiliary Lines",
+        "flip_horizontal": "Flip Horizontal",
+        "flip_vertical": "Flip Vertical",
+        "rotate_left": "Rotate Left 90°",
+        "rotate_right": "Rotate Right 90°",
+        "flip_success": "Flip Success",
+        "flipped_all_horizontal": "Flipped all {count} images horizontally",
+        "flipped_all_vertical": "Flipped all {count} images vertically",
+        "rotated_all_90_cw": "Rotated all {count} images 90° clockwise",
+        "rotated_all_90_ccw": "Rotated all {count} images 90° counter-clockwise",
+        "image_flipped": "Image flipped {direction}",
+        "zoom": "Zoom",
+        "import_success": "Import Success",
+        "asteroid_imported": "Asteroids imported: {count}",
+        "comet_imported": "Comets imported: {count}",
+        "context_menu": "Menu",
+        "copy": "Copy",
+        "paste": "Paste",
+        "cut": "Cut",
+        "delete": "Delete",
+        "select_all": "Select All",
+        "copy_coord": "Copy Coordinates",
+        "cancel_marker": "Cancel Marker",
+        "show_inner_only": "Show Inner Circle Only",
+        "aperture_settings": "Aperture Settings",
+        "aperture_radius_menu": "Aperture Radius",
+        "inner_radius_menu": "Inner Radius",
+        "outer_radius_menu": "Outer Radius",
+        "pixel": "pixels",
+        "asteroid": "Asteroid",
+        "variable_star": "Variable Star",
+        "supernova": "Supernova",
+        "threshold": "Threshold",
+        "gamma": "Gamma",
+        "stacking_mode_average": "Average Stacking",
+        "stacking_mode_maximum": "Maximum Stacking (for CCOR)",
+        "stacking_mode_report": "Report-based Stacking (for CCOR)",
+        "stacking_mode_angular": "Angular Velocity Stacking (requires WCS)",
+        "stacking_failed": "Image stacking failed! Please check if images are compatible.",
+        "comet_report_data": "Comet Report Data",
+        "enter_report_format": "Please enter comet report data, format: HH:MM x y, e.g. 20:30 426 1057",
+        "angular_velocity_settings": "Angular Velocity Stacking Settings",
+        "enter_angular_velocity": "Please enter movement angle and velocity (requires WCS):",
+        "auto_histogram": "Applied unified auto histogram processing to {count} FITS images",
+        "auto_histogram_detail": "Applied unified auto histogram processing to {count} FITS images (min={min_val:.2f}, max={max_val:.2f})",
+        "missing_wcs": "Current image lacks WCS coordinates, cannot import asteroid and comet databases",
+        "missing_wcs_asteroid": "Current image lacks WCS coordinates, cannot import asteroid database",
+        "missing_wcs_comet": "Current image lacks WCS coordinates, cannot import comet database",
+        "missing_wcs_variable": "Current image lacks WCS coordinates, cannot import variable star database",
+        "missing_wcs_mark": "Current image lacks WCS coordinates, cannot mark",
+        "filename": "Filename",
+        "get_ucac4_mag": "Get UCAC4 Magnitude",
+        "photometry_params_loaded": "Photometry parameters loaded",
+    }
+}
+
+
+def _(key):
+    """翻译函数"""
+    lang = getattr(QApplication.instance(), 'current_language', 'zh_CN')
+    return TRANSLATIONS.get(lang, TRANSLATIONS['zh_CN']).get(key, key)
+
+
 class DonationDialog(QDialog):
     """赞赏弹窗类"""
-    
+
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("赞赏支持")
+        self.setWindowTitle(_("donation_title"))
         self.setFixedSize(500, 600)
         self.setStyleSheet("""
             QDialog {
@@ -240,32 +1041,32 @@ class DonationDialog(QDialog):
         layout.addWidget(line)
         
         # 说明文字
-        desc_label = QLabel("星视 GSUN View 是免费开源的天文软件，您的赞赏将支持软件的持续开发和维护。")
+        desc_label = QLabel(_("donation_desc"))
         desc_label.setWordWrap(True)
         desc_label.setStyleSheet("font-size: 14px; margin: 10px;")
         layout.addWidget(desc_label)
-        
+
         # 图片显示区域
         self.image_label = QLabel()
         self.image_label.setAlignment(Qt.AlignCenter)
         self.image_label.setStyleSheet("background-color: white; border: 1px solid #ccc; border-radius: 5px; margin: 10px;")
         layout.addWidget(self.image_label)
-        
+
         # 加载Base64图片
         self.load_image_from_base64()
-        
+
         # 赞赏方式说明
-        method_label = QLabel("赞赏方式：")
+        method_label = QLabel(_("donation_method"))
         method_label.setStyleSheet("font-size: 16px; font-weight: bold; margin: 10px;")
         layout.addWidget(method_label)
-        
-        method_desc = QLabel("请扫描上方二维码进行赞赏支持。感谢您对天文科学研究的支持！")
+
+        method_desc = QLabel(_("donation_scan"))
         method_desc.setWordWrap(True)
         method_desc.setStyleSheet("font-size: 14px; margin: 10px;")
         layout.addWidget(method_desc)
-        
+
         # 作者信息
-        author_label = QLabel("作者：天体收藏家-孙国佑 网站：http://sunguoyou.lamost.org/ 版本：V4.0")
+        author_label = QLabel(_("donation_author"))
         author_label.setStyleSheet("font-size: 12px; color: #666; margin: 10px;")
         layout.addWidget(author_label)
         
@@ -503,7 +1304,7 @@ class StarInfoDialog(QDialog):
         self.scene_pos = scene_pos
         self.image_view = image_view
         self.magnification = 4
-        self.setWindowTitle("目标信息")
+        self.setWindowTitle(_("star_info"))
         self.setWindowFlags(Qt.Tool)
         
         self.aperture_radius = 5.0
@@ -626,7 +1427,7 @@ class StarInfoDialog(QDialog):
         main_layout.addWidget(self.magnifier_label)
         
         zoom_layout = QHBoxLayout()
-        zoom_label = QLabel("倍数:")
+        zoom_label = QLabel(_("zoom") + ":")
         zoom_label.setStyleSheet("QLabel { font-size: 12px; font-weight: bold; }")
         zoom_layout.addWidget(zoom_label)
         
@@ -736,7 +1537,7 @@ class StarInfoDialog(QDialog):
         
         # 确定按钮
         zoom_layout.addSpacing(8)
-        confirm_btn = QPushButton("确定")
+        confirm_btn = QPushButton(_("confirm"))
         confirm_btn.setStyleSheet("""
             QPushButton {
                 padding: 3px 10px;
@@ -794,7 +1595,7 @@ class StarInfoDialog(QDialog):
         
         # MPC编号行
         mpc_id_layout = QHBoxLayout()
-        mpc_id_label = QLabel("编号:")
+        mpc_id_label = QLabel(_("mpc_id") + ":")
         mpc_id_label.setStyleSheet("font-size: 12px; font-weight: bold; color: #000000;")
         mpc_id_layout.addWidget(mpc_id_label)
         
@@ -844,7 +1645,7 @@ class StarInfoDialog(QDialog):
         mpc_data_layout.addWidget(self.mpc_data_edit)
         
         # MPC数据保存按钮
-        self.mpc_save_btn = QPushButton("保存")
+        self.mpc_save_btn = QPushButton(_("save"))
         self.mpc_save_btn.setFixedWidth(35)
         self.mpc_save_btn.setStyleSheet("""
             QPushButton {
@@ -874,8 +1675,8 @@ class StarInfoDialog(QDialog):
         button_layout = QHBoxLayout()
         button_layout.setSpacing(6)
         
-        self.image_query_btn = QPushButton("图像查询")
-        self.image_query_btn.setFixedWidth(100)
+        self.image_query_btn = QPushButton(_("image_query"))
+        self.image_query_btn.setFixedWidth(120)
         self.image_query_btn.setStyleSheet("""
             QPushButton {
                 padding: 4px 8px;
@@ -896,9 +1697,9 @@ class StarInfoDialog(QDialog):
         """)
         self.image_query_btn.clicked.connect(self.on_image_query)
         button_layout.addWidget(self.image_query_btn)
-        
-        self.catalog_query_btn = QPushButton("目录查询")
-        self.catalog_query_btn.setFixedWidth(100)
+
+        self.catalog_query_btn = QPushButton(_("catalog_query"))
+        self.catalog_query_btn.setFixedWidth(120)
         self.catalog_query_btn.setStyleSheet("""
             QPushButton {
                 padding: 4px 8px;
@@ -919,9 +1720,9 @@ class StarInfoDialog(QDialog):
         """)
         self.catalog_query_btn.clicked.connect(self.on_catalog_query)
         button_layout.addWidget(self.catalog_query_btn)
-        
-        self.known_query_btn = QPushButton("已知查询")
-        self.known_query_btn.setFixedWidth(100)
+
+        self.known_query_btn = QPushButton(_("known_query"))
+        self.known_query_btn.setFixedWidth(120)
         self.known_query_btn.setStyleSheet("""
             QPushButton {
                 padding: 4px 8px;
@@ -1086,15 +1887,15 @@ class StarInfoDialog(QDialog):
             ra_deg = 0
             dec_deg = 0
         
-        info_text = f"""<b>文件名:</b> {filename}<br>
-<b>时间:</b> {time_str}<br>
-<b>坐标:</b> {coord_str}<br>
-<b>星等:</b> {mag_str}<br>
-<b>Pixel:</b> {pixel_val}<br>
+        info_text = f"""<b>{_("filename")}:</b> {filename}<br>
+<b>{_("time")}:</b> {time_str}<br>
+<b>{_("coordinates")}:</b> {coord_str}<br>
+<b>{_("magnitude")}:</b> {mag_str}<br>
+<b>{_("pixel")}:</b> {pixel_val}<br>
 <b>FWHM:</b> {fwhm_str}<br>
 <b>SNR:</b> {snr_str}<br>
 <b>Flux:</b> {flux_str}<br>
-<b>XY坐标:</b> {x} {y}"""
+<b>{_("xy_coords")}:</b> {x} {y}"""
         
         self.info_label.setText(info_text)
         
@@ -1205,7 +2006,7 @@ class StarInfoDialog(QDialog):
                     decimal_part = decimal_part.ljust(5, '0')[:5]
                     day_fraction_str = f"{integer_part}.{decimal_part}" if integer_part else f".{decimal_part}"
             
-            mpc_data = f"     {mpc_id}  C{year} {month:02d} {day:02d}{day_fraction_str} {ra_h:02d} {ra_m:02d} {ra_s:05.2f} {dec_sign}{dec_d:02d} {dec_m:02d} {dec_s:04.1f}          {mag:.1f}  V     {observatory_code}"
+            mpc_data = f"     {mpc_id}  C{year} {month:02d} {day:02d}{day_fraction_str} {ra_h:02d} {ra_m:02d} {ra_s:05.2f} {dec_sign}{dec_d:02d} {dec_m:02d} {dec_s:04.1f}          {mag:.1f} V      {observatory_code}"
             
             # 确保正好80字符
             if len(mpc_data) > 80:
@@ -1221,7 +2022,7 @@ class StarInfoDialog(QDialog):
             print(f"生成MPC数据出错: {e}")
 
 # 作者：Guoyou Sun (孙国佑) - 天体收藏家
-# 软件：星视 GSUN View V4.0
+# 软件：星视 GSUN View V4.1
 # 网站：sunguoyou.lamost.org
 # 标识：546756
 # 原创作品，禁止商业使用
@@ -1384,12 +2185,12 @@ class StarInfoDialog(QDialog):
             mpc_data = self.mpc_data_edit.text()
             
             if not mpc_id or not mpc_data:
-                QMessageBox.warning(self, "警告", "MPC编号或数据不能为空")
+                QMessageBox.warning(self, _("warning"), _("mpc_id_data_required"))
                 return
-            
+
             # 验证编号格式：必须为7位数，只能包含大小写字母和数字
             if len(mpc_id) != 7 or not re.match(r'^[A-Za-z0-9]{7}$', mpc_id):
-                QMessageBox.warning(self, "格式错误", "MPC编号必须为7位数，且只能包含大小写字母和数字")
+                QMessageBox.warning(self, _("format_error"), _("mpc_id_format_error"))
                 return
             
             mpc_data_file = "mpc_report_data.json"
@@ -1447,7 +2248,7 @@ class StarInfoDialog(QDialog):
             
             # 更新计数器
             self.mpc_counter += 1
-            QMessageBox.information(self, "成功", "MPC数据已保存到报告栏")
+            QMessageBox.information(self, _("success"), _("mpc_saved_to_report"))
             
             # 保存到JSON文件
             data = {
@@ -1462,7 +2263,7 @@ class StarInfoDialog(QDialog):
             print(f"保存MPC数据出错: {e}")
             import traceback
             traceback.print_exc()
-            QMessageBox.critical(self, "错误", f"保存失败: {str(e)}")
+            QMessageBox.critical(self, _("error"), _("save_failed").format(error=str(e)))
     
     def save_mpc_data(self):
         """保存MPC数据到主窗口（已废弃，改用on_save_mpc_data）"""
@@ -1505,9 +2306,9 @@ class StarInfoDialog(QDialog):
             menu.addAction("SIMBAD").triggered.connect(lambda: self.open_url("SIMBAD"))
             menu.exec_(self.catalog_query_btn.mapToGlobal(self.catalog_query_btn.rect().bottomLeft()))
         elif query_type == "known":
-            menu.addAction("小行星").triggered.connect(lambda: self.open_url("asteroid"))
-            menu.addAction("VSX变星").triggered.connect(lambda: self.open_url("VSX"))
-            menu.addAction("TNS超新星").triggered.connect(lambda: self.open_url("TNS"))
+            menu.addAction(_("asteroid")).triggered.connect(lambda: self.open_url("asteroid"))
+            menu.addAction("VSX").triggered.connect(lambda: self.open_url("VSX"))
+            menu.addAction("TNS").triggered.connect(lambda: self.open_url("TNS"))
             menu.exec_(self.known_query_btn.mapToGlobal(self.known_query_btn.rect().bottomLeft()))
         
     def open_url(self, database_type):
@@ -1539,7 +2340,7 @@ class AstapSettingsDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent = parent
-        self.setWindowTitle("ASTAP 配置")
+        self.setWindowTitle(_("astap_config"))
         self.resize(500, 400)
         
         layout = QVBoxLayout(self)
@@ -1672,20 +2473,20 @@ class ShortcutSettingsDialog(QDialog):
         self.shortcuts_data = self.load_shortcuts()
         self.shortcut_widgets = {}
         
-        self.setWindowTitle("快捷键设置")
+        self.setWindowTitle(_("shortcut_settings"))
         self.resize(600, 500)
         
         layout = QVBoxLayout(self)
-        
+
         # 说明标签
-        info_label = QLabel("点击快捷键输入框后，按下您想要设置的快捷键组合")
+        info_label = QLabel(_("shortcut_hint"))
         info_label.setStyleSheet("color: gray; font-style: italic;")
         layout.addWidget(info_label)
-        
+
         # 创建表格
         self.table = QTableWidget()
         self.table.setColumnCount(3)
-        self.table.setHorizontalHeaderLabels(["功能名称", "当前快捷键", "操作"])
+        self.table.setHorizontalHeaderLabels([_("function_name"), _("current_shortcut"), _("action")])
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
         self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
@@ -1698,7 +2499,7 @@ class ShortcutSettingsDialog(QDialog):
         # 按钮
         button_layout = QHBoxLayout()
         
-        reset_button = QPushButton("恢复默认")
+        reset_button = QPushButton(_("reset_to_default"))
         reset_button.clicked.connect(self.reset_to_default)
         button_layout.addWidget(reset_button)
         
@@ -1764,6 +2565,7 @@ class ShortcutSettingsDialog(QDialog):
             'play_forward': {'name': '向前播放', 'current': 'Ctrl+F', 'default': 'Ctrl+F'},
             'speed': {'name': '播放速度', 'current': 'Ctrl+D', 'default': 'Ctrl+D'},
             'goto': {'name': '跳转到', 'current': 'Ctrl+J', 'default': 'Ctrl+J'},
+            'goto_radec': {'name': '天文坐标定位', 'current': '', 'default': ''},
             'zoom_in': {'name': '放大', 'current': 'Ctrl++', 'default': 'Ctrl++'},
             'zoom_out': {'name': '缩小', 'current': 'Ctrl+-', 'default': 'Ctrl+-'},
             'draw_line': {'name': '绘制线条', 'current': 'Ctrl+Y', 'default': 'Ctrl+Y'},
@@ -1780,6 +2582,12 @@ class ShortcutSettingsDialog(QDialog):
             'auto_animation': {'name': '自动动画', 'current': 'F12', 'default': 'F12'},
             'list_flatfield': {'name': '列表伪平场', 'current': '', 'default': ''},
             'list_align': {'name': '列表对齐', 'current': '', 'default': ''},
+            'search_image': {'name': '搜索图像', 'current': '', 'default': ''},
+            'settings': {'name': '设置', 'current': '', 'default': ''},
+            'screen_stretch': {'name': 'Screen Stretch', 'current': '', 'default': ''},
+            'measure': {'name': '测量距离', 'current': '', 'default': ''},
+            'clear_measure': {'name': '清除测量', 'current': '', 'default': ''},
+            'crop': {'name': '剪切', 'current': '', 'default': ''},
         }
     
     def save_shortcuts(self):
@@ -1849,7 +2657,7 @@ class ShortcutSettingsDialog(QDialog):
                 self.parent.reload_shortcuts()
             super().accept()
         else:
-            QMessageBox.critical(self, "错误", "保存快捷键配置失败！")
+            QMessageBox.critical(self, _("error"), _("save_shortcut_failed"))
 
 
 class ShortcutEditDialog(QDialog):
@@ -1859,8 +2667,8 @@ class ShortcutEditDialog(QDialog):
         self.current_shortcut = current_shortcut
         self.captured_keys = []
         self.result_shortcut = None
-        
-        self.setWindowTitle("修改快捷键")
+
+        self.setWindowTitle(_("shortcut_settings"))
         self.setFixedSize(400, 150)
         
         layout = QVBoxLayout(self)
@@ -1974,14 +2782,14 @@ class SettingsDialog(QDialog):
             self.config.add_section('Settings')
         
         # 设置窗口标题和大小
-        self.setWindowTitle("应用设置")
+        self.setWindowTitle(_("settings_title"))
         self.resize(500, 350)  # 增加高度以容纳更多设置项
         
         # 创建主布局
         layout = QVBoxLayout(self)
         
         # 路径设置
-        path_group = QGroupBox("路径设置")
+        path_group = QGroupBox(_("path_settings"))
         path_layout = QFormLayout()
         
         # 添加小天体数据库路径设置
@@ -1991,123 +2799,137 @@ class SettingsDialog(QDialog):
         asteroid_layout = QHBoxLayout()
         asteroid_layout.addWidget(self.asteroid_db_path)
         asteroid_layout.addWidget(self.asteroid_db_button)
-        path_layout.addRow("小天体数据库路径:", asteroid_layout)
-        
+        path_layout.addRow(_("asteroid_db_path"), asteroid_layout)
+
         # 添加变星数据库路径设置
         self.variable_star_path = QLineEdit()
         self.variable_star_path.setText(r"F:\astap\variable_stars_15.csv")
-        self.variable_star_button = QPushButton("浏览...")
+        self.variable_star_button = QPushButton(_("browse"))
         self.variable_star_button.clicked.connect(self.browse_variable_star)
         variable_star_layout = QHBoxLayout()
         variable_star_layout.addWidget(self.variable_star_path)
         variable_star_layout.addWidget(self.variable_star_button)
-        path_layout.addRow("变星数据库路径:", variable_star_layout)
+        path_layout.addRow(_("variable_star_path"), variable_star_layout)
         
         self.table_path = QLineEdit()
-        self.table_button = QPushButton("浏览...")
+        self.table_button = QPushButton(_("browse"))
         self.table_button.clicked.connect(self.browse_table)
         table_layout = QHBoxLayout()
         table_layout.addWidget(self.table_path)
         table_layout.addWidget(self.table_button)
-        path_layout.addRow("采集表路径:", table_layout)
-        
+        path_layout.addRow(_("table_path"), table_layout)
+
         self.download_path = QLineEdit()
-        self.download_button = QPushButton("浏览...")
+        self.download_button = QPushButton(_("browse"))
         self.download_button.clicked.connect(self.browse_download)
         download_layout = QHBoxLayout()
         download_layout.addWidget(self.download_path)
         download_layout.addWidget(self.download_button)
-        path_layout.addRow("下载路径:", download_layout)
-        
+        path_layout.addRow(_("download_path"), download_layout)
+
         path_group.setLayout(path_layout)
         layout.addWidget(path_group)
-        
+
         # 天文观测参数设置
-        observatory_group = QGroupBox("观测站参数")
+        observatory_group = QGroupBox(_("observatory_params"))
         observatory_layout = QFormLayout()
-        
+
         # 添加盲解API密钥
         self.astrometry_api_key = QLineEdit()
-        observatory_layout.addRow("盲解API密钥:", self.astrometry_api_key)
-        
+        observatory_layout.addRow(_("api_key"), self.astrometry_api_key)
+
         # 添加观测地代码
         self.observatory_code = QLineEdit()
         self.observatory_code.setMaxLength(3)
         self.observatory_code.setToolTip("MPC观测地代码，例如：N86")
-        observatory_layout.addRow("观测地代码:", self.observatory_code)
-        
+        observatory_layout.addRow(_("observatory_code"), self.observatory_code)
+
         # 添加MPC起始编号
         self.mpc_start_number = QLineEdit()
         self.mpc_start_number.setMaxLength(7)
         self.mpc_start_number.setText("SGY0001")
         self.mpc_start_number.setToolTip("MPC报告起始编号，7位字符，例如：SGY0001")
-        observatory_layout.addRow("MPC起始编号:", self.mpc_start_number)
-        
+        observatory_layout.addRow(_("mpc_start"), self.mpc_start_number)
+
         # 小行星导入极限星等设置
         self.asteroid_mag_limit = QDoubleSpinBox()
         self.asteroid_mag_limit.setDecimals(1)
         self.asteroid_mag_limit.setRange(5.0, 25.0)
         self.asteroid_mag_limit.setSingleStep(0.1)
         self.asteroid_mag_limit.setToolTip("仅标注不比该星等更暗的小行星 (值越小显示越少)")
-        observatory_layout.addRow("小行星极限星等:", self.asteroid_mag_limit)
-        
+        observatory_layout.addRow(_("asteroid_mag_limit"), self.asteroid_mag_limit)
+
         # 测光设置
-        photometry_group = QGroupBox("测光设置")
+        photometry_group = QGroupBox(_("photometry_settings"))
         photometry_layout = QFormLayout()
-        
+
         # UCAC4路径
         self.ucac4_path = QLineEdit()
         self.ucac4_path.setText(r"D:\ucac4")
-        self.ucac4_browse_button = QPushButton("浏览...")
+        self.ucac4_browse_button = QPushButton(_("browse"))
         self.ucac4_browse_button.clicked.connect(self.browse_ucac4)
         ucac4_layout = QHBoxLayout()
         ucac4_layout.addWidget(self.ucac4_path)
         ucac4_layout.addWidget(self.ucac4_browse_button)
-        photometry_layout.addRow("UCAC4路径:", ucac4_layout)
-        
+        photometry_layout.addRow(_("ucac4_path"), ucac4_layout)
+
         # 测光孔径半径
         self.aperture_radius = QDoubleSpinBox()
         self.aperture_radius.setDecimals(1)
         self.aperture_radius.setRange(2.0, 20.0)
         self.aperture_radius.setSingleStep(0.5)
         self.aperture_radius.setValue(5.0)
-        self.aperture_radius.setToolTip("测光孔径半径（像素），用于提取恒星光通量")
-        photometry_layout.addRow("孔径半径(像素):", self.aperture_radius)
-        
+        self.aperture_radius.setToolTip(_("aperture_tip"))
+        photometry_layout.addRow(_("aperture_radius"), self.aperture_radius)
+
         # 天空环内径
         self.sky_inner_radius = QDoubleSpinBox()
         self.sky_inner_radius.setDecimals(1)
         self.sky_inner_radius.setRange(5.0, 30.0)
         self.sky_inner_radius.setSingleStep(0.5)
         self.sky_inner_radius.setValue(8.0)
-        self.sky_inner_radius.setToolTip("天空背景环内径（像素），用于计算背景")
-        photometry_layout.addRow("天空环内径(像素):", self.sky_inner_radius)
-        
+        self.sky_inner_radius.setToolTip(_("sky_inner_tip"))
+        photometry_layout.addRow(_("sky_inner"), self.sky_inner_radius)
+
         # 天空环外径
         self.sky_outer_radius = QDoubleSpinBox()
         self.sky_outer_radius.setDecimals(1)
         self.sky_outer_radius.setRange(10.0, 50.0)
         self.sky_outer_radius.setSingleStep(0.5)
         self.sky_outer_radius.setValue(12.0)
-        self.sky_outer_radius.setToolTip("天空背景环外径（像素），用于计算背景")
-        photometry_layout.addRow("天空环外径(像素):", self.sky_outer_radius)
-        
+        self.sky_outer_radius.setToolTip(_("sky_outer_tip"))
+        photometry_layout.addRow(_("sky_outer"), self.sky_outer_radius)
+
         # 参考星数量
         self.ref_star_count = QSpinBox()
         self.ref_star_count.setRange(3, 20)
         self.ref_star_count.setSingleStep(1)
         self.ref_star_count.setValue(5)
-        self.ref_star_count.setToolTip("用于差分测光的参考星数量")
-        photometry_layout.addRow("参考星数量:", self.ref_star_count)
+        self.ref_star_count.setToolTip(_("ref_star_tip"))
+        photometry_layout.addRow(_("ref_star_count"), self.ref_star_count)
         
         photometry_group.setLayout(photometry_layout)
         layout.addWidget(photometry_group)
+
+        # 语言设置
+        language_group = QGroupBox(_("interface_language"))
+        language_layout = QFormLayout()
+        self.language_combo = QComboBox()
+        self.language_combo.addItem("中文", "zh_CN")
+        self.language_combo.addItem("English", "en_US")
+        lang = getattr(QApplication.instance(), 'current_language', 'zh_CN')
+        index = self.language_combo.findData(lang)
+        if index >= 0:
+            self.language_combo.setCurrentIndex(index)
+        language_layout.addRow(_("language"), self.language_combo)
+        language_group.setLayout(language_layout)
+        layout.addWidget(language_group)
         
         observatory_group.setLayout(observatory_layout)
         layout.addWidget(observatory_group)
         
         # 快捷键设置按钮
-        shortcut_button = QPushButton("快捷键设置")
+        shortcut_button = QPushButton(_("shortcut_settings"))
         shortcut_button.clicked.connect(self.open_shortcut_settings)
         layout.addWidget(shortcut_button)
         
@@ -2268,9 +3090,17 @@ class SettingsDialog(QDialog):
             self.config["Settings"]["sky_outer_radius"] = f"{self.sky_outer_radius.value():.1f}"
             self.config["Settings"]["ref_star_count"] = str(self.ref_star_count.value())
             
+            # 保存语言设置
+            new_lang = self.language_combo.currentData()
+            self.config["Settings"]["language"] = new_lang
+            
             # 写入配置文件
             with open('config.ini', 'w') as f:
                 self.config.write(f)
+            
+            # 如果语言改变了，通知主窗口
+            if self.parent and hasattr(self.parent, 'set_language'):
+                self.parent.set_language(new_lang)
             
             # 调用父类的accept方法关闭对话框
             super().accept()
@@ -3889,6 +4719,7 @@ class ImageGraphicsView(QGraphicsView):
         self.auxiliary_line_start = None  # 辅助线起点
         self.auxiliary_line_temp = None  # 临时辅助线（绘制过程中）
         self.color_filter = None  # 颜色滤镜
+        self.invert_color = False  # 反色效果
         
         # 测量功能相关
         self.measuring = False  # 是否正在测量
@@ -4388,17 +5219,17 @@ class ImageGraphicsView(QGraphicsView):
         menu = QMenu(self)
         
         # 复制坐标
-        copy_coord_action = QAction("复制坐标", self)
+        copy_coord_action = QAction(_("copy_coord"), self)
         copy_coord_action.triggered.connect(lambda: self.copy_coordinates(scene_pos))
         menu.addAction(copy_coord_action)
-        
+
         # 取消标记
-        cancel_marker_action = QAction("取消标记", self)
+        cancel_marker_action = QAction(_("cancel_marker"), self)
         cancel_marker_action.triggered.connect(lambda: self.cancel_marker(scene_pos))
         menu.addAction(cancel_marker_action)
-        
+
         # 只显示内圈
-        show_inner_only_action = QAction("只显示内圈", self)
+        show_inner_only_action = QAction(_("show_inner_only"), self)
         show_inner_only_action.setCheckable(True)
         if hasattr(self, 'show_inner_circle_only'):
             show_inner_only_action.setChecked(self.show_inner_circle_only)
@@ -4408,37 +5239,37 @@ class ImageGraphicsView(QGraphicsView):
         menu.addAction(show_inner_only_action)
         
         menu.addSeparator()
-        
+
         # 测光圈设置
-        aperture_menu = QMenu("测光圈设置", self)
-        
+        aperture_menu = QMenu(_("aperture_settings"), self)
+
         # 孔径半径（2-20）
-        aperture_radius_menu = aperture_menu.addMenu("孔径半径")
+        aperture_radius_menu = aperture_menu.addMenu(_("aperture_radius_menu"))
         for i in range(2, 21):
-            action = QAction(f"{i} 像素", self)
+            action = QAction(f"{i} {_('pixel')}", self)
             action.triggered.connect(lambda checked, value=i: self.set_aperture_radius(value))
             aperture_radius_menu.addAction(action)
-        
+
         # 内环半径（4-30）
-        inner_radius_menu = aperture_menu.addMenu("内环半径")
+        inner_radius_menu = aperture_menu.addMenu(_("inner_radius_menu"))
         for i in range(4, 31):
-            action = QAction(f"{i} 像素", self)
+            action = QAction(f"{i} {_('pixel')}", self)
             action.triggered.connect(lambda checked, value=i: self.set_sky_inner_radius(value))
             inner_radius_menu.addAction(action)
-        
+
         # 外环半径（6-40）
-        outer_radius_menu = aperture_menu.addMenu("外环半径")
+        outer_radius_menu = aperture_menu.addMenu(_("outer_radius_menu"))
         for i in range(6, 41):
-            action = QAction(f"{i} 像素", self)
+            action = QAction(f"{i} {_('pixel')}", self)
             action.triggered.connect(lambda checked, value=i: self.set_sky_outer_radius(value))
             outer_radius_menu.addAction(action)
-        
+
         menu.addMenu(aperture_menu)
-        
+
         menu.addSeparator()
-        
+
         # 图像查询（带二级菜单）
-        image_query_menu = QMenu("图像查询", self)
+        image_query_menu = QMenu(_("image_query"), self)
         image_query_menu.addAction("PS1").triggered.connect(lambda: self.open_query_url("PS1", scene_pos))
         image_query_menu.addAction("DLS").triggered.connect(lambda: self.open_query_url("DLS", scene_pos))
         image_query_menu.addAction("DSS").triggered.connect(lambda: self.open_query_url("DSS", scene_pos))
@@ -4447,18 +5278,18 @@ class ImageGraphicsView(QGraphicsView):
         image_query_menu.addAction("Aladin").triggered.connect(lambda: self.open_query_url("Aladin", scene_pos))
         image_query_menu.addAction("SkyView").triggered.connect(lambda: self.open_query_url("SkyView", scene_pos))
         menu.addMenu(image_query_menu)
-        
+
         # 目录查询（带二级菜单）
-        catalog_query_menu = QMenu("目录查询", self)
+        catalog_query_menu = QMenu(_("catalog_query"), self)
         catalog_query_menu.addAction("Vizier").triggered.connect(lambda: self.open_query_url("Vizier", scene_pos))
         catalog_query_menu.addAction("SIMBAD").triggered.connect(lambda: self.open_query_url("SIMBAD", scene_pos))
         menu.addMenu(catalog_query_menu)
-        
+
         # 已知查询（带二级菜单）
-        known_query_menu = QMenu("已知查询", self)
-        known_query_menu.addAction("小行星").triggered.connect(lambda: self.open_query_url("asteroid", scene_pos))
-        known_query_menu.addAction("VSX变星").triggered.connect(lambda: self.open_query_url("VSX", scene_pos))
-        known_query_menu.addAction("TNS超新星").triggered.connect(lambda: self.open_query_url("TNS", scene_pos))
+        known_query_menu = QMenu(_("known_query"), self)
+        known_query_menu.addAction(_("asteroid")).triggered.connect(lambda: self.open_query_url("asteroid", scene_pos))
+        known_query_menu.addAction(_("variable_star")).triggered.connect(lambda: self.open_query_url("VSX", scene_pos))
+        known_query_menu.addAction(_("supernova")).triggered.connect(lambda: self.open_query_url("TNS", scene_pos))
         menu.addMenu(known_query_menu)
         
         menu.exec_(event.globalPos())
@@ -4804,7 +5635,7 @@ class ImageGraphicsView(QGraphicsView):
             dec = sky_coord.dec.deg
 
 # 作者：Guoyou Sun (孙国佑) - 天体收藏家
-# 软件：星视 GSUN View V4.0
+# 软件：星视 GSUN View V4.1
 # 网站：sunguoyou.lamost.org
 # 标识：546756
 # 原创作品，禁止商业使用
@@ -5303,6 +6134,44 @@ class ImageGraphicsView(QGraphicsView):
                 else:
                     if self.pixmap_item:
                         self.pixmap_item.setPixmap(self.original_pixmap)
+    
+    def set_invert_color(self, invert=False):
+        """设置反色效果"""
+        self.invert_color = invert
+        # 如果有图像，重新应用反色
+        if self.original_pixmap:
+            if self.invert_color:
+                inverted_pixmap = self.apply_invert_color(self.original_pixmap)
+                if self.pixmap_item:
+                    self.pixmap_item.setPixmap(inverted_pixmap)
+            else:
+                if self.pixmap_item:
+                    self.pixmap_item.setPixmap(self.original_pixmap)
+    
+    def apply_invert_color(self, pixmap):
+        """应用反色效果到QPixmap"""
+        if not pixmap:
+            return pixmap
+        
+        # 转换为QImage
+        image = pixmap.toImage()
+        
+        # 转换为numpy数组
+        width = image.width()
+        height = image.height()
+        
+        # 获取图像数据
+        ptr = image.bits()
+        ptr.setsize(image.byteCount())
+        arr = np.array(ptr).reshape(height, width, 4)
+        
+        # 使用numpy进行反色（只对RGB通道）
+        arr[:, :, 0:3] = 255 - arr[:, :, 0:3]
+        
+        # 从numpy数组创建QImage
+        inverted_image = QImage(arr.data, width, height, image.bytesPerLine(), QImage.Format_RGBA8888)
+        
+        return QPixmap.fromImage(inverted_image)
 
     def add_marker(self, pos):
         """添加标记点
@@ -5895,7 +6764,29 @@ class ImageViewer(QMainWindow):
         self.play_timer = QTimer()  # 播放定时器
         self.play_timer.timeout.connect(lambda: self.change_image(1))  # 默认连接到下一张图片函数
         self.color_filter = None  # 颜色滤镜
+        self.invert_color = False  # 反色效果
         self.embedded_mode = embedded_mode  # 嵌入模式
+        
+        # 加载语言设置
+        lang = "zh_CN"
+        try:
+            config_file = os.path.abspath("image_viewer_config.json")
+            if os.path.exists(config_file):
+                with open(config_file, "r") as f:
+                    config = json.load(f)
+                    lang = config.get("language", "zh_CN")
+        except:
+            pass
+        if not lang or lang not in ["zh_CN", "en_US"]:
+            try:
+                self.config.read('config.ini')
+                lang = self.config.get('Settings', 'language', fallback='zh_CN')
+            except:
+                pass
+        if not lang or lang not in ["zh_CN", "en_US"]:
+            lang = "zh_CN"
+        QApplication.instance().current_language = lang
+        
         self.fullscreen_window = None  # 全屏窗口
         self.history_logger = HistoryLogger()  # 历史记录记录器
         self.current_directory = ""  # 当前图片目录
@@ -5921,7 +6812,6 @@ class ImageViewer(QMainWindow):
         self.contrast_value = 5  # 默认对比度百分位值（越小越强烈）
         self.stacking_mode = "maximum"  # 默认叠加模式
         self.gamma_value = 1.0  # 伽马值
-        self.high_performance = True  # 高性能模式：默认启用以加快处理速度
         self.use_negative = False  # 是否使用反色（负片）效果
         self.angular_velocity_angle = 0.0  # 角度速度叠加：移动角度（度）
         self.angular_velocity_speed = 1.0  # 角度速度叠加：移动速度（角秒/秒）
@@ -6039,6 +6929,7 @@ class ImageViewer(QMainWindow):
             'play_forward': self.play_forward_action,
             'speed': self.speed_action,
             'goto': self.goto_action,
+            'goto_radec': self.goto_radec_action,
             'zoom_in': self.zoom_in_action,
             'zoom_out': self.zoom_out_action,
             'draw_line': self.draw_line_action,
@@ -6052,6 +6943,12 @@ class ImageViewer(QMainWindow):
             'auto_animation': self.auto_animation_menu_action,
             'list_flatfield': self.process_batch_flatfield_action,
             'list_align': self.process_batch_align_new_action,
+            'search_image': self.search_image_action,
+            'settings': self.settings_action,
+            'screen_stretch': self.screen_stretch_action,
+            'measure': self.measure_action,
+            'clear_measure': self.clear_measure_action,
+            'crop': self.crop_action,
           }
         
         for key, action in shortcut_map.items():
@@ -6094,7 +6991,7 @@ class ImageViewer(QMainWindow):
         status_layout.addWidget(spacer_left, 1)
         
         # 中间：文件名和时间标签（在整个状态栏宽度上居中）
-        self.filename_time_label = QLabel("尚未加载图片")
+        self.filename_time_label = QLabel(_("no_image_loaded"))
         self.filename_time_label.setAlignment(Qt.AlignCenter)  # 设置文本居中对齐
         self.filename_time_label.setStyleSheet("padding: 0 10px;") 
         status_layout.addWidget(self.filename_time_label, 0)
@@ -6124,22 +7021,22 @@ class ImageViewer(QMainWindow):
         
         # 添加下拉菜单项
         # 1. 导入图像
-        self.import_action = QAction("导入图像", self)
+        self.import_action = QAction(_("import_image"), self)
         self.import_action.triggered.connect(self.load_images)
         self.file_menu.addAction(self.import_action)
         
         # 4. 搜索图像
-        self.search_image_action = QAction("搜索图像", self)
+        self.search_image_action = QAction(_("search_image"), self)
         self.search_image_action.triggered.connect(self.search_images)
         self.file_menu.addAction(self.search_image_action)
         
         # 6. 设置
-        self.settings_action = QAction("设置", self)
+        self.settings_action = QAction(_("settings"), self)
         self.settings_action.triggered.connect(self.open_settings)
         self.file_menu.addAction(self.settings_action)
         
         # 创建文件按钮（无图标版本）
-        self.file_button_action = QAction("文件", self)
+        self.file_button_action = QAction(_("file"), self)
         self.file_button_action.setMenu(self.file_menu)
         self.file_toolbar.addAction(self.file_button_action)
         file_button = self.file_toolbar.widgetForAction(self.file_button_action)
@@ -6150,24 +7047,24 @@ class ImageViewer(QMainWindow):
         self.parse_menu = QMenu(self)
         
         # 添加在线解析功能
-        self.process_parse_action = QAction("在线解析", self)
+        self.process_parse_action = QAction(_("online_solve"), self)
         self.process_parse_action.triggered.connect(self.process_parse)
         self.process_parse_action.setShortcut("F6")
         self.parse_menu.addAction(self.process_parse_action)
         
         # 添加本地盲解功能
-        self.process_astap_solve_action = QAction("本地解析", self)
+        self.process_astap_solve_action = QAction(_("local_solve"), self)
         self.process_astap_solve_action.triggered.connect(self.process_astap_solve)
         self.process_astap_solve_action.setShortcut("F7")
         self.parse_menu.addAction(self.process_astap_solve_action)
         
         # 添加 ASTAP 配置功能
-        self.process_astap_settings_action = QAction("本地解析配置", self)
+        self.process_astap_settings_action = QAction(_("astap_settings"), self)
         self.process_astap_settings_action.triggered.connect(self.open_astap_settings)
         self.parse_menu.addAction(self.process_astap_settings_action)
         
         # 创建解析按钮（无图标版本）
-        self.parse_button_action = QAction("解析", self)
+        self.parse_button_action = QAction(_("solve"), self)
         self.parse_button_action.setMenu(self.parse_menu)
         self.file_toolbar.addAction(self.parse_button_action)
         parse_button = self.file_toolbar.widgetForAction(self.parse_button_action)
@@ -6178,60 +7075,60 @@ class ImageViewer(QMainWindow):
         self.process_menu = QMenu(self)
         
         # 添加单张伪平场功能
-        self.process_flatfield_action = QAction("单张伪平场", self)
+        self.process_flatfield_action = QAction(_("single_flatfield"), self)
         self.process_flatfield_action.triggered.connect(self.process_flatfield)
         self.process_menu.addAction(self.process_flatfield_action)
         
         # 添加列表伪平场功能
-        self.process_batch_flatfield_action = QAction("列表伪平场", self)
+        self.process_batch_flatfield_action = QAction(_("batch_flatfield"), self)
         self.process_batch_flatfield_action.triggered.connect(self.process_list_flatfield)
         self.process_menu.addAction(self.process_batch_flatfield_action)
         
         # 添加两张对齐功能
-        self.process_align_action = QAction("两张对齐", self)
+        self.process_align_action = QAction(_("two_image_align"), self)
         self.process_align_action.triggered.connect(self.align_images_only)
         self.process_menu.addAction(self.process_align_action)
 
         # 添加列表对齐功能
-        self.process_batch_align_new_action = QAction("列表对齐", self)
+        self.process_batch_align_new_action = QAction(_("batch_align_new"), self)
         self.process_batch_align_new_action.triggered.connect(self.batch_align_images_new)
         self.process_menu.addAction(self.process_batch_align_new_action)
 
         # 添加对齐-相减功能
-        self.process_align_subtract_action = QAction("对齐-相减", self)
+        self.process_align_subtract_action = QAction(_("align_subtract"), self)
         self.process_align_subtract_action.triggered.connect(self.align_and_subtract)
         self.process_menu.addAction(self.process_align_subtract_action)
 
         # 添加伪平场-对齐功能
-        self.process_flatfield_align_action = QAction("伪平场-对齐", self)
+        self.process_flatfield_align_action = QAction(_("pseudo_flatfield_align"), self)
         self.process_flatfield_align_action.triggered.connect(self.flatfield_align_only)
         self.process_menu.addAction(self.process_flatfield_align_action)
 
         # 添加伪平场-对齐-相减功能
-        self.process_flatfield_align_subtract_action = QAction("伪平场-对齐-相减", self)
+        self.process_flatfield_align_subtract_action = QAction(_("pseudo_flatfield_align_subtract"), self)
         self.process_flatfield_align_subtract_action.triggered.connect(self.flatfield_align_and_subtract)
         self.process_menu.addAction(self.process_flatfield_align_subtract_action)
         
         # 添加批量历史新图对齐功能
-        self.process_batch_align_action = QAction("批量历史新图对齐", self)
+        self.process_batch_align_action = QAction(_("batch_history_align"), self)
         self.process_batch_align_action.triggered.connect(self.batch_align_images)
         self.process_menu.addAction(self.process_batch_align_action)
         
         # 添加剪切功能
         self.process_menu.addSeparator()
-        self.crop_action = QAction("剪切", self)
+        self.crop_action = QAction(_("crop"), self)
         self.crop_action.triggered.connect(self.toggle_cropping)
         self.crop_action.setCheckable(True)
         self.process_menu.addAction(self.crop_action)
         
         # 添加自动动画功能
         self.process_menu.addSeparator()
-        self.auto_animation_menu_action = QAction("自动动画", self)
+        self.auto_animation_menu_action = QAction(_("auto_animation"), self)
         self.auto_animation_menu_action.triggered.connect(self.show_auto_animation_dialog)
         self.process_menu.addAction(self.auto_animation_menu_action)
         
         # 创建处理按钮（无图标版本）
-        self.process_button_action = QAction("处理", self)
+        self.process_button_action = QAction(_("process"), self)
         self.process_button_action.setMenu(self.process_menu)
         self.file_toolbar.addAction(self.process_button_action)
         process_button = self.file_toolbar.widgetForAction(self.process_button_action)
@@ -6240,34 +7137,34 @@ class ImageViewer(QMainWindow):
         
         # 创建网址按钮
         self.website_menu = QMenu(self)
-        
+
         # 添加孙国佑个人网站链接
-        sunguoyou_action = QAction("孙国佑个人网站", self)
-        sunguoyou_action.triggered.connect(lambda: QDesktopServices.openUrl(QUrl("http://sunguoyou.lamost.org/")))
-        self.website_menu.addAction(sunguoyou_action)
-        
+        self.sunguoyou_action = QAction(_("sun_guoyou_website"), self)
+        self.sunguoyou_action.triggered.connect(lambda: QDesktopServices.openUrl(QUrl("http://sunguoyou.lamost.org/")))
+        self.website_menu.addAction(self.sunguoyou_action)
+
         # 添加星明天文台链接
-        xjltp_action = QAction("星明天文台", self)
-        xjltp_action.triggered.connect(lambda: QDesktopServices.openUrl(QUrl("http://xjltp.china-vo.org/")))
-        self.website_menu.addAction(xjltp_action)
-        
+        self.xjltp_action = QAction(_("xingming_observatory"), self)
+        self.xjltp_action.triggered.connect(lambda: QDesktopServices.openUrl(QUrl("http://xjltp.china-vo.org/")))
+        self.website_menu.addAction(self.xjltp_action)
+
         # 添加常用网站及工具链接
-        tools_action = QAction("常用网站及工具", self)
-        tools_action.triggered.connect(lambda: QDesktopServices.openUrl(QUrl("http://sunguoyou.lamost.org/twrj.html")))
-        self.website_menu.addAction(tools_action)
-        
+        self.tools_action = QAction(_("common_tools"), self)
+        self.tools_action.triggered.connect(lambda: QDesktopServices.openUrl(QUrl("http://sunguoyou.lamost.org/twrj.html")))
+        self.website_menu.addAction(self.tools_action)
+
         # 添加PSP公众超新星链接
-        psp_action = QAction("PSP公众超新星", self)
-        psp_action.triggered.connect(lambda: QDesktopServices.openUrl(QUrl("https://nadc.china-vo.org/psp/")))
-        self.website_menu.addAction(psp_action)
-        
+        self.psp_action = QAction(_("psp_supernova"), self)
+        self.psp_action.triggered.connect(lambda: QDesktopServices.openUrl(QUrl("https://nadc.china-vo.org/psp/")))
+        self.website_menu.addAction(self.psp_action)
+
         # 添加星视开源网站链接
-        gitee_action = QAction("星视开源网站", self)
-        gitee_action.triggered.connect(lambda: QDesktopServices.openUrl(QUrl("https://gitee.com/you546756/gsun")))
-        self.website_menu.addAction(gitee_action)
+        self.gitee_action = QAction(_("gsun_website"), self)
+        self.gitee_action.triggered.connect(lambda: QDesktopServices.openUrl(QUrl("https://gitee.com/you546756/gsun")))
+        self.website_menu.addAction(self.gitee_action)
         
         # 创建网址按钮并添加到第一行工具栏（无图标版本）
-        self.website_button_action = QAction("网址", self)
+        self.website_button_action = QAction(_("website"), self)
         self.website_button_action.setMenu(self.website_menu)
         self.file_toolbar.addAction(self.website_button_action)
         website_button = self.file_toolbar.widgetForAction(self.website_button_action)
@@ -6275,7 +7172,7 @@ class ImageViewer(QMainWindow):
         website_button.setStyleSheet("QToolButton::menu-indicator { image: none; }")
         
         # 创建赞赏按钮并添加到第一行工具栏（无图标版本）
-        self.donation_button_action = QAction("赞赏", self)
+        self.donation_button_action = QAction(_("donation"), self)
         self.donation_button_action.triggered.connect(self.show_donation_dialog)
         self.file_toolbar.addAction(self.donation_button_action)
         
@@ -6287,67 +7184,67 @@ class ImageViewer(QMainWindow):
         self.addToolBar(self.toolbar)
         
         # 1. 导入图片按钮 - 保留在主工具栏中
-        self.load_action = QAction(self.style().standardIcon(QStyle.SP_DialogOpenButton), "导入图片", self)
+        self.load_action = QAction(self.style().standardIcon(QStyle.SP_DialogOpenButton), _("load_images"), self)
         self.load_action.triggered.connect(self.load_images)
         self.load_action.setShortcut("F1")
         self.toolbar.addAction(self.load_action)
         
         # 2. 图片列表按钮
-        self.image_list_action = QAction(self.style().standardIcon(QStyle.SP_FileDialogListView), "图片列表", self)
+        self.image_list_action = QAction(self.style().standardIcon(QStyle.SP_FileDialogListView), _("image_list"), self)
         self.image_list_action.triggered.connect(self.show_image_list_dialog)
         self.toolbar.addAction(self.image_list_action)
         
         # 3-5. 动画播放按钮
         # 3. 向前播放
-        self.play_backward_action = QAction(self.style().standardIcon(QStyle.SP_MediaSkipBackward), "向前播放", self)
+        self.play_backward_action = QAction(self.style().standardIcon(QStyle.SP_MediaSkipBackward), _("play_forward"), self)
         self.play_backward_action.triggered.connect(self.play_backward)
         self.toolbar.addAction(self.play_backward_action)
         
         # 4. 向后播放
-        self.play_forward_action = QAction(self.style().standardIcon(QStyle.SP_MediaSkipForward), "向后播放", self)
+        self.play_forward_action = QAction(self.style().standardIcon(QStyle.SP_MediaSkipForward), _("play_backward"), self)
         self.play_forward_action.triggered.connect(self.play_forward)
         self.toolbar.addAction(self.play_forward_action)
         
         # 5. 暂停
-        self.pause_action = QAction(self.style().standardIcon(QStyle.SP_MediaPause), "暂停", self)
+        self.pause_action = QAction(self.style().standardIcon(QStyle.SP_MediaPause), _("pause"), self)
         self.pause_action.triggered.connect(self.toggle_play)
         self.pause_action.setShortcut("F2")
         self.toolbar.addAction(self.pause_action)
 
-        self.stop_action = QAction(self.style().standardIcon(QStyle.SP_MediaStop), "停止", self)
+        self.stop_action = QAction(self.style().standardIcon(QStyle.SP_MediaStop), _("stop"), self)
         self.stop_action.triggered.connect(self.stop_all)
         self.toolbar.addAction(self.stop_action)
         
         # 6-7. 前一张/后一张图片
         # 6. 前一张
-        self.prev_image_action = QAction(self.style().standardIcon(QStyle.SP_MediaSeekBackward), "前一张", self)
+        self.prev_image_action = QAction(self.style().standardIcon(QStyle.SP_MediaSeekBackward), _("prev_image"), self)
         self.prev_image_action.triggered.connect(lambda: self.change_image(-1))
         self.prev_image_action.setShortcut("Left")
         self.toolbar.addAction(self.prev_image_action)
         
         # 7. 后一张
-        self.next_image_action = QAction(self.style().standardIcon(QStyle.SP_MediaSeekForward), "后一张", self)
+        self.next_image_action = QAction(self.style().standardIcon(QStyle.SP_MediaSeekForward), _("next_image"), self)
         self.next_image_action.triggered.connect(lambda: self.change_image(1))
         self.next_image_action.setShortcut("Right")
         self.toolbar.addAction(self.next_image_action)
         
         # 播放速度调节按钮
-        self.speed_action = QAction(self.style().standardIcon(QStyle.SP_MediaVolume), "播放速度", self)
+        self.speed_action = QAction(self.style().standardIcon(QStyle.SP_MediaVolume), _("play_speed"), self)
         self.speed_action.triggered.connect(self.show_speed_dialog)
         self.toolbar.addAction(self.speed_action)
         
         # 8. Goto功能
-        self.goto_action = QAction(self.style().standardIcon(QStyle.SP_DialogHelpButton), "XY坐标定位", self)
+        self.goto_action = QAction(self.style().standardIcon(QStyle.SP_DialogHelpButton), _("xy_position"), self)
         self.goto_action.triggered.connect(self.show_goto_dialog)
         self.toolbar.addAction(self.goto_action)
 
         # 8.1 天文坐标定位功能
-        self.goto_radec_action = QAction(self.style().standardIcon(QStyle.SP_ComputerIcon), "天文坐标定位", self)
+        self.goto_radec_action = QAction(self.style().standardIcon(QStyle.SP_ComputerIcon), _("radec_position"), self)
         self.goto_radec_action.triggered.connect(self.show_goto_radec_dialog)
         self.toolbar.addAction(self.goto_radec_action)
         
         # 21. 报告坐标功能
-        self.report_coord_action = QAction(self.style().standardIcon(QStyle.SP_DialogNoButton), "报告定位", self)
+        self.report_coord_action = QAction(self.style().standardIcon(QStyle.SP_DialogNoButton), _("report_position"), self)
         self.report_coord_action.triggered.connect(self.show_report_coord_dialog)
         self.report_coord_action.setShortcut("F4")
         self.toolbar.addAction(self.report_coord_action)
@@ -6356,42 +7253,74 @@ class ImageViewer(QMainWindow):
         
         # 9-10. 放大/缩小
         # 9. 放大
-        self.zoom_in_action = QAction(self.style().standardIcon(QStyle.SP_TitleBarMaxButton), "放大", self)
+        self.zoom_in_action = QAction(self.style().standardIcon(QStyle.SP_TitleBarMaxButton), _("zoom_in"), self)
         self.zoom_in_action.triggered.connect(lambda: self.update_zoom(self.zoom_slider.value() + 10))
         self.toolbar.addAction(self.zoom_in_action)
         
         # 10. 缩小
-        self.zoom_out_action = QAction(self.style().standardIcon(QStyle.SP_TitleBarMinButton), "缩小", self)
+        self.zoom_out_action = QAction(self.style().standardIcon(QStyle.SP_TitleBarMinButton), _("zoom_out"), self)
         self.zoom_out_action.triggered.connect(lambda: self.update_zoom(self.zoom_slider.value() - 10))
         self.toolbar.addAction(self.zoom_out_action)
         
         # 13-14. 辅助线功能
         # 13. 画辅助线
-        self.draw_line_action = QAction(self.style().standardIcon(QStyle.SP_LineEditClearButton), "画辅助线", self)
+        self.draw_line_action = QAction(_("draw_line"), self)
         self.draw_line_action.triggered.connect(self.toggle_drawing_line)
         self.draw_line_action.setCheckable(True)
+        # 创建斜线图标
+        line_pixmap = QPixmap(24, 24)
+        line_pixmap.fill(Qt.transparent)
+        painter = QPainter(line_pixmap)
+        try:
+            painter.setRenderHint(QPainter.Antialiasing, True)
+            # 绘制斜线
+            painter.setPen(QPen(QColor(100, 200, 255), 3))
+            painter.drawLine(4, 20, 20, 4)
+        finally:
+            painter.end()
+        self.draw_line_action.setIcon(QIcon(line_pixmap))
         self.toolbar.addAction(self.draw_line_action)
         
         # 14. 隐藏辅助线
-        self.hide_lines_action = QAction(self.style().standardIcon(QStyle.SP_BrowserStop), "隐藏辅助线", self)
+        self.hide_lines_action = QAction(self.style().standardIcon(QStyle.SP_BrowserStop), _("hide_lines"), self)
         self.hide_lines_action.triggered.connect(self.toggle_auxiliary_lines)
         self.hide_lines_action.setCheckable(True)
         self.toolbar.addAction(self.hide_lines_action)
         
         # 辅助线设置
-        self.line_settings_action = QAction(self.style().standardIcon(QStyle.SP_MessageBoxInformation), "辅助线设置", self)
+        self.line_settings_action = QAction(self.style().standardIcon(QStyle.SP_MessageBoxInformation), _("line_settings"), self)
         self.line_settings_action.triggered.connect(self.show_line_settings)
         self.toolbar.addAction(self.line_settings_action)
         
         # 测量功能
         # 15. 测量距离
-        self.measure_action = QAction(self.style().standardIcon(QStyle.SP_CommandLink), "测量距离", self)
+        self.measure_action = QAction(_("measure_distance"), self)
         self.measure_action.triggered.connect(self.toggle_measuring)
         self.measure_action.setCheckable(True)
+        # 创建双向箭头图标
+        measure_pixmap = QPixmap(24, 24)
+        measure_pixmap.fill(Qt.transparent)
+        painter = QPainter(measure_pixmap)
+        try:
+            painter.setRenderHint(QPainter.Antialiasing, True)
+            # 绘制线段
+            painter.setPen(QPen(QColor(100, 150, 255), 2))
+            painter.drawLine(4, 12, 20, 12)
+            # 绘制左箭头
+            painter.setPen(QPen(QColor(100, 150, 255), 2))
+            arrow_left = QPolygonF([QPointF(4, 12), QPointF(8, 8), QPointF(8, 16)])
+            painter.setBrush(QBrush(QColor(100, 150, 255)))
+            painter.drawPolygon(arrow_left)
+            # 绘制右箭头
+            arrow_right = QPolygonF([QPointF(20, 12), QPointF(16, 8), QPointF(16, 16)])
+            painter.drawPolygon(arrow_right)
+        finally:
+            painter.end()
+        self.measure_action.setIcon(QIcon(measure_pixmap))
         self.toolbar.addAction(self.measure_action)
         
         # 16. 清除测量
-        self.clear_measure_action = QAction(self.style().standardIcon(QStyle.SP_DialogResetButton), "清除测量", self)
+        self.clear_measure_action = QAction(self.style().standardIcon(QStyle.SP_DialogResetButton), _("clear_measure"), self)
         self.clear_measure_action.triggered.connect(self.clear_measure_lines)
         self.toolbar.addAction(self.clear_measure_action)
         
@@ -6399,7 +7328,7 @@ class ImageViewer(QMainWindow):
         
         # 15-18. 颜色滤镜 - 使用色块代替图标
         # 15. 红色滤镜
-        self.red_filter_action = QAction("红色滤镜", self)
+        self.red_filter_action = QAction(_("red_filter"), self)
         self.red_filter_action.triggered.connect(lambda: self.apply_color_filter("red"))
         # 创建红色图标
         red_pixmap = QPixmap(24, 24)
@@ -6408,7 +7337,7 @@ class ImageViewer(QMainWindow):
         self.toolbar.addAction(self.red_filter_action)
         
         # 16. 绿色滤镜
-        self.green_filter_action = QAction("绿色滤镜", self)
+        self.green_filter_action = QAction(_("green_filter"), self)
         self.green_filter_action.triggered.connect(lambda: self.apply_color_filter("green"))
         # 创建绿色图标
         green_pixmap = QPixmap(24, 24)
@@ -6417,7 +7346,7 @@ class ImageViewer(QMainWindow):
         self.toolbar.addAction(self.green_filter_action)
         
         # 17. 蓝色滤镜
-        self.blue_filter_action = QAction("蓝色滤镜", self)
+        self.blue_filter_action = QAction(_("blue_filter"), self)
         self.blue_filter_action.triggered.connect(lambda: self.apply_color_filter("blue"))
         # 创建蓝色图标
         blue_pixmap = QPixmap(24, 24)
@@ -6426,7 +7355,7 @@ class ImageViewer(QMainWindow):
         self.toolbar.addAction(self.blue_filter_action)
         
         # 18. 原色
-        self.reset_filter_action = QAction("原色", self)
+        self.reset_filter_action = QAction(_("original_color"), self)
         self.reset_filter_action.triggered.connect(lambda: self.apply_color_filter(None))
         # 创建灰色图标（代表原色）
         reset_pixmap = QPixmap(24, 24)
@@ -6434,22 +7363,47 @@ class ImageViewer(QMainWindow):
         self.reset_filter_action.setIcon(QIcon(reset_pixmap))
         self.toolbar.addAction(self.reset_filter_action)
         
+        # 19. 反色
+        self.invert_color_action = QAction(_("invert_color"), self)
+        self.invert_color_action.triggered.connect(self.toggle_invert_color)
+        # 创建反色图标（黑白色）
+        invert_pixmap = QPixmap(24, 24)
+        invert_pixmap.fill(Qt.transparent)
+        painter = QPainter(invert_pixmap)
+        try:
+            painter.setRenderHint(QPainter.Antialiasing, True)
+            # 绘制左半边黑色
+            painter.setBrush(QBrush(QColor(0, 0, 0)))
+            painter.setPen(Qt.NoPen)
+            painter.drawRect(0, 0, 12, 24)
+            # 绘制右半边白色
+            painter.setBrush(QBrush(QColor(255, 255, 255)))
+            painter.drawRect(12, 0, 12, 24)
+            # 绘制边框
+            painter.setPen(QPen(QColor(100, 100, 100), 1))
+            painter.setBrush(Qt.NoBrush)
+            painter.drawRect(0, 0, 23, 23)
+        finally:
+            painter.end()
+        self.invert_color_action.setIcon(QIcon(invert_pixmap))
+        self.toolbar.addAction(self.invert_color_action)
+        
         self.toolbar.addSeparator()
         
-        # 19. 图像叠加按钮
-        self.stack_action = QAction(self.style().standardIcon(QStyle.SP_FileDialogNewFolder), "叠加图像", self)
+        # 20. 图像叠加按钮
+        self.stack_action = QAction(self.style().standardIcon(QStyle.SP_FileDialogNewFolder), _("stack_images"), self)
         self.stack_action.triggered.connect(self.toggle_stack_mode)
         self.stack_action.setCheckable(True)
         self.stack_action.setShortcut("F5")
         self.toolbar.addAction(self.stack_action)
         
         # 添加Screen Stretch按钮
-        self.screen_stretch_action = QAction(self.style().standardIcon(QStyle.SP_ToolBarVerticalExtensionButton), "Screen Stretch", self)
+        self.screen_stretch_action = QAction(self.style().standardIcon(QStyle.SP_ToolBarVerticalExtensionButton), _("screen_stretch"), self)
         self.screen_stretch_action.triggered.connect(self.show_screen_stretch)
         self.toolbar.addAction(self.screen_stretch_action)
         
         # 添加自动直方图按钮
-        self.auto_histogram_action = QAction(self.style().standardIcon(QStyle.SP_BrowserReload), "自动直方图", self)
+        self.auto_histogram_action = QAction(self.style().standardIcon(QStyle.SP_BrowserReload), _("auto_histogram"), self)
         self.auto_histogram_action.triggered.connect(self.auto_histogram)
         self.auto_histogram_action.setShortcut("Alt+D")
         self.toolbar.addAction(self.auto_histogram_action)
@@ -6483,7 +7437,7 @@ class ImageViewer(QMainWindow):
             painter.end()
         
         photometry_icon = QIcon(photometry_pixmap)
-        self.photometry_action = QAction(photometry_icon, "批量测光", self)
+        self.photometry_action = QAction(photometry_icon, _("photometry"), self)
         self.photometry_action.triggered.connect(self.show_photometry_window)
         self.photometry_action.setShortcut("F11")
         self.toolbar.addAction(self.photometry_action)
@@ -6491,12 +7445,12 @@ class ImageViewer(QMainWindow):
         self.toolbar.addSeparator()
 
         # 合并的小行星和彗星导入按钮
-        self.import_asteroid_comet_action = QAction("导入小行星和彗星", self)
+        self.import_asteroid_comet_action = QAction(_("import_asteroid_comet"), self)
         self.import_asteroid_comet_action.triggered.connect(self.import_asteroids_and_comets_local)
         self.import_asteroid_comet_action.setShortcut("F9")
         
         # 作者：Guoyou Sun (孙国佑) - 天体收藏家
-        # 软件：星视 GSUN View V4.0
+        # 软件：星视 GSUN View V4.1
         # 网站：sunguoyou.lamost.org
         # 标识：546756
         # 原创作品，禁止商业使用
@@ -6535,7 +7489,7 @@ class ImageViewer(QMainWindow):
         self.toolbar.addAction(self.import_asteroid_comet_action)
         
         # 导入变星按钮
-        self.import_variable_star_action = QAction("导入变星", self)
+        self.import_variable_star_action = QAction(_("import_variable_star"), self)
         self.import_variable_star_action.triggered.connect(self.import_variable_stars)
         self.import_variable_star_action.setShortcut("F10")
         # 创建变星图标（蓝色星形）
@@ -6570,32 +7524,32 @@ class ImageViewer(QMainWindow):
         self.toggle_asteroid_btn.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.toggle_asteroid_btn.setAutoRaise(True)
         self.toggle_asteroid_btn.setIconSize(QSize(18, 18))
-        self.toggle_asteroid_btn.setToolTip("隐藏/显示小天体标记")
+        self.toggle_asteroid_btn.setToolTip(_("hide_show_asteroid"))
         self.toggle_asteroid_btn.setChecked(self.asteroid_markers_hidden)
         self.toggle_asteroid_btn.setIcon(self.style().standardIcon(QStyle.SP_DialogOkButton))
         self.toggle_asteroid_btn.toggled.connect(self.toggle_asteroid_markers_visibility)
         self.toolbar.addWidget(self.toggle_asteroid_btn)
         
         # 添加水平翻转按钮
-        self.horizontal_flip_action = QAction(self.style().standardIcon(QStyle.SP_ArrowLeft), "水平翻转", self)
+        self.horizontal_flip_action = QAction(self.style().standardIcon(QStyle.SP_ArrowLeft), _("flip_horizontal"), self)
         self.horizontal_flip_action.triggered.connect(self.horizontal_flip)
         self.horizontal_flip_action.setShortcut("Ctrl+2")
         self.toolbar.addAction(self.horizontal_flip_action)
         
         # 添加垂直翻转按钮
-        self.vertical_flip_action = QAction(self.style().standardIcon(QStyle.SP_ArrowDown), "垂直翻转", self)
+        self.vertical_flip_action = QAction(self.style().standardIcon(QStyle.SP_ArrowDown), _("flip_vertical"), self)
         self.vertical_flip_action.triggered.connect(self.vertical_flip)
         self.vertical_flip_action.setShortcut("Ctrl+3")
         self.toolbar.addAction(self.vertical_flip_action)
         
         # 添加向左旋转90度按钮
-        self.rotate_left_action = QAction(self.style().standardIcon(QStyle.SP_ArrowLeft), "向左旋转90度", self)
+        self.rotate_left_action = QAction(self.style().standardIcon(QStyle.SP_ArrowLeft), _("rotate_left"), self)
         self.rotate_left_action.triggered.connect(self.rotate_left)
         self.rotate_left_action.setShortcut("Ctrl+4")
         self.toolbar.addAction(self.rotate_left_action)
         
         # 添加向右旋转90度按钮
-        self.rotate_right_action = QAction(self.style().standardIcon(QStyle.SP_ArrowRight), "向右旋转90度", self)
+        self.rotate_right_action = QAction(self.style().standardIcon(QStyle.SP_ArrowRight), _("rotate_right"), self)
         self.rotate_right_action.triggered.connect(self.rotate_right)
         self.rotate_right_action.setShortcut("Ctrl+5")
         self.toolbar.addAction(self.rotate_right_action)
@@ -6604,23 +7558,23 @@ class ImageViewer(QMainWindow):
         
         
         # 添加另存为按钮
-        self.save_as_image_action = QAction(self.style().standardIcon(QStyle.SP_DialogSaveButton), "另存为", self)
+        self.save_as_image_action = QAction(self.style().standardIcon(QStyle.SP_DialogSaveButton), _("save_as"), self)
         self.save_as_image_action.triggered.connect(self.save_current_image)
         self.save_as_image_action.setShortcut("Ctrl+S")
         self.toolbar.addAction(self.save_as_image_action)
         
         # 添加保存按钮（覆盖原图）
-        self.save_image_action = QAction(self.style().standardIcon(QStyle.SP_DriveFDIcon), "保存", self)
+        self.save_image_action = QAction(self.style().standardIcon(QStyle.SP_DriveFDIcon), _("save"), self)
         self.save_image_action.triggered.connect(self.save_image_overwrite)
         self.toolbar.addAction(self.save_image_action)
         
         # 20. 报告展示
-        self.report_action = QAction(self.style().standardIcon(QStyle.SP_FileDialogInfoView), "报告展示", self)
+        self.report_action = QAction(self.style().standardIcon(QStyle.SP_FileDialogInfoView), _("report_display"), self)
         self.report_action.triggered.connect(self.show_report_dialog)
         self.toolbar.addAction(self.report_action)
         
         # 21. MPC报告
-        self.mpc_report_action = QAction(self.style().standardIcon(QStyle.SP_FileDialogDetailedView), "MPC报告", self)
+        self.mpc_report_action = QAction(self.style().standardIcon(QStyle.SP_FileDialogDetailedView), _("mpc_report"), self)
         self.mpc_report_action.triggered.connect(self.show_mpc_report_dialog)
         self.mpc_report_action.setShortcut("F8")
         self.toolbar.addAction(self.mpc_report_action)
@@ -6646,7 +7600,7 @@ class ImageViewer(QMainWindow):
         info_layout.setSpacing(0)
         
         # 作者信息
-        author_label = QLabel("作者: Guoyou Sun(孙国佑) 正式版 V4.0")
+        author_label = QLabel("作者: Guoyou Sun(孙国佑) 正式版 V4.1")
         author_label.setStyleSheet("font-size: 8pt; color: black;")
         info_layout.addWidget(author_label)
         
@@ -6778,7 +7732,7 @@ class ImageViewer(QMainWindow):
                     # 清空显示
                     self.image_view.scene.clear()
                     self.coord_label.setText("X: 0, Y: 0")
-                    self.filename_time_label.setText("尚未加载图片")
+                    self.filename_time_label.setText(_("no_image_loaded"))
                     self.disable_buttons()
                 
                 # 清理与删除图像相关的点击记录
@@ -6934,7 +7888,7 @@ class ImageViewer(QMainWindow):
     def show_current_image(self):
         """显示当前选中的图像 - 优化版本"""
         if not self.images or self.current_index < 0 or self.current_index >= len(self.images):
-            self.filename_time_label.setText("尚未加载图片")
+            self.filename_time_label.setText(_("no_image_loaded"))
             return
             
         try:
@@ -7572,7 +8526,7 @@ class ImageViewer(QMainWindow):
             # 如果要开始播放，且正在绘制辅助线，先停止辅助线绘制
             self.draw_line_action.setChecked(False)
             self.image_view.stop_drawing_line()
-            QMessageBox.information(self, "提示", "已停止辅助线绘制模式以开始播放")
+            QMessageBox.information(self, _("hint"), _("stopped_guide_mode_for_play"))
             
         self.is_playing = not self.is_playing
         
@@ -7710,7 +8664,7 @@ class ImageViewer(QMainWindow):
                 else:
                     if hasattr(self, 'image_view') and self.image_view and self.image_view.scene:
                         self.image_view.scene.clear()
-                        self.filename_time_label.setText("尚未加载图片")
+                        self.filename_time_label.setText(_("no_image_loaded"))
                         self.coord_label.setText("X: 0, Y: 0")
             self.enable_buttons()
             self.statusBar().showMessage("已停止")
@@ -7865,9 +8819,9 @@ class ImageViewer(QMainWindow):
                 reply = QMessageBox.No
             else:
                 reply = QMessageBox.question(
-                    self, 
-                    '导入选项', 
-                    '是否替换当前图像列表？\n选择"是"将替换当前列表，选择"否"将添加到当前列表',
+                    self,
+                    _('import_options'),
+                    _('replace_image_list'),
                     QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel
                 )
                 
@@ -7898,7 +8852,7 @@ class ImageViewer(QMainWindow):
                     filtered_paths.append(file_path)
             
             if duplicate_count > 0:
-                QMessageBox.information(self, "提示", f"跳过 {duplicate_count} 个重复文件")
+                QMessageBox.information(self, _("hint"), _("skipped_duplicate_files").format(count=duplicate_count))
             
             if not filtered_paths:
                 return
@@ -7920,8 +8874,8 @@ class ImageViewer(QMainWindow):
             )
             self.update_history_display(history_record)
             
-            progress = QProgressDialog("正在加载图像...", "取消", 0, 100, self)
-            progress.setWindowTitle("加载中")
+            progress = QProgressDialog(_("loading_image"), _("cancel"), 0, 100, self)
+            progress.setWindowTitle(_("loading"))
             progress.setWindowModality(Qt.WindowModal)
             progress.show()
             
@@ -7980,7 +8934,7 @@ class ImageViewer(QMainWindow):
                     self.current_index = 0
                     self.show_current_image()
                     self.enable_buttons()
-                    self.status_label.setText(f"新增加载 {new_images_count} 张图像，总计 {len(self.images)} 张")
+                    self.status_label.setText(_("new_images_loaded").format(count=new_images_count, total=len(self.images)))
             
             def on_error(error_msg):
                 if not progress.wasCanceled():
@@ -8189,10 +9143,10 @@ class ImageViewer(QMainWindow):
         """合并导入小行星和彗星"""
         try:
             if not hasattr(self, 'image_processor') or self.image_processor is None:
-                QMessageBox.information(self, "提示", "未加载图片")
+                QMessageBox.information(self, _("hint"), _("no_image_loaded"))
                 return
             if not self.image_processor.wcs:
-                QMessageBox.information(self, "提示", "当前图片缺少WCS坐标，无法导入小行星和彗星数据库")
+                QMessageBox.information(self, _("hint"), _("missing_wcs"))
                 return
             
             # 清除所有图像中的小行星标记
@@ -8368,7 +9322,7 @@ class ImageViewer(QMainWindow):
                             except Exception:
                                 pass
                         
-                        self.status_label.setText(f"导入完成 - 小行星: {asteroid_count} 个，彗星: {comet_count} 个，总计: {len(filtered)} 个")
+                        self.status_label.setText(_("import_complete") + f" - " + _("asteroid_count").format(count=asteroid_count) + f"，" + _("comet_count").format(count=comet_count) + f"，" + _("total_count").format(count=len(filtered)))
                     finally:
                         progress_dialog.accept()
             
@@ -8432,10 +9386,10 @@ class ImageViewer(QMainWindow):
     def import_asteroids_local(self):
         try:
             if not hasattr(self, 'image_processor') or self.image_processor is None:
-                QMessageBox.information(self, "提示", "未加载图片")
+                QMessageBox.information(self, _("hint"), _("no_image_loaded"))
                 return
             if not self.image_processor.wcs:
-                QMessageBox.information(self, "提示", "当前图片缺少WCS坐标，无法导入小行星数据库")
+                QMessageBox.information(self, _("hint"), _("missing_wcs_asteroid"))
                 return
             
             # 清除所有图像中的小行星标记
@@ -8554,7 +9508,7 @@ class ImageViewer(QMainWindow):
                         overlay = create_overlay_pixmap(w, h, filtered)
 
             # 作者：Guoyou Sun (孙国佑) - 天体收藏家
-            # 软件：星视 GSUN View V4.0
+            # 软件：星视 GSUN View V4.1
             # 网站：sunguoyou.lamost.org
             # 标识：546756
             # 原创作品，禁止商业使用
@@ -8601,7 +9555,7 @@ class ImageViewer(QMainWindow):
             if not hasattr(self, 'image_processor') or self.image_processor is None:
                 return
             if not self.image_processor.wcs:
-                QMessageBox.information(self, "提示", "当前图片缺少WCS坐标，无法导入彗星数据库")
+                QMessageBox.information(self, _("hint"), _("missing_wcs_comet"))
                 return
             
             # 清除所有图像中的小行星标记
@@ -8633,7 +9587,7 @@ class ImageViewer(QMainWindow):
                 return
             data = self.image_processor.image_data
             if data is None:
-                QMessageBox.information(self, "提示", "当前图片数据为空")
+                QMessageBox.information(self, _("hint"), _("image_data_empty"))
                 return
             h, w = data.shape[:2]
             cx, cy = w // 2, h // 2
@@ -8771,14 +9725,14 @@ class ImageViewer(QMainWindow):
     def mark_known_asteroids(self):
         try:
             if not hasattr(self, 'image_processor') or self.image_processor is None:
-                QMessageBox.information(self, "提示", "未加载图片")
+                QMessageBox.information(self, _("hint"), _("no_image_loaded"))
                 return
             if not self.image_processor.wcs:
-                QMessageBox.information(self, "提示", "当前图片缺少WCS坐标，无法标记")
+                QMessageBox.information(self, _("hint"), _("missing_wcs_mark"))
                 return
             data = self.image_processor.image_data
             if data is None:
-                QMessageBox.information(self, "提示", "当前图片数据为空")
+                QMessageBox.information(self, _("hint"), _("image_data_empty"))
                 return
             h, w = data.shape[:2]
             cx, cy = w // 2, h // 2
@@ -8843,7 +9797,7 @@ class ImageViewer(QMainWindow):
                     dec = (abs(dd) + dm/60 + ds/3600) * (1 if dd >= 0 else -1)
                     found.append((name, ra, dec))
             if not found:
-                QMessageBox.information(self, "提示", "附近未检索到已知小行星")
+                QMessageBox.information(self, _("hint"), _("no_known_asteroid_nearby"))
                 return
             self.image_view.clear_markers()
             for name, ra, dec in found:
@@ -8863,11 +9817,11 @@ class ImageViewer(QMainWindow):
             
             if not hasattr(self, 'image_processor') or self.image_processor is None:
                 print(f"[ImportVariableStars] 错误: 未加载图片")
-                QMessageBox.information(self, "提示", "未加载图片")
+                QMessageBox.information(self, _("hint"), _("no_image_loaded"))
                 return
             if not self.image_processor.wcs:
                 print(f"[ImportVariableStars] 错误: 缺少WCS坐标")
-                QMessageBox.information(self, "提示", "当前图片缺少WCS坐标，无法导入变星数据库")
+                QMessageBox.information(self, _("hint"), _("missing_wcs_variable"))
                 return
             
             cfg = configparser.ConfigParser()
@@ -8904,7 +9858,7 @@ class ImageViewer(QMainWindow):
             progress_bar = QProgressBar()
             progress_bar.setRange(0, 0)
             dialog_layout.addWidget(progress_bar)
-            status_label = QLabel("正在初始化...")
+            status_label = QLabel(_("initializing"))
             dialog_layout.addWidget(status_label)
             progress_dialog.setModal(True)
             progress_dialog.show()
@@ -9169,7 +10123,96 @@ class ImageViewer(QMainWindow):
         # 禁用滑块
         self.speed_slider.setEnabled(False)
         self.zoom_slider.setEnabled(False)
-
+    
+    def retranslateToolbar(self):
+        """重新翻译工具栏"""
+        try:
+            self.load_action.setText(_("load_images"))
+            self.image_list_action.setText(_("image_list"))
+            self.play_backward_action.setText(_("play_forward"))
+            self.play_forward_action.setText(_("play_backward"))
+            self.pause_action.setText(_("pause"))
+            self.stop_action.setText(_("stop"))
+            self.prev_image_action.setText(_("prev_image"))
+            self.next_image_action.setText(_("next_image"))
+            self.speed_action.setText(_("play_speed"))
+            self.goto_action.setText(_("xy_position"))
+            self.goto_radec_action.setText(_("radec_position"))
+            self.report_coord_action.setText(_("report_position"))
+            self.zoom_in_action.setText(_("zoom_in"))
+            self.zoom_out_action.setText(_("zoom_out"))
+            self.draw_line_action.setText(_("draw_line"))
+            self.hide_lines_action.setText(_("hide_lines"))
+            self.line_settings_action.setText(_("line_settings"))
+            self.measure_action.setText(_("measure_distance"))
+            self.clear_measure_action.setText(_("clear_measure"))
+            self.red_filter_action.setText(_("red_filter"))
+            self.green_filter_action.setText(_("green_filter"))
+            self.blue_filter_action.setText(_("blue_filter"))
+            self.reset_filter_action.setText(_("original_color"))
+            self.invert_color_action.setText(_("invert_color"))
+            self.stack_action.setText(_("stack_images"))
+            self.screen_stretch_action.setText(_("screen_stretch"))
+            self.auto_histogram_action.setText(_("auto_histogram"))
+            self.photometry_action.setText(_("photometry"))
+            self.import_asteroid_comet_action.setText(_("import_asteroid_comet"))
+            self.import_variable_star_action.setText(_("import_variable_star"))
+            self.horizontal_flip_action.setText(_("flip_horizontal"))
+            self.vertical_flip_action.setText(_("flip_vertical"))
+            self.rotate_left_action.setText(_("rotate_left"))
+            self.rotate_right_action.setText(_("rotate_right"))
+            self.save_as_image_action.setText(_("save_as"))
+            self.save_image_action.setText(_("save"))
+            self.report_action.setText(_("report_display"))
+            self.mpc_report_action.setText(_("mpc_report"))
+            self.filename_time_label.setText(_("no_image_loaded"))
+            self.import_action.setText(_("import_image"))
+            self.search_image_action.setText(_("search_image"))
+            self.settings_action.setText(_("settings"))
+            self.file_button_action.setText(_("file"))
+            self.parse_button_action.setText(_("solve"))
+            self.process_parse_action.setText(_("online_solve"))
+            self.process_astap_solve_action.setText(_("local_solve"))
+            self.process_astap_settings_action.setText(_("astap_settings"))
+            self.process_flatfield_action.setText(_("single_flatfield"))
+            self.process_batch_flatfield_action.setText(_("batch_flatfield"))
+            self.process_align_action.setText(_("two_image_align"))
+            self.process_batch_align_new_action.setText(_("batch_align_new"))
+            self.process_align_subtract_action.setText(_("align_subtract"))
+            self.process_flatfield_align_action.setText(_("pseudo_flatfield_align"))
+            self.process_flatfield_align_subtract_action.setText(_("pseudo_flatfield_align_subtract"))
+            self.process_batch_align_action.setText(_("batch_history_align"))
+            self.crop_action.setText(_("crop"))
+            self.auto_animation_menu_action.setText(_("auto_animation"))
+            self.process_button_action.setText(_("process"))
+            self.website_button_action.setText(_("website"))
+            self.donation_button_action.setText(_("donation"))
+            self.toggle_asteroid_btn.setToolTip(_("hide_show_asteroid"))
+            self.sunguoyou_action.setText(_("sun_guoyou_website"))
+            self.xjltp_action.setText(_("xingming_observatory"))
+            self.tools_action.setText(_("common_tools"))
+            self.psp_action.setText(_("psp_supernova"))
+            self.gitee_action.setText(_("gsun_website"))
+        except Exception as e:
+            print(f"翻译工具栏出错: {e}")
+    
+    def set_language(self, lang):
+        """设置界面语言"""
+        QApplication.instance().current_language = lang
+        try:
+            config_file = os.path.abspath("image_viewer_config.json")
+            config = {}
+            if os.path.exists(config_file):
+                with open(config_file, "r") as f:
+                    config = json.load(f)
+            config["language"] = lang
+            with open(config_file, "w") as f:
+                json.dump(config, f, indent=4)
+        except Exception as e:
+            print(f"保存语言设置出错: {e}")
+        self.retranslateToolbar()
+        QMessageBox.information(self, _("language"), _("language_changed_msg"))
+    
     def closeEvent(self, event):
         """窗口关闭事件处理"""
         # 清空MPC报告数据（保留文件，只清空内容）
@@ -9216,9 +10259,9 @@ class ImageViewer(QMainWindow):
             
         # 如果不是嵌入模式，显示确认对话框
         reply = QMessageBox.question(
-            self, '确认退出', 
-            "确定要关闭图像查看器吗？",
-            QMessageBox.Yes | QMessageBox.No, 
+            self, _("confirm_exit"),
+            _("confirm_close_viewer"),
+            QMessageBox.Yes | QMessageBox.No,
             QMessageBox.No
         )
         
@@ -9264,14 +10307,14 @@ class ImageViewer(QMainWindow):
                     "contrast": 5,     # 默认对比度 5%
                     "mode": "maximum",  # 默认叠加模式：最大值
                     "gamma_value": 1.0,  # 默认伽马值
-                    "high_performance": True,  # 默认启用高性能模式
                     "use_negative": False,  # 默认不使用反色效果
                     "angular_velocity_angle": 0.0,  # 默认移动角度（度）
                     "angular_velocity_speed": 1.0  # 默认移动速度（角秒/秒）
                 },
                 "astap": {
                     "use_sip": False  # 默认不启用SIP畸变修正
-                }
+                },
+                "invert_color": False  # 默认不使用反色效果
             }
             
             # 设置默认的全局图片设置
@@ -9303,7 +10346,6 @@ class ImageViewer(QMainWindow):
                         self.contrast_value = stacking_config.get("contrast", 5)
                         self.stacking_mode = stacking_config.get("mode", "maximum")
                         self.gamma_value = stacking_config.get("gamma_value", 1.0)
-                        self.high_performance = stacking_config.get("high_performance", True)
                         self.use_negative = stacking_config.get("use_negative", False)
                         self.angular_velocity_angle = stacking_config.get("angular_velocity_angle", 0.0)
                         self.angular_velocity_speed = stacking_config.get("angular_velocity_speed", 1.0)
@@ -9312,6 +10354,9 @@ class ImageViewer(QMainWindow):
                         astap_config = config.get("astap", {})
                         for key in astap_config:
                             self.astap_settings[key] = astap_config[key]
+                        
+                        # 加载反色设置
+                        self.invert_color = config.get("invert_color", False)
                         
                         # 不再从配置文件加载全局图片设置
                 except:
@@ -9322,8 +10367,8 @@ class ImageViewer(QMainWindow):
                     self.contrast_value = default_config["stacking"]["contrast"]
                     self.stacking_mode = default_config["stacking"]["mode"]
                     self.gamma_value = default_config["stacking"]["gamma_value"]
-                    self.high_performance = default_config["stacking"]["high_performance"]
                     self.use_negative = default_config["stacking"]["use_negative"]
+                    self.invert_color = default_config["invert_color"]
                     # 全局设置使用默认值
             else:
                 # 如果配置文件不存在，使用默认设置
@@ -9333,8 +10378,8 @@ class ImageViewer(QMainWindow):
                 self.contrast_value = default_config["stacking"]["contrast"]
                 self.stacking_mode = default_config["stacking"]["mode"]
                 self.gamma_value = default_config["stacking"]["gamma_value"]
-                self.high_performance = default_config["stacking"]["high_performance"]
                 self.use_negative = default_config["stacking"]["use_negative"]
+                self.invert_color = default_config["invert_color"]
                 # 全局设置使用默认值
         # 添加批量对齐路径配置项
             if not self.config.has_section("BatchAlignment"):
@@ -9386,12 +10431,12 @@ class ImageViewer(QMainWindow):
                     "contrast": self.contrast_value,
                     "mode": self.stacking_mode,
                     "gamma_value": self.gamma_value,
-                    "high_performance": self.high_performance,
                     "use_negative": self.use_negative,
                     "angular_velocity_angle": self.angular_velocity_angle,
                     "angular_velocity_speed": self.angular_velocity_speed
                 },
-                "astap": self.astap_settings
+                "astap": self.astap_settings,
+                "invert_color": self.invert_color
                 # 移除全局设置的保存，使其仅在当前会话有效
             }
             
@@ -9865,7 +10910,7 @@ class ImageViewer(QMainWindow):
         
         # 如果时间信息未知，在状态栏提示
         if time_info == "时间信息未知":
-            self.status_label.setText("该图像没有时间信息，将只记录坐标。生成报告时可能会受到限制。")
+            self.status_label.setText(_("no_time_info"))
             # 3秒后清除状态栏提示
             QTimer.singleShot(3000, lambda: self.status_label.setText(""))
         
@@ -10311,7 +11356,7 @@ class ImageViewer(QMainWindow):
     def align_images(self):
         """对齐功能 - 以第一张图为基准对齐其他图片"""
         if len(self.images) < 2:
-            QMessageBox.information(self, "提示", "需要至少导入2张图片才能进行对齐")
+            QMessageBox.information(self, _("hint"), _("need_at_least_2_images").format(action=_("align")))
             return
         
         # 检查是否同一天区
@@ -10493,7 +11538,7 @@ class ImageViewer(QMainWindow):
         使用ZOGY算法或类似的高级减图算法，凸显剩余信号
         """
         if len(self.images) < 2:
-            QMessageBox.information(self, "提示", "需要至少导入2张图片才能进行对齐并相减")
+            QMessageBox.information(self, _("hint"), _("need_at_least_2_images").format(action=_("align_and_subtract")))
             return
         
         if len(self.original_images) < 2:
@@ -10673,7 +11718,7 @@ class ImageViewer(QMainWindow):
             pixmap = QPixmap.fromImage(qimage)
 
             # 作者：Guoyou Sun (孙国佑) - 天体收藏家
-            # 软件：星视 GSUN View V4.0
+            # 软件：星视 GSUN View V4.1
             # 网站：sunguoyou.lamost.org
             # 标识：546756
             # 原创作品，禁止商业使用
@@ -10740,7 +11785,7 @@ class ImageViewer(QMainWindow):
 ·        对齐后两张图使用相同的显示参数，确保切换动画不晃眼睛
         """
         if len(self.images) < 2:
-            QMessageBox.information(self, "提示", "需要至少导入2张图片才能进行对齐")
+            QMessageBox.information(self, _("hint"), _("need_at_least_2_images").format(action=_("align")))
             return
         
         if len(self.original_images) < 2:
@@ -10941,7 +11986,7 @@ class ImageViewer(QMainWindow):
     def flatfield_align_and_subtract(self):
         """伪平场-对齐-相减功能"""
         if len(self.images) < 2:
-            QMessageBox.information(self, "提示", "需要至少导入2张图片才能进行处理")
+            QMessageBox.information(self, _("hint"), _("need_at_least_2_images").format(action=_("process")))
             return
         
         if len(self.original_images) < 2:
@@ -11111,7 +12156,7 @@ class ImageViewer(QMainWindow):
         不执行减法操作
         """
         if len(self.images) < 2:
-            QMessageBox.information(self, "提示", "需要至少导入2张图片才能进行处理")
+            QMessageBox.information(self, _("hint"), _("need_at_least_2_images").format(action=_("process")))
             return
         
         if len(self.original_images) < 2:
@@ -11597,7 +12642,7 @@ class ImageViewer(QMainWindow):
                 if self.is_playing:
                     # 如果正在播放动画，先暂停动画再开启辅助线绘制
                     self.toggle_play()  # 暂停播放
-                    QMessageBox.information(self, "提示", "已暂停播放以启用辅助线绘制模式")
+                    QMessageBox.information(self, _("hint"), _("paused_for_guide_mode"))
                     self.draw_line_action.setChecked(True)
                     self.image_view.start_drawing_line()
                 else:
@@ -11622,7 +12667,7 @@ class ImageViewer(QMainWindow):
                 if self.is_playing:
                     # 如果正在播放动画，先暂停动画再开启测量模式
                     self.toggle_play()  # 暂停播放
-                    QMessageBox.information(self, "提示", "已暂停播放以启用测量模式")
+                    QMessageBox.information(self, _("hint"), _("paused_for_measure_mode"))
                     self.measure_action.setChecked(True)
                     self.image_view.start_measuring()
                 else:
@@ -11647,7 +12692,7 @@ class ImageViewer(QMainWindow):
                 if self.is_playing:
                     # 如果正在播放动画，先暂停动画再开启剪切模式
                     self.toggle_play()  # 暂停播放
-                    QMessageBox.information(self, "提示", "已暂停播放以启用剪切模式")
+                    QMessageBox.information(self, _("hint"), _("paused_for_crop_mode"))
                     self.crop_action.setChecked(True)
                     self.image_view.start_cropping()
                 else:
@@ -11693,6 +12738,40 @@ class ImageViewer(QMainWindow):
             #     self.statusBar().showMessage("已恢复原色")
                     
             # 如果在叠加模式，并且已经有叠加图像，重新创建叠加图像并应用滤镜
+            if self.is_stacked and self.stacked_image is not None:
+                # 重置叠加图像
+                self.stacked_image = None
+                # 重新创建叠加图像
+                self.create_stacked_image()
+                # 如果创建成功，重新显示
+                if self.stacked_image is not None:
+                    # 保存当前缩放因子
+                    current_zoom = self.zoom_slider.value()
+                    self.image_view.set_image(self.stacked_image, filename="叠加图像")
+                    # 设置WCS和pixel_scale信息
+                    if hasattr(self, 'image_processor') and self.image_processor:
+                        wcs = self.image_processor.wcs if hasattr(self.image_processor, 'wcs') else None
+                        pixel_scale = self.image_processor.pixel_scale if hasattr(self.image_processor, 'pixel_scale') else None
+                        self.image_view.set_wcs_info(wcs, pixel_scale)
+                    # 应用之前的缩放因子
+                    self.update_zoom(current_zoom)
+    
+    def toggle_invert_color(self):
+        """切换反色效果"""
+        if self.image_view:
+            # 切换反色状态
+            self.invert_color = not getattr(self, 'invert_color', False)
+            
+            # 应用反色效果
+            self.image_view.set_invert_color(self.invert_color)
+            
+            # 如果在全屏模式下，也应用到全屏视图
+            if hasattr(self, 'fullscreen_window') and self.fullscreen_window is not None:
+                fullscreen_view = self.fullscreen_window.centralWidget()
+                if fullscreen_view:
+                    fullscreen_view.set_invert_color(self.invert_color)
+            
+            # 如果在叠加模式，并且已经有叠加图像，重新创建叠加图像并应用反色
             if self.is_stacked and self.stacked_image is not None:
                 # 重置叠加图像
                 self.stacked_image = None
@@ -11810,7 +12889,7 @@ class ImageViewer(QMainWindow):
                 # 叠加失败
                 self.is_stacked = False
                 self.stack_action.setChecked(False)
-                QMessageBox.warning(self, "警告", "图像叠加失败！请检查图像是否兼容。")
+                QMessageBox.warning(self, _("warning"), _("stacking_failed"))
         else:
             # 退出叠加模式，恢复显示当前图像
             self.show_current_image()
@@ -11828,18 +12907,18 @@ class ImageViewer(QMainWindow):
     def show_stack_settings(self):
         """显示叠加设置对话框"""
         dialog = QDialog(self)
-        dialog.setWindowTitle("叠加设置")
-        dialog.setFixedSize(400, 550)  # 增加高度以适应所有输入区域
+        dialog.setWindowTitle(_("stacking_settings"))
+        dialog.setFixedSize(400, 550)
         
         layout = QVBoxLayout()
         dialog.setLayout(layout)
         
         # 亮度调整
-        layout.addWidget(QLabel("- 亮度调整 -"))
-        layout.addWidget(QLabel("提示: 降低亮度（<100%）可以更好地观察彗星尾迹"))
-        
+        layout.addWidget(QLabel(f"- {_('brightness_adjust')} -"))
+        layout.addWidget(QLabel(f"{_('hint')}: {_('brightness_hint')}"))
+
         brightness_layout = QHBoxLayout()
-        brightness_layout.addWidget(QLabel("亮度:"))
+        brightness_layout.addWidget(QLabel(_("brightness") + ":"))
         
         brightness_value_label = QLabel(f"{self.brightness_value}%")
         
@@ -11853,11 +12932,11 @@ class ImageViewer(QMainWindow):
         layout.addLayout(brightness_layout)
         
         # 对比度调整
-        layout.addWidget(QLabel("- 对比度阈值调整 -"))
-        layout.addWidget(QLabel("注: 数值表示最亮的百分之几的像素将被强调显示"))
-        
+        layout.addWidget(QLabel(f"- {_('contrast_threshold')} -"))
+        layout.addWidget(QLabel(f"{_('note')}: {_('threshold_note')}"))
+
         contrast_layout = QHBoxLayout()
-        contrast_layout.addWidget(QLabel("阈值:"))
+        contrast_layout.addWidget(QLabel(_("threshold") + ":"))
         
         contrast_value_label = QLabel(f"{self.contrast_value}%")
         
@@ -11875,14 +12954,14 @@ class ImageViewer(QMainWindow):
         
         # 叠加方式选择
         stacking_mode_layout = QHBoxLayout()
-        stacking_mode_label = QLabel("叠加方式:")
+        stacking_mode_label = QLabel(_("stacking_mode") + ":")
         stacking_mode_layout.addWidget(stacking_mode_label)
-        
+
         stacking_mode_combo = QComboBox()
-        stacking_mode_combo.addItem("最大值叠加 (适合寻找彗星)", "maximum")
-        stacking_mode_combo.addItem("平均值叠加", "average")
-        stacking_mode_combo.addItem("按报告叠加 (彗星轨迹对齐)", "report")
-        stacking_mode_combo.addItem("根据角度速度叠加 (WCS)", "angular_velocity")
+        stacking_mode_combo.addItem(_("stacking_mode_maximum"), "maximum")
+        stacking_mode_combo.addItem(_("stacking_mode_average"), "average")
+        stacking_mode_combo.addItem(_("stacking_mode_report"), "report")
+        stacking_mode_combo.addItem(_("stacking_mode_angular"), "angular_velocity")
         # 设置当前选中的叠加模式
         if self.stacking_mode == "average":
             stacking_mode_combo.setCurrentIndex(1)
@@ -11903,7 +12982,7 @@ class ImageViewer(QMainWindow):
         
         # 伽马值调整
         gamma_layout = QHBoxLayout()
-        gamma_layout.addWidget(QLabel("伽马值:"))
+        gamma_layout.addWidget(QLabel(_("gamma") + ":"))
         
         gamma_value_label = QLabel(f"{self.gamma_value:.1f}")
         
@@ -11917,23 +12996,17 @@ class ImageViewer(QMainWindow):
         layout.addLayout(gamma_layout)
         
         # 添加反色（负片）选项
-        negative_checkbox = QCheckBox("使用反色效果（增强暗区域）")
+        negative_checkbox = QCheckBox(_("invert_effect"))
         negative_checkbox.setChecked(self.use_negative)
         negative_checkbox.toggled.connect(self.toggle_negative)
         layout.addWidget(negative_checkbox)
-        
-        # 高性能模式
-        high_performance_checkbox = QCheckBox("高性能模式（处理速度更快）")
-        high_performance_checkbox.setChecked(self.high_performance)
-        high_performance_checkbox.toggled.connect(self.toggle_high_performance)
-        layout.addWidget(high_performance_checkbox)
-        
+
         # 报告输入区域（仅在选择按报告叠加模式时显示）
-        self.report_input_group = QGroupBox("彗星报告数据")
+        self.report_input_group = QGroupBox(_("comet_report_data"))
         self.report_input_group.setVisible(self.stacking_mode == "report")
         report_layout = QVBoxLayout()
-        
-        report_label = QLabel("请输入彗星报告数据，格式为：HH:MM x y，例如 20:30 426 1057")
+
+        report_label = QLabel(_("enter_report_format"))
         report_layout.addWidget(report_label)
         
         self.report_text_edit = QTextEdit()
@@ -11949,11 +13022,11 @@ class ImageViewer(QMainWindow):
         layout.addWidget(self.report_input_group)
         
         # 角度速度输入区域（仅在选择根据角度速度叠加模式时显示）
-        self.angular_velocity_group = QGroupBox("角度速度叠加设置")
+        self.angular_velocity_group = QGroupBox(_("angular_velocity_settings"))
         self.angular_velocity_group.setVisible(self.stacking_mode == "angular_velocity")
         angular_velocity_layout = QVBoxLayout()
-        
-        av_label = QLabel("请输入移动角度和速度（需要WCS信息）：")
+
+        av_label = QLabel(_("enter_angular_velocity"))
         angular_velocity_layout.addWidget(av_label)
         
         # 角度输入
@@ -11973,7 +13046,7 @@ class ImageViewer(QMainWindow):
         speed_layout.addWidget(QLabel("移动速度 (角秒/分钟):"))
         self.speed_input = QDoubleSpinBox()
         self.speed_input.setRange(0, 1000)
-        self.speed_input.setDecimals(2)
+        self.speed_input.setDecimals(6)
         self.speed_input.setSingleStep(0.1)
         if hasattr(self, 'angular_velocity_speed'):
             self.speed_input.setValue(self.angular_velocity_speed)
@@ -12329,19 +13402,17 @@ class ImageViewer(QMainWindow):
                 ref_dec = ref_coord.dec.deg
                 
                 # 获取角度速度参数
-                # 角度定义：0°=东, 90°=北, 180°=西, 270°=南
+                # 角度定义：0°=北, 90°=东, 180°=南, 270°=西 (天文方位角 PA)
                 angle_deg = self.angular_velocity_angle
                 speed_arcsec_per_min = self.angular_velocity_speed  # 角秒/分钟
                 
                 print(f"角度速度叠加参数:")
                 print(f"  参考点: 像素=({ref_x}, {ref_y}), RA={ref_ra:.6f}°, DEC={ref_dec:.6f}°")
-                print(f"  移动角度: {angle_deg}° (0°=东, 90°=北, 180°=西, 270°=南)")
+                print(f"  移动角度(PA): {angle_deg}° (0°=北, 90°=东, 180°=南, 270°=西)")
                 print(f"  移动速度: {speed_arcsec_per_min} 角秒/分钟")
                 
-                # 计算移动方向（转换为天文方位角：从北向东测量）
-                # 用户输入：0°=东, 90°=北, 180°=西, 270°=南
-                # 天文方位角：0°=北, 90°=东, 180°=南, 270°=西
-                azimuth_deg = (90 - angle_deg) % 360  # 转换为天文方位角
+                # 直接使用天文方位角(PA)
+                azimuth_deg = angle_deg
                 
                 # 计算所有图像的偏移量
                 ref_time = None
@@ -12397,18 +13468,20 @@ class ImageViewer(QMainWindow):
                     new_coord = SkyCoord(ra=new_ra*u.degree, dec=new_dec*u.degree, frame='icrs')
                     new_x, new_y = wcs.world_to_pixel(new_coord)
                     
-                    # 计算像素偏移量
-                    shift_x = int(new_x - ref_x)
-                    shift_y = int(new_y - ref_y)
+                    # 计算像素偏移量 (取反，因为要向相反方向移动图像以抵消天体运动)
+                    # 保留浮点数以实现亚像素精度 (Fix: scattered/unfocused result)
+                    shift_x = -(new_x - ref_x)
+                    shift_y = -(new_y - ref_y)
                     
                     shifts.append((i, shift_x, shift_y))
-                    print(f"  图像 {i}: 时间={img_time}, 时间差={time_diff:.1f}秒, 距离={distance_arcsec:.2f}角秒, 偏移=({shift_x}, {shift_y})")
+                    print(f"  图像 {i}: 时间={img_time}, 时间差={time_diff:.1f}秒, 距离={distance_arcsec:.2f}角秒, 偏移=({shift_x:.2f}, {shift_y:.2f})")
                 
                 # 计算最大偏移量，确定画布大小
-                max_shift_x_pos = max(0, max(s[1] for s in shifts))
-                max_shift_x_neg = max(0, -min(s[1] for s in shifts))
-                max_shift_y_pos = max(0, max(s[2] for s in shifts))
-                max_shift_y_neg = max(0, -min(s[2] for s in shifts))
+                # 使用向上取整确保画布足够大
+                max_shift_x_pos = max(0, int(np.ceil(max(s[1] for s in shifts))))
+                max_shift_x_neg = max(0, int(np.ceil(-min(s[1] for s in shifts))))
+                max_shift_y_pos = max(0, int(np.ceil(max(s[2] for s in shifts))))
+                max_shift_y_neg = max(0, int(np.ceil(-min(s[2] for s in shifts))))
                 
                 # 限制最大偏移量，防止内存溢出
                 max_allowed_shift = min(width, height) * 2  # 最大偏移不超过图像尺寸的2倍
@@ -12445,7 +13518,17 @@ class ImageViewer(QMainWindow):
                     if progress.wasCanceled():
                         return None
                     
-                    img_data = self.original_images[i]
+                    # 优先使用原始FITS数据（高动态范围），否则使用显示的8位数据
+                    img_data = None
+                    if hasattr(self, 'raw_fits_images') and i < len(self.raw_fits_images) and self.raw_fits_images[i] is not None:
+                        img_data = self.raw_fits_images[i]
+                    
+                    if img_data is None:
+                        img_data = self.original_images[i]
+                        # 如果是彩色图像，转换为灰度
+                        if len(img_data.shape) == 3:
+                             img_data = np.dot(img_data[..., :3], [0.299, 0.587, 0.114])
+
                     if img_data.shape != (height, width):
                         progress.setValue(i + 1)
                         continue
@@ -12454,22 +13537,46 @@ class ImageViewer(QMainWindow):
                     shift_x = max(-base_offset_x, min(shift_x, new_width - width - base_offset_x))
                     shift_y = max(-base_offset_y, min(shift_y, new_height - height - base_offset_y))
                     
-                    # 在新画布上放置图像
-                    pos_x = base_offset_x + shift_x
-                    pos_y = base_offset_y + shift_y
+                    # 亚像素偏移处理 (Sub-pixel alignment)
+                    final_pos_x = base_offset_x + shift_x
+                    final_pos_y = base_offset_y + shift_y
                     
-                    # 确保位置在边界内
-                    if pos_x >= 0 and pos_y >= 0 and pos_x + width <= new_width and pos_y + height <= new_height:
-                        stacked[pos_y:pos_y+height, pos_x:pos_x+width] = np.maximum(
-                            stacked[pos_y:pos_y+height, pos_x:pos_x+width],
-                            img_data.astype(np.float32)
-                        )
+                    # 分离整数和小数部分
+                    # 使用floor确保小数部分总是正的 (0.0 - 0.999...)
+                    int_x = int(np.floor(final_pos_x))
+                    int_y = int(np.floor(final_pos_y))
+                    frac_x = final_pos_x - int_x
+                    frac_y = final_pos_y - int_y
+                    
+                    img_float = img_data.astype(np.float32)
+                    
+                    # 如果有显著的小数偏移，则对小图进行移位
+                    if abs(frac_x) > 0.001 or abs(frac_y) > 0.001:
+                        # order=1 (双线性插值) 速度较快且平滑，能有效消除整数对齐导致的"散"的问题
+                        # mode='constant', cval=0 填充边缘
+                        shifted_small = ndimage.shift(img_float, (frac_y, frac_x), order=1, mode='constant', cval=0)
                     else:
-                        # 使用shift函数进行偏移
-                        temp_canvas = np.zeros((new_height, new_width), dtype=np.float32)
-                        temp_canvas[base_offset_y:base_offset_y+height, base_offset_x:base_offset_x+width] = img_data.astype(np.float32)
-                        shifted_img = ndimage.shift(temp_canvas, (shift_y, shift_x), mode='constant', cval=0)
-                        stacked = np.maximum(stacked, shifted_img)
+                        shifted_small = img_float
+                    
+                    # 在新画布上放置图像
+                    # 边界检查
+                    h, w = shifted_small.shape
+                    y_start = max(0, int_y)
+                    y_end = min(new_height, int_y + h)
+                    x_start = max(0, int_x)
+                    x_end = min(new_width, int_x + w)
+                    
+                    if y_end > y_start and x_end > x_start:
+                        # 对应的源图像区域
+                        src_y_start = y_start - int_y
+                        src_y_end = src_y_start + (y_end - y_start)
+                        src_x_start = x_start - int_x
+                        src_x_end = src_x_start + (x_end - x_start)
+                        
+                        stacked[y_start:y_end, x_start:x_end] = np.maximum(
+                            stacked[y_start:y_end, x_start:x_end],
+                            shifted_small[src_y_start:src_y_end, src_x_start:src_x_end]
+                        )
                     
                     progress.setValue(i + 1)
             else:
@@ -12478,9 +13585,20 @@ class ImageViewer(QMainWindow):
                 count = 0
                 
                 # 叠加所有图像
-                for i, img_data in enumerate(self.original_images):
+                for i in range(len(self.original_images)):
                     if progress.wasCanceled():
                         return None
+                    
+                    # 优先使用原始FITS数据
+                    img_data = None
+                    if hasattr(self, 'raw_fits_images') and i < len(self.raw_fits_images) and self.raw_fits_images[i] is not None:
+                        img_data = self.raw_fits_images[i]
+                    
+                    if img_data is None:
+                        img_data = self.original_images[i]
+                        # 如果是彩色图像，转换为灰度
+                        if len(img_data.shape) == 3:
+                             img_data = np.dot(img_data[..., :3], [0.299, 0.587, 0.114])
                     
                     if img_data.shape == (height, width):
                         stacked += img_data.astype(np.float32)
@@ -12492,18 +13610,19 @@ class ImageViewer(QMainWindow):
                     stacked /= count
             
             # 保存原始叠加数据(float32)用于后续的高精度直方图调整
-            self.stacked_data_raw = stacked.copy()
-            
-            # 为了显示，创建副本进行处理
-            stacked_display = stacked.copy()
-
-            # 先归一化叠加后的数据到0-255范围
-            stacked_min = stacked_display.min()
-            stacked_max = stacked_display.max()
-            if stacked_max > stacked_min:
-                stacked_display = ((stacked_display - stacked_min) / (stacked_max - stacked_min) * 255)
+            # 2024-01-26: 应用轻微高斯平滑，模拟Tycho的"涂抹"感，消除Maximum叠加的噪点
+            # 这有助于让星轨看起来更连续（实）而不是离散（散）
+            if self.stacking_mode == "angular_velocity":
+                # 只对移动叠加（Maximum）应用平滑，Sigma=0.8足以消除单像素噪点但保留细节
+                stacked_smoothed = ndimage.gaussian_filter(stacked, sigma=0.7)
+                self.stacked_data_raw = stacked_smoothed.copy()
             else:
-                stacked_display = np.zeros_like(stacked_display)
+                self.stacked_data_raw = stacked.copy()
+                stacked_smoothed = stacked
+            
+            # 为了显示，使用zscale算法进行自适应归一化
+            # 使用平滑后的数据进行显示生成
+            stacked_display = self.apply_zscale_stretch(stacked_smoothed.copy())
             
             # 简化亮度调整：线性调整，避免过度增强
             brightness_factor = brightness_value / 100.0
@@ -12515,14 +13634,15 @@ class ImageViewer(QMainWindow):
                 stacked_display = np.power((stacked_display + epsilon) / 255.0, gamma_value) * 255.0
             
             # 简化对比度增强：基于百分位的简单阈值处理
-            if contrast_percentile > 0:
-                # 找出亮度超过指定百分位数的像素
-                flat_stacked = stacked_display.flatten()
-                threshold = np.percentile(flat_stacked, 100 - contrast_percentile)
-                
-                # 应用简单的阈值处理，增强亮区域
-                mask = stacked_display > threshold
-                stacked_display[mask] = np.minimum(stacked_display[mask] * 1.2, 255)  # 轻微增强，避免过度
+            # 2024-01-26: 用户反馈导致过度锐化，暂时禁用
+            # if contrast_percentile > 0:
+            #     # 找出亮度超过指定百分位数的像素
+            #     flat_stacked = stacked_display.flatten()
+            #     threshold = np.percentile(flat_stacked, 100 - contrast_percentile)
+            #     
+            #     # 应用简单的阈值处理，增强亮区域
+            #     mask = stacked_display > threshold
+            #     stacked_display[mask] = np.minimum(stacked_display[mask] * 1.2, 255)  # 轻微增强，避免过度
             
             # 控制范围在0-255
             stacked_display = np.clip(stacked_display, 0, 255)
@@ -12552,43 +13672,43 @@ class ImageViewer(QMainWindow):
         """显示辅助线设置对话框"""
         try:
             dialog = QDialog(self)
-            dialog.setWindowTitle("辅助线设置")
+            dialog.setWindowTitle(_("aux_line_settings"))
             dialog.setFixedSize(350, 250)
             
             layout = QVBoxLayout(dialog)
-            
+
             # 辅助线操作按钮
-            layout.addWidget(QLabel("辅助线操作:"))
-            
+            layout.addWidget(QLabel(_("aux_line_operations") + ":"))
+
             # 删除最后一条辅助线
-            remove_last_btn = QPushButton("删除最后一条辅助线")
+            remove_last_btn = QPushButton(_("delete_last_aux_line"))
             remove_last_btn.clicked.connect(self.remove_last_auxiliary_line)
             # 不再自动关闭窗口
             layout.addWidget(remove_last_btn)
-            
+
             # 删除所有辅助线
-            clear_all_btn = QPushButton("删除所有辅助线")
+            clear_all_btn = QPushButton(_("delete_all_aux_lines"))
             clear_all_btn.clicked.connect(self.clear_all_auxiliary_lines)
             # 不再自动关闭窗口
             layout.addWidget(clear_all_btn)
-            
+
             # 导入导出辅助线
             io_layout = QHBoxLayout()
-            
+
             # 导出辅助线
-            export_btn = QPushButton("导出辅助线")
+            export_btn = QPushButton(_("export_aux_lines"))
             export_btn.clicked.connect(self.export_auxiliary_lines)
             io_layout.addWidget(export_btn)
-            
+
             # 导入辅助线
-            import_btn = QPushButton("导入辅助线")
+            import_btn = QPushButton(_("import_aux_lines"))
             import_btn.clicked.connect(self.import_auxiliary_lines)
             io_layout.addWidget(import_btn)
-            
+
             layout.addLayout(io_layout)
-            
+
             # 关闭按钮
-            close_btn = QPushButton("关闭")
+            close_btn = QPushButton(_("close"))
             close_btn.clicked.connect(dialog.reject)
             layout.addWidget(close_btn)
             
@@ -12711,21 +13831,21 @@ class ImageViewer(QMainWindow):
         """显示报告对话框"""
         try:
             dialog = QDialog(self)
-            dialog.setWindowTitle("报告展示")
-            dialog.setMinimumSize(1080, 400)  # 增加记录窗口宽度，从600增加到800
-            
+            dialog.setWindowTitle(_("report_display"))
+            dialog.setMinimumSize(1080, 400)
+
             layout = QVBoxLayout(dialog)
-            
+
             # 创建选项卡
             tab_widget = QTabWidget()
             layout.addWidget(tab_widget)
-            
+
             # 点击记录选项卡
             record_tab = QWidget()
             record_layout = QVBoxLayout(record_tab)
-            
+
             record_tree = QTreeWidget()
-            record_tree.setHeaderLabels(["文件名", "时间", "RA", "DEC", "坐标", "坐标差值", "速度(像素/小时)"])
+            record_tree.setHeaderLabels([_("report_filename"), _("report_time"), _("report_ra"), _("report_dec"), _("report_coords"), _("report_coord_diff"), _("report_speed")])
             record_layout.addWidget(record_tree)
             
             # 设置右键菜单
@@ -12801,34 +13921,34 @@ class ImageViewer(QMainWindow):
             header.setSectionResizeMode(5, QHeaderView.Interactive)  # 坐标差值列
             header.setSectionResizeMode(6, QHeaderView.Interactive)  # 速度列
             
-            tab_widget.addTab(record_tab, "点击记录")
-            
+            tab_widget.addTab(record_tab, _("click_record"))
+
             # 报告选项卡
             report_tab = QWidget()
             report_layout = QVBoxLayout(report_tab)
-            
+
             report_text = QTextEdit()
             report_text.setReadOnly(True)
             report_layout.addWidget(report_text)
-            
+
             # 不在这里生成报告内容，而是等待用户点击生成报告按钮
             report_text.setHtml("<p>点击\"生成报告\"按钮生成报告内容</p>")
-            
-            tab_widget.addTab(report_tab, "报告内容")
-            
+
+            tab_widget.addTab(report_tab, _("report_content"))
+
             # 按钮区域
             button_layout = QHBoxLayout()
-            
-            generate_btn = QPushButton("生成报告")
+
+            generate_btn = QPushButton(_("generate_report"))
             generate_btn.clicked.connect(self.generate_report)
             button_layout.addWidget(generate_btn)
-            
+
             # 添加清空记录按钮
-            clear_btn = QPushButton("清空记录")
+            clear_btn = QPushButton(_("clear_records"))
             clear_btn.clicked.connect(lambda: self.clear_click_records(record_tree))
             button_layout.addWidget(clear_btn)
-            
-            close_btn = QPushButton("关闭")
+
+            close_btn = QPushButton(_("close"))
             close_btn.clicked.connect(dialog.accept)
             button_layout.addWidget(close_btn)
             
@@ -12947,32 +14067,32 @@ class ImageViewer(QMainWindow):
         """显示报告坐标对话框，用于解析报告时间和坐标并标记到对应图片"""
         try:
             dialog = QDialog(self)
-            dialog.setWindowTitle("报告坐标功能")
+            dialog.setWindowTitle(_("report_coord_title"))
             dialog.setMinimumSize(600, 400)
-            
+
             layout = QVBoxLayout(dialog)
-            
+
             # 添加说明标签
-            info_label = QLabel("请输入报告坐标数据，格式为：HH:MM x y，例如 20:30 426 1057")
+            info_label = QLabel(_("enter_report_data"))
             layout.addWidget(info_label)
-            
+
             # 添加文本输入框
             text_edit = QTextEdit()
             text_edit.setPlaceholderText("20:30 426 1057\n20:45 437 1054\n21:00 449 1052\n21:15 459 1050")
             layout.addWidget(text_edit)
-            
+
             # 按钮区域
             button_layout = QHBoxLayout()
-            
-            mark_btn = QPushButton("标记坐标")
+
+            mark_btn = QPushButton(_("mark_coordinates"))
             mark_btn.clicked.connect(lambda: self.mark_report_coordinates(text_edit.toPlainText()))
             button_layout.addWidget(mark_btn)
-            
-            clear_btn = QPushButton("清除标记")
+
+            clear_btn = QPushButton(_("clear_markers"))
             clear_btn.clicked.connect(self.clear_report_markers)
             button_layout.addWidget(clear_btn)
-            
-            close_btn = QPushButton("关闭")
+
+            close_btn = QPushButton(_("close"))
             close_btn.clicked.connect(dialog.accept)
             button_layout.addWidget(close_btn)
             
@@ -13246,7 +14366,7 @@ class ImageViewer(QMainWindow):
 
     def show_auto_animation_dialog(self):
         dialog = QDialog(self)
-        dialog.setWindowTitle("自动动画")
+        dialog.setWindowTitle(_("auto_animation"))
         dialog.setFixedSize(500, 240)
         layout = QVBoxLayout(dialog)
         form = QFormLayout()
@@ -13442,7 +14562,7 @@ class ImageViewer(QMainWindow):
                 except Exception:
                     continue
             if not self.animation_sets:
-                QMessageBox.information(self, "提示", "未生成动画")
+                QMessageBox.information(self, _("hint"), _("no_animation_generated"))
                 return
             self.animation_mode = True
             self.current_animation_index = 0
@@ -13564,44 +14684,44 @@ class ImageViewer(QMainWindow):
     def show_goto_dialog(self):
         """显示坐标定位对话框"""
         if not self.images or self.current_index < 0:
-            QMessageBox.information(self, "提示", "请先加载图片")
+            QMessageBox.information(self, _("info"), _("please_load_image"))
             return
-            
+
         dialog = QDialog(self)
-        dialog.setWindowTitle("坐标定位")
+        dialog.setWindowTitle(_("coord_position"))
         dialog.setFixedSize(300, 150)
-        
+
         layout = QVBoxLayout(dialog)
-        
+
         # 坐标输入区域
         coord_layout = QHBoxLayout()
-        
+
         x_layout = QHBoxLayout()
         x_layout.addWidget(QLabel("X:"))
         x_input = QLineEdit()
-        x_input.setPlaceholderText("X坐标")
+        x_input.setPlaceholderText(_("x_coord"))
         x_layout.addWidget(x_input)
-        
+
         y_layout = QHBoxLayout()
         y_layout.addWidget(QLabel("Y:"))
         y_input = QLineEdit()
-        y_input.setPlaceholderText("Y坐标")
+        y_input.setPlaceholderText(_("y_coord"))
         y_layout.addWidget(y_input)
-        
+
         coord_layout.addLayout(x_layout)
         coord_layout.addLayout(y_layout)
-        
+
         layout.addLayout(coord_layout)
-        
+
         # 按钮区域
         button_layout = QHBoxLayout()
-        
-        goto_btn = QPushButton("跳转定位")
+
+        goto_btn = QPushButton(_("jump_to"))
         goto_btn.clicked.connect(lambda: self.goto_coordinate_from_dialog(x_input.text(), y_input.text()))
         goto_btn.clicked.connect(dialog.accept)
         button_layout.addWidget(goto_btn)
-        
-        cancel_btn = QPushButton("取消")
+
+        cancel_btn = QPushButton(_("cancel"))
         cancel_btn.clicked.connect(dialog.reject)
         button_layout.addWidget(cancel_btn)
         
@@ -13613,7 +14733,7 @@ class ImageViewer(QMainWindow):
     def show_goto_radec_dialog(self):
         """显示天文坐标定位对话框"""
         if not self.images or self.current_index < 0:
-            QMessageBox.information(self, "提示", "请先加载图片")
+            QMessageBox.information(self, _("hint"), _("please_load_image_first"))
             return
             
         # 检查当前图像是否有WCS信息
@@ -13621,21 +14741,21 @@ class ImageViewer(QMainWindow):
         import re
         
         dialog = QDialog(self)
-        dialog.setWindowTitle("天文坐标定位")
+        dialog.setWindowTitle(_("astro_position"))
         dialog.setFixedSize(400, 150)
-        
+
         layout = QVBoxLayout(dialog)
-        
+
         # 添加说明标签
-        info_label = QLabel("支持格式: 12:34:56.7 +12:34:56.7 或 12:34:56.7,+12:34:56.7")
+        info_label = QLabel(_("supported_format"))
         info_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(info_label)
         
         # 坐标输入区域
         coord_layout = QHBoxLayout()
-        coord_layout.addWidget(QLabel("坐标:"))
+        coord_layout.addWidget(QLabel(_("coords") + ":"))
         coord_input = QLineEdit()
-        coord_input.setPlaceholderText("例如: 12:34:56.7 +12:34:56.7")
+        coord_input.setPlaceholderText(_("example") + ": 12:34:56.7 +12:34:56.7")
         coord_layout.addWidget(coord_input)
         
         layout.addLayout(coord_layout)
@@ -13643,12 +14763,12 @@ class ImageViewer(QMainWindow):
         # 按钮区域
         button_layout = QHBoxLayout()
         
-        goto_btn = QPushButton("跳转定位")
+        goto_btn = QPushButton(_("jump_to"))
         goto_btn.clicked.connect(lambda: self.goto_radec_coordinate_from_dialog(coord_input.text()))
         goto_btn.clicked.connect(dialog.accept)
         button_layout.addWidget(goto_btn)
-        
-        cancel_btn = QPushButton("取消")
+
+        cancel_btn = QPushButton(_("cancel"))
         cancel_btn.clicked.connect(dialog.reject)
         button_layout.addWidget(cancel_btn)
         
@@ -13809,7 +14929,7 @@ class ImageViewer(QMainWindow):
             
         # 检查当前图像是否有WCS信息
         if not hasattr(self, 'image_processor') or not self.image_processor or not hasattr(self.image_processor, 'wcs') or not self.image_processor.wcs:
-            QMessageBox.warning(self, "WCS错误", "当前图像没有WCS信息，无法进行天文坐标定位")
+            QMessageBox.warning(self, _("wcs_error"), _("no_wcs_info"))
             return
             
         try:
@@ -13936,7 +15056,7 @@ class ImageViewer(QMainWindow):
                         
                 # 计算删除的记录数
                 removed_count = original_count - len(self.click_records)
-                QMessageBox.information(self, "提示", f"已删除 {removed_count} 条记录。")
+                QMessageBox.information(self, _("hint"), _("deleted_records").format(count=removed_count))
                 
                 
         except Exception as e:
@@ -13981,7 +15101,7 @@ class ImageViewer(QMainWindow):
             if copy_text:
                 clipboard = QApplication.clipboard()
                 clipboard.setText(copy_text.strip())
-                self.statusBar().showMessage("已复制选中行的所有信息到剪贴板", 3000)
+                self.statusBar().showMessage(_("copied_to_clipboard"), 3000)
             
         except Exception as e:
             print(f"复制选中行时出错: {e}")
@@ -14012,9 +15132,9 @@ class ImageViewer(QMainWindow):
             if copy_text:
                 clipboard = QApplication.clipboard()
                 clipboard.setText(copy_text.strip())
-                self.statusBar().showMessage("已复制RA/DEC坐标到剪贴板", 3000)
+                self.statusBar().showMessage(_("copied_ra_dec"), 3000)
             else:
-                QMessageBox.warning(self, "警告", "选中的记录中没有有效的RA/DEC坐标")
+                QMessageBox.warning(self, _("warning"), _("no_valid_ra_dec"))
             
         except Exception as e:
             print(f"复制RA/DEC坐标时出错: {e}")
@@ -14024,13 +15144,6 @@ class ImageViewer(QMainWindow):
         """更新伽马值"""
         self.gamma_value = value / 10.0  # 将滑块值转换为0.5-2.0范围
         label.setText(f"{self.gamma_value:.1f}")
-        
-        # 保存设置
-        self.save_config()
-    
-    def toggle_high_performance(self, checked):
-        """切换高性能模式"""
-        self.high_performance = checked
         
         # 保存设置
         self.save_config()
@@ -14136,8 +15249,7 @@ class ImageViewer(QMainWindow):
             # 显示进度对话框（使用更详细的标签）
             mode_text = "极限增强" if hasattr(self, 'enhance_mode') and self.enhance_mode == "extreme" else (
                 "高级增强" if hasattr(self, 'enhance_mode') and self.enhance_mode == "advanced" else "标准")
-            perf_text = "高性能" if self.high_performance else "高质量"
-            progress = QProgressDialog(f"正在叠加图像... ({mode_text}模式, {perf_text})", "取消", 0, len(self.images), self)
+            progress = QProgressDialog(f"正在叠加图像... ({mode_text}模式)", "取消", 0, len(self.images), self)
             progress.setWindowTitle("图像叠加处理中")
             progress.setWindowModality(Qt.WindowModal)
             progress.show()
@@ -14501,9 +15613,9 @@ class ImageViewer(QMainWindow):
                 )
             else:
                 reply = QMessageBox.question(
-                    self, 
-                    '确认保存', 
-                    f'确定要覆盖保存到原文件吗？\n\n{os.path.basename(original_filename)}\n\n此操作不可撤销！',
+                    self,
+                    _('confirm'),
+                    _('confirm_overwrite').format(filename=os.path.basename(original_filename)),
                     QMessageBox.Yes | QMessageBox.No
                 )
             
@@ -14695,48 +15807,48 @@ class ImageViewer(QMainWindow):
     def show_image_list_dialog(self):
         """显示图片列表对话框"""
         if not self.images:
-            QMessageBox.information(self, "提示", "请先导入图片")
+            QMessageBox.information(self, _("info"), _("please_import_image"))
             return
-            
+
         dialog = QDialog(self)
-        dialog.setWindowTitle("图片列表")
+        dialog.setWindowTitle(_("image_list"))
         dialog.setMinimumSize(500, 400)
-        
+
         layout = QVBoxLayout(dialog)
-        
+
         # 创建图片列表
         list_widget = QListWidget()
         list_widget.setSelectionMode(QListWidget.ExtendedSelection)
-        
+
         # 添加图片到列表
         for i, image in enumerate(self.images):
             filename = os.path.basename(image['filename'])
             item = QListWidgetItem(filename)
             list_widget.addItem(item)
-            
+
         # 选中当前图片
         if self.current_index >= 0 and self.current_index < len(self.images):
             list_widget.setCurrentRow(self.current_index)
-            
+
         layout.addWidget(list_widget)
-        
+
         # 按钮区域
         button_layout = QHBoxLayout()
-        
-        select_btn = QPushButton("选择")
+
+        select_btn = QPushButton(_("select"))
         select_btn.clicked.connect(lambda: self.on_image_selected(list_widget.currentRow()))
         button_layout.addWidget(select_btn)
-        
-        delete_btn = QPushButton("删除选中")
+
+        delete_btn = QPushButton(_("delete_selected"))
         delete_btn.clicked.connect(lambda: self.remove_selected_images_from_dialog(list_widget))
         button_layout.addWidget(delete_btn)
-        
-        cancel_btn = QPushButton("取消")
+
+        cancel_btn = QPushButton(_("cancel"))
         cancel_btn.clicked.connect(dialog.reject)
         button_layout.addWidget(cancel_btn)
-        
+
         layout.addLayout(button_layout)
-        
+
         # 显示对话框
         dialog.exec_()
 
@@ -14745,15 +15857,15 @@ class ImageViewer(QMainWindow):
         selected_rows = [item.row() for item in list_widget.selectedIndexes()]
         if not selected_rows:
             return
-            
+
         # 按索引从大到小排序，以便从后往前删除
         selected_rows.sort(reverse=True)
-        
+
         # 确认删除
         reply = QMessageBox.question(
-            self, 
-            "确认删除", 
-            f"确定要删除选中的 {len(selected_rows)} 张图片吗？",
+            self,
+            _("confirm_delete"),
+            _("confirm_delete_images").format(count=len(selected_rows)),
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.No
         )
@@ -14789,7 +15901,7 @@ class ImageViewer(QMainWindow):
                 # 清空显示
                 self.image_view.scene.clear()
                 self.coord_label.setText("X: 0, Y: 0")
-                self.filename_time_label.setText("尚未加载图片")
+                self.filename_time_label.setText(_("no_image_loaded"))
                 self.disable_buttons()
                 
             # 清理与删除图像相关的点击记录
@@ -14975,7 +16087,7 @@ class ImageViewer(QMainWindow):
         # 获取选中的行
         selected_rows = set(index.row() for index in table.selectedIndexes())
         if not selected_rows:
-            QMessageBox.information(self, "提示", "请先选择要下载的图像")
+            QMessageBox.information(self, _("hint"), _("please_select_image_to_download"))
             return
             
         # 获取下载路径
@@ -15111,7 +16223,7 @@ class ImageViewer(QMainWindow):
                 self.current_index = len(self.images) - 1
                 self.show_current_image()
                 self.enable_buttons()
-                self.status_label.setText(f"新增加载 {new_images_count} 张图像，总计 {len(self.images)} 张")
+                self.status_label.setText(_("new_images_loaded").format(count=new_images_count, total=len(self.images)))
         
         def on_error(error_msg):
             if not progress.wasCanceled():
@@ -15486,7 +16598,7 @@ class ImageViewer(QMainWindow):
         """复制选中行的所有信息到剪贴板"""
         selected_items = table.selectedItems()
         if not selected_items:
-            QMessageBox.information(self, "提示", "请先选择要复制的内容")
+            QMessageBox.information(self, _("hint"), _("please_select_content_to_copy"))
             return
             
         # 获取选中的行
@@ -15519,14 +16631,14 @@ class ImageViewer(QMainWindow):
         clipboard = QApplication.clipboard()
         clipboard.setText(clipboard_text)
         
-        QMessageBox.information(self, "成功", "已复制选中行的所有信息到剪贴板")
+        QMessageBox.information(self, _("success"), _("copied_to_clipboard"))
         
     def download_selected_images(self, table, images):
         """下载选中的图像"""
         # 获取选中的行
         selected_rows = set(index.row() for index in table.selectedIndexes())
         if not selected_rows:
-            QMessageBox.information(self, "提示", "请先选择要下载的图像")
+            QMessageBox.information(self, _("hint"), _("please_select_image_to_download"))
             return
             
         # 获取下载路径
@@ -15867,15 +16979,15 @@ class ImageViewer(QMainWindow):
         
         # 添加到历史记录
         history_record = self.history_logger.add_record(
-            "批量自动直方图", 
-            f"已对 {processed_count} 张FITS图像应用统一的自动直方图处理 (min={min_value:.2f}, max={max_value:.2f})"
+            "批量自动直方图",
+            _("auto_histogram_detail").format(count=processed_count, min_val=min_value, max_val=max_value)
         )
         self.update_history_display(history_record)
-        
+
         # 显示完成消息
         if processed_count > 0:
-            QMessageBox.information(self, "完成", f"已成功对 {processed_count} 张FITS图像应用统一的自动直方图处理！\n统一参数: min={min_value:.2f}, max={max_value:.2f}")
-            self.status_label.setText(f"已对 {processed_count} 张FITS图像应用统一的自动直方图处理")
+            QMessageBox.information(self, _("complete"), _("histogram_success").format(count=processed_count, min_val=min_value, max_val=max_value))
+            self.status_label.setText(_("auto_histogram").format(count=processed_count))
         else:
             QMessageBox.warning(self, "警告", "没有成功处理任何图像！")
     
@@ -16411,13 +17523,13 @@ class ImageViewer(QMainWindow):
             
             # 记录历史
             history_record = self.history_logger.add_record(
-                "批量处理", 
-                f"已对所有 {len(self.images)} 张图像进行水平翻转"
+                "批量处理",
+                _("flipped_all_horizontal").format(count=len(self.images))
             )
             self.update_history_display(history_record)
-            
+
             # 显示状态栏消息
-            self.status_label.setText(f"已对所有 {len(self.images)} 张图像进行水平翻转")
+            self.status_label.setText(_("flipped_all_horizontal").format(count=len(self.images)))
             
         except Exception as e:
             print(f"水平翻转图像时出错: {e}")
@@ -16559,13 +17671,13 @@ class ImageViewer(QMainWindow):
             
             # 记录历史
             history_record = self.history_logger.add_record(
-                "批量处理", 
-                f"已对所有 {len(self.images)} 张图像进行垂直翻转"
+                "批量处理",
+                _("flipped_all_vertical").format(count=len(self.images))
             )
             self.update_history_display(history_record)
-            
+
             # 显示状态栏消息
-            self.status_label.setText(f"已对所有 {len(self.images)} 张图像进行垂直翻转")
+            self.status_label.setText(_("flipped_all_vertical").format(count=len(self.images)))
             
         except Exception as e:
             print(f"垂直翻转图像时出错: {e}")
@@ -16660,17 +17772,17 @@ class ImageViewer(QMainWindow):
             
             # 重新显示当前图像
             self.show_current_image()
-            
+
             # 记录历史
             history_record = self.history_logger.add_record(
-                "旋转", 
-                "已向左旋转当前图像90度"
+                "批量处理",
+                _("rotated_all_90_ccw").format(count=len(self.images))
             )
             self.update_history_display(history_record)
-            
+
             # 显示状态栏消息
-            self.statusBar().showMessage("已向左旋转当前图像90度")
-            
+            self.status_label.setText(_("rotated_all_90_ccw").format(count=len(self.images)))
+
         except Exception as e:
             print(f"向左旋转图像时出错: {e}")
             import traceback
@@ -16764,17 +17876,17 @@ class ImageViewer(QMainWindow):
             
             # 重新显示当前图像
             self.show_current_image()
-            
+
             # 记录历史
             history_record = self.history_logger.add_record(
-                "旋转", 
-                "已向右旋转当前图像90度"
+                "批量处理",
+                _("rotated_all_90_cw").format(count=len(self.images))
             )
             self.update_history_display(history_record)
-            
+
             # 显示状态栏消息
-            self.statusBar().showMessage("已向右旋转当前图像90度")
-            
+            self.status_label.setText(_("rotated_all_90_cw").format(count=len(self.images)))
+
         except Exception as e:
             print(f"向右旋转图像时出错: {e}")
             import traceback
@@ -16927,10 +18039,10 @@ class MPCReportDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.mpc_data_file = "mpc_report_data.json"
-        self.setWindowTitle("MPC报告")
+        self.setWindowTitle(_("mpc_report_dialog"))
         self.resize(800, 600)
         self.setWindowFlags(Qt.Window | Qt.WindowStaysOnTopHint)
-        
+
         self.init_ui()
         self.load_mpc_data_from_file()
     
@@ -16940,7 +18052,7 @@ class MPCReportDialog(QDialog):
         # 工具栏
         toolbar = QHBoxLayout()
         
-        save_btn = QPushButton("保存")
+        save_btn = QPushButton(_("save"))
         save_btn.setObjectName("save_btn")
         save_btn.setStyleSheet("""
             QPushButton {
@@ -16960,7 +18072,7 @@ class MPCReportDialog(QDialog):
         save_btn.clicked.connect(self.save_data_to_file)
         toolbar.addWidget(save_btn)
         
-        clear_btn = QPushButton("清空")
+        clear_btn = QPushButton(_("clear"))
         clear_btn.setStyleSheet("""
             QPushButton {
                 padding: 8px 16px;
@@ -17106,12 +18218,12 @@ class MPCReportDialog(QDialog):
             self.save_thread.start()
             
         except Exception as e:
-            QMessageBox.critical(self, "错误", f"保存失败: {str(e)}")
+            QMessageBox.critical(self, _("error"), _("save_failed").format(error=str(e)))
             # 恢复按钮状态
             save_btn = self.findChild(QPushButton, "save_btn")
             if save_btn:
                 save_btn.setEnabled(True)
-                save_btn.setText("保存")
+                save_btn.setText(_("save"))
     
     def on_save_finished(self, success, message, sorted_lines):
         """保存完成回调"""
@@ -17125,9 +18237,9 @@ class MPCReportDialog(QDialog):
             # 更新文本框显示排序后的数据
             self.data_text.setPlainText('\n'.join(sorted_lines))
             self.status_label.setText(f"已保存 {len(sorted_lines)} 条记录")
-            QMessageBox.information(self, "成功", f"数据已保存到 {self.mpc_data_file}")
+            QMessageBox.information(self, _("success"), f"数据已保存到 {self.mpc_data_file}")
         else:
-            QMessageBox.critical(self, "错误", f"保存失败: {message}")
+            QMessageBox.critical(self, _("error"), _("save_failed").format(error=message))
     
     def clear_data(self):
         """清空MPC数据"""
