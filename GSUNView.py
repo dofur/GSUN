@@ -231,9 +231,9 @@ TRANSLATIONS = {
         "action": "操作",
         "reset_to_default": "恢复默认",
         "language": "语言/language:",
-        "author_info": "作者：Guoyou Sun(孙国佑)",
-        "author_label": "作者: Guoyou Sun(孙国佑) 正式版 V4.1",
-        "website_label": "官网: http://sunguoyou.lamost.org",
+        "author_info": "作者/Author：Guoyou Sun(孙国佑)",
+        "author_label": "作者/Author: Guoyou Sun(孙国佑) V4.1",
+        "website_label": "官网/website: http://sunguoyou.lamost.org",
         "zoom_label": "缩放: {scale}x",
         "save": "保存",
         "cancel": "取消",
@@ -10434,6 +10434,7 @@ class ImageViewer(QMainWindow):
             config = {
                 "last_directory": self.current_directory,
                 "play_speed": self.current_play_speed,
+                "language": getattr(QApplication.instance(), 'current_language', 'zh_CN'),
                 "stacking": {
                     "brightness": self.brightness_value,
                     "contrast": self.contrast_value,
