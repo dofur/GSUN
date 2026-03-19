@@ -2942,7 +2942,7 @@ class SettingsDialog(QDialog):
         layout.addWidget(shortcut_button)
         
         # 作者信息
-        author_label = QLabel("作者：Guoyou Sun(孙国佑)")
+        author_label = QLabel("作者/Author：Guoyou Sun(孙国佑)")
         author_label.setAlignment(Qt.AlignCenter)
         font = author_label.font()
         font.setBold(True)
