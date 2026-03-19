@@ -1,132 +1,162 @@
-# GSUN View（星视） - 天文图像处理软件
+# GSUN View (Xing Shi) - Astronomical Image Processing Software
 
-## 项目简介
+## Project Introduction
 
-GSUN View（星视）是一款专业的天文图像处理软件，由孙国佑（Guoyou Sun）开发。该软件专门用于天文科学研究和教育目的，提供强大的FITS文件处理、图像对齐、平场校正和星表采集功能。
-软件初衷在业余巡天中替代Astrometrica，comethunter，MaxIm等软件，可以做到一个软件实现绝大部分巡天看图和查验工作。
-PS:requirements.txt安装可以用镜像，速度更快，pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+GSUN View (Xing Shi) is a professional astronomical image processing software developed by Guoyou Sun. This software is specifically designed for astronomical scientific research and educational purposes, providing powerful FITS file processing, image alignment, flat field correction, and catalog collection functions.
 
-**作者**: 孙国佑 (Guoyou Sun)  
-**网站**: http://sunguoyou.lamost.org/  
-**版本**: 3.1  
+The software was originally designed to replace Astrometrica, Comethunter, and MaxIm in amateur sky surveys, enabling most sky survey viewing and verification tasks in a single software.
+PS: For faster installation of requirements.txt, you can use a mirror: pip install -r requirements.txt
+**Author**: Guoyou Sun  
+**Website**: http://sunguoyou.lamost.org/  
+**Version**: 4.1
 
- 
-尚未开发功能
-1，测光星等获取。（本地化星表转换）
-2，优化伪平场和对齐功能（待优化），增加伪平场和对齐功能的应用场景，一键处理对齐和伪平场功能（后期实现一键对齐-伪平场-解析完整链条，替代TYCHO）。
-3，待测光功能实现后，双击获取目标详情（星等，坐标，时间，图号，fwhn，等等），跳出详情框，可获取MPC 80字符标准数据行。查询功能，集成到详情框中。
-希望有能力的爱好者，帮忙一起优化功能，添加新功能。
+## Features Under Development
+1. Optimization of pseudo-flat field and alignment functions, adding application scenarios for one-click processing of alignment and pseudo-flat field (later implementation of one-click alignment-pseudo-flat field-astrometric solution complete chain, replacing TYCHO)
+2. Double-click to get target details (magnitude, coordinates, time, image number, FWHM, etc.), pop up detail box, and obtain MPC 80-character standard data line. Query function integrated into detail box.
 
-小行星，彗星数据库下载
-彗星数据库：https://minorplanetcenter.net/iau/MPCORB/CometEls.txt
-小行星数据库：http://mpcorb.klet.org/  下载MPCORB.DAT（或者把MPCORB.DAT.gz，MPCORB.ZIP 解压）
-设置-小天体数据库，设置数据库路径，把CometEls.txt和MPCORB.DAT放在设置的目录中。
+We hope capable enthusiasts can help optimize functions and add new features together.
 
-在线解析API
-需要自行注册申请http://nova.astrometry.net/ 的API，修改设置中的API。使用说明：https://nova.astrometry.net/api_help。
+## Asteroid and Comet Database Download
+- Comet Database: https://minorplanetcenter.net/iau/MPCORB/CometEls.txt
+- Asteroid Database: http://mpcorb.klet.org/ Download MPCORB.DAT (or extract MPCORB.DAT.gz, MPCORB.ZIP)
+- Settings - Minor Body Database: Set the database path and place CometEls.txt and MPCORB.DAT in the configured directory.
 
-本地解析
-本地解析需要调用ASTAP，下载及说明：http://www.hnsky.org/astap.htm。需要安装数据库如D20。在软件ASTAP配置中，配置软件astap.exe路径。软件下载，数据库下载地址在说明页面中都有，数据库下载后安装到ASTAP主目录，所有数据库文件和astap.exe放在一个目录中，不要单独一个目录。
+## Online Astrometric Solution API
+You need to register and apply for an API from http://nova.astrometry.net/ and modify the API in settings. Usage instructions: https://nova.astrometry.net/api_help
 
-### 版本更新
+## Local Astrometric Solution
+Local solution requires calling ASTAP. Download and instructions: http://www.hnsky.org/astap.htm. You need to install databases such as D20. In the software ASTAP configuration, configure the path to astap.exe. Software download and database download addresses are available on the instruction page. After downloading the database, install it to the ASTAP main directory. All database files and astap.exe should be placed in the same directory, not in separate directories.
 
-4.0正式版 2026-01-10
-增加批量测光功能，支持恒星及运动天体批量测光；修复部分图片导入闪退问题；增加导入变星功能；增加图片剪切功能
+## Version Updates
 
-3.1正式版 2026-01-05
-增加本地解析功能；修复对齐bug；合并小行星/彗星导入按钮
+### v4.1 (2026-03-19)
+- Added bilingual interface support (Chinese/English)
+- Optimized batch photometry function
+- Fixed image flip marker following issues
+- Added 90-degree rotation function
+- Improved translation system
 
-3.0正式版 2026-01-03
-增加对齐，对齐-相减，伪平场-对齐，伪平场-对齐-相减功能；优化搜索功能（仅开放给PSP管理员）；自定义快捷键；修改对齐bug；修复小行星等标记翻转不跟随
+### v4.0 Official Release (2026-01-10)
+- Added batch photometry function, supporting batch photometry of stars and moving objects
+- Fixed some image import crash issues
+- Added variable star import function
+- Added image cropping function
 
-2.1版本更新功能
-修复翻转，坐标错误bug；优化Screen Stretch的卡顿问题；图片导入效率问题，部分图片导入效果不佳问题；优化伪平场功能，目前基本实现秒处理；优化对齐功能，增加单独对齐功能（导入多张同天区图片，实现对齐）；增加多张天区图片解析成功，自动写入多图wcs信息；以及一些小错误。
+### v3.1 Official Release (2026-01-05)
+- Added local astrometric solution function
+- Fixed alignment bugs
+- Merged asteroid/comet import buttons
 
-2.0版本更新功能
-1，小行星/彗星数据库导入功能（需要再设置中设置小行星数据库MPCORB.DAT所在文件夹，MPCORB.DAT下载地址http://mpcorb.klet.org/。彗星数据库: http://www.minorplanetcenter.net/iau/MPCORB/CometEls.txt，CometEls.txt下载后放在同一目录，可在设置中设置显示小行星的极限星等，强烈建议设置，导入全部小行星容易卡死。）
-2，F6 在线盲解功能
-3，图片放大显示增加拖动条
-4，自动动画功能（设置历史图库，新图文件夹，可以自动对齐制作动画。历史图库需要自行积累，会根据识别相同文件名来生成动画。）
+### v3.0 Official Release (2026-01-03)
+- Added alignment, alignment-subtraction, pseudo-flat field-alignment, pseudo-flat field-alignment-subtraction functions
+- Optimized search function (only open to PSP administrators)
+- Customizable shortcuts
+- Modified alignment bugs
+- Fixed asteroid and other marker flip issues
 
-----------
-## 主要功能
+### v2.1 Updates
+- Fixed flip and coordinate error bugs
+- Optimized Screen Stretch lag issues
+- Image import efficiency issues, some image import quality issues
+- Optimized pseudo-flat field function, now basically achieves second-level processing
+- Optimized alignment function, added separate alignment function (import multiple images of the same sky area to achieve alignment)
+- Added automatic writing of multi-image WCS information after successful astrometric solution of multiple sky area images
+- And some minor errors
 
-### 1. FITS文件处理
-- 支持标准FITS格式天文图像文件
-- 自动提取WCS坐标信息（仅限星明PSP数据）
-- 图像数据显示和可视化
-- 多种拉伸和色彩映射选项
-- 图像旋转、翻转等基本操作
+### v2.0 Updates
+1. Asteroid/Comet database import function (need to set the folder where the asteroid database MPCORB.DAT is located in settings. MPCORB.DAT download address: http://mpcorb.klet.org/. Comet database: http://www.minorplanetcenter.net/iau/MPCORB/CometEls.txt. After downloading CometEls.txt, place it in the same directory. You can set the limiting magnitude for displaying asteroids in settings. It is strongly recommended to set this, as importing all asteroids can easily cause crashes.)
+2. F6 Online blind astrometric solution function
+3. Image zoom display added drag bar
+4. Automatic animation function (set historical image library and new image folder for automatic alignment and animation creation. Historical image library needs to be accumulated by yourself, and animations will be generated based on recognizing the same file names.)
 
-### 2. 图像对齐功能
-- **对齐**：以第一张图为基准对齐其他图片
-- **对齐-相减**：对齐后进行图像相减，用于发现移动天体
-- **伪平场-对齐**：先进行伪平场校正，再对齐
-- **伪平场-对齐-相减**：完整的处理链条（伪平场→对齐→相减）
-- 批量图像对齐处理
-- 基于星点匹配的精确对齐
-- 支持多帧图像序列处理
+---
 
-### 3. 平场校正
-- **伪平场**：单张平场校正
-- **批量伪平场**：批量平场校正处理
-- 暗场和偏置场校正支持
-- 快速处理，基本实现秒处理
+## Main Features
 
-### 4. 天文测量解析
-- **在线解析**（F6）：通过nova.astrometry.net进行在线盲解
-- **本地解析**（F7）：调用ASTAP进行本地解析
-- 自动覆盖WCS信息
+### 1. FITS File Processing
+- Support for standard FITS format astronomical image files
+- Automatic extraction of WCS coordinate information (limited to Xingming PSP data)
+- Image data display and visualization
+- Multiple stretching and color mapping options
+- Image rotation, flipping, and other basic operations
 
-### 5. 小行星/彗星数据库
-- 支持导入MPCORB.DAT小行星数据库
-- 支持导入CometEls.txt彗星数据库
-- 可设置显示小行星的极限星等
-- 自动标记小行星和彗星位置
+### 2. Image Alignment Function
+- **Alignment**: Align other images using the first image as reference
+- **Alignment-Subtraction**: Perform image subtraction after alignment for discovering moving objects
+- **Pseudo-Flat Field-Alignment**: Perform pseudo-flat field correction first, then align
+- **Pseudo-Flat Field-Alignment-Subtraction**: Complete processing chain (Pseudo-Flat Field → Alignment → Subtraction)
+- Batch image alignment processing
+- Precise alignment based on star point matching
+- Support for multi-frame image sequence processing
 
-### 6. 报告功能
-- **报告定位**（F4）：定位报告功能
-- **生成报告**（F8）：生成观测报告
-- 自动解析报告数据
-- 支持MPC 80字符标准数据行
+### 3. Flat Field Correction
+- **Pseudo-Flat Field**: Single flat field correction
+- **Batch Pseudo-Flat Field**: Batch flat field correction processing
+- Dark field and bias field correction support
+- Fast processing, basically achieving second-level processing
 
-### 7. 星表采集（只针对星明管理员）
-- 自动从中国虚拟天文台等数据源采集星表数据
-- 支持按年份和月份筛选数据
-- 数据表格化显示和导出
+### 4. Astrometric Solution
+- **Online Solution** (F6): Online blind astrometric solution through nova.astrometry.net
+- **Local Solution** (F7): Local astrometric solution using ASTAP
+- Automatic WCS information overlay
 
-### 8. 可视化界面
-- 基于PyQt5的现代化图形界面
-- 多标签页工作区
-- 实时图像预览和处理
-- 历史操作记录
-- 自定义快捷键支持
-- 自动动画功能
-- 图像叠加模式
+### 5. Asteroid/Comet Database
+- Support for importing MPCORB.DAT asteroid database
+- Support for importing CometEls.txt comet database
+- Configurable limiting magnitude for displaying asteroids
+- Automatic marking of asteroid and comet positions
 
-## 系统要求
+### 6. Report Function
+- **Report Positioning** (F4): Report positioning function
+- **Generate Report** (F8): Generate observation reports
+- Automatic report data parsing
+- Support for MPC 80-character standard data lines
 
-### 硬件要求
-- 处理器: Intel Core i5 或同等性能以上
-- 内存: 8GB RAM 或更多（推荐16GB）
-- 存储空间: 至少1GB可用空间
-- 显示器: 1920x1080分辨率或更高
+### 7. Catalog Collection (Only for Xingming Administrators)
+- Automatic collection of catalog data from China-VO and other data sources
+- Support for filtering data by year and month
+- Data tabular display and export
 
-### 软件要求
-- 操作系统: Windows 10/11, Linux, macOS
-- Python: 3.8 或更高版本
+### 8. Batch Photometry Function
+- **Aperture Photometry**: Support for circular aperture photometry with adjustable aperture radius, inner radius, and outer radius
+- **Reference Star Selection**: Support for manual selection of reference stars, automatic acquisition of UCAC4 magnitudes
+- **Target Star Measurement**: Support for measuring target star magnitudes and flux
+- **Batch Processing**: Support for batch photometry of multiple images
+- **Result Export**: Photometry results can be exported in CSV format
+- **Real-time Display**: Photometry results displayed in real-time, including magnitude, flux, signal-to-noise ratio, and other parameters
 
-## 安装指南
+### 9. Visualization Interface
+- Modern graphical interface based on PyQt5
+- Multi-tab workspace
+- Real-time image preview and processing
+- Historical operation records
+- Customizable shortcut support
+- Automatic animation function
+- Image stacking mode
 
-### 方法一：使用预配置环境（推荐）
+## System Requirements
 
-1. 确保已安装Python 3.8+ 
-2. 安装依赖包：
+### Hardware Requirements
+- Processor: Intel Core i5 or equivalent performance or higher
+- Memory: 8GB RAM or more (16GB recommended)
+- Storage: At least 1GB available space
+- Display: 1920x1080 resolution or higher
+
+### Software Requirements
+- Operating System: Windows 10/11, Linux, macOS
+- Python: 3.8 or higher
+
+## Installation Guide
+
+### Method 1: Using Pre-configured Environment (Recommended)
+
+1. Ensure Python 3.8+ is installed
+2. Install dependencies:
    ```bash
    pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
    ```
 
-### 方法二：手动安装依赖
+### Method 2: Manual Installation
 
 ```bash
 pip install numpy==1.24.3 -i https://pypi.tuna.tsinghua.edu.cn/simple
@@ -146,112 +176,116 @@ pip install scikit-image==0.21.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install opencv-python==4.8.0.76 -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-## 快速开始
+## Quick Start
 
-### Windows用户
-1. 双击运行 `启动GSUNView.bat` 文件
-2. 或使用命令行：
+### Windows Users
+1. Double-click to run `启动GSUNView.bat` file
+2. Or use command line:
    ```bash
    python GSUNView.py
    ```
 
-### Linux/macOS用户
+### Linux/macOS Users
 ```bash
 python3 GSUNView.py
 ```
 
-## 使用说明
+## Usage Instructions
 
-### 基本操作流程
+### Basic Operation Process
 
-1. **打开图像文件**
-   - 点击"文件" → "打开" 选择FITS文件
-   - 支持多选和批量处理
+1. **Open Image Files**
+   - Click "File" → "Open" to select FITS files
+   - Support for multiple selection and batch processing
 
-2. **图像处理**
-   - 使用工具栏调整图像显示参数
-   - 应用不同的拉伸和色彩映射
-   - 查看图像元数据和WCS信息
+2. **Image Processing**
+   - Use toolbar to adjust image display parameters
+   - Apply different stretching and color mapping
+   - View image metadata and WCS information
 
-3. **批量处理**
-   - 使用"批量对齐"功能处理图像序列
-   - 使用"平场校正"功能校正图像
-   - 监控处理进度和结果
+3. **Batch Processing**
+   - Use "Batch Alignment" function to process image sequences
+   - Use "Flat Field Correction" function to correct images
+   - Monitor processing progress and results
 
-4. **星表采集**（暂不开放）
-   - 打开"星表采集"对话框
-   - 选择数据源和时间范围
-   - 开始采集并查看结果
+4. **Catalog Collection** (Not yet open)
+   - Open "Catalog Collection" dialog
+   - Select data source and time range
+   - Start collection and view results
 
-### 快捷键
+### Shortcuts
 
-#### 文件操作
-- **F1** : 导入图片
-- **Ctrl+S** : 保存图片
+#### File Operations
+- **F1**: Import images
+- **Ctrl+S**: Save image
 
-#### 图像导航
-- **Left** : 上一张图片
-- **Right** : 下一张图片
+#### Image Navigation
+- **Left**: Previous image
+- **Right**: Next image
 
-#### 图像处理
-- **Ctrl+1** : 切换鼠标滚轮功能（切换图片/放大图片）
-- **Ctrl+2** : 水平翻转图像
-- **Ctrl+3** : 垂直翻转图像
-- **Ctrl+4** : 向左旋转90度
-- **Ctrl+5** : 向右旋转90度
-- **Alt+D** : 自动直方图调整
+#### Image Processing
+- **Ctrl+1**: Switch mouse wheel function (switch image/zoom image)
+- **Ctrl+2**: Horizontal flip image
+- **Ctrl+3**: Vertical flip image
+- **Ctrl+4**: Rotate left 90 degrees
+- **Ctrl+5**: Rotate right 90 degrees
+- **Alt+D**: Auto histogram adjustment
 
-#### 核心功能
-- **F2** : 播放/暂停动画
-- **F4** : 报告定位功能
-- **F5** : 叠加图像模式
-- **F6** : 在线解析功能（nova.astrometry.net）
-- **F7** : 本地解析功能（ASTAP）
-- **F8** : 生成报告
-- **F9** : 导入小行星/彗星数据库
+#### Core Functions
+- **F2**: Play/Pause animation
+- **F4**: Report positioning function
+- **F5**: Stack image mode
+- **F6**: Online astrometric solution (nova.astrometry.net)
+- **F7**: Local astrometric solution (ASTAP)
+- **F8**: Generate report
+- **F9**: Import asteroid/comet database
 
-#### 说明
-- 快捷键可以通过 `shortcuts.json` 配置文件自定义
-- F1键用于导入图片，不显示帮助文档
-- F6和F7分别对应在线和本地两种解析方式
+#### Notes
+- Shortcuts can be customized through `shortcuts.json` configuration file
+- F1 key is used for importing images, not displaying help documentation
+- F6 and F7 correspond to online and local astrometric solution methods respectively
 
-## 文件结构
+## File Structure
 
 ```
 GSUN Check/
-├── GSUNView.py                 # 主程序文件
-├── app.py                      # 图像处理核心模块
-├── BatchAlignThread.py         # 批量对齐线程
-├── BatchFlatfieldThread.py     # 批量平场线程
-├── SingleFlatfieldThread.py    # 单张平场线程
-├── catalog_collector.py        # 星表采集模块
-├── coordinate_parser.py        # 坐标解析器
-├── history_logger.py           # 历史记录器
-├── screen_stretch.py           # 屏幕拉伸处理
-├── image_algorithms.py         # 图像算法模块
-├── asteroid_worker.py          # 小行星处理模块
-├── astrometric_solver.py       # 天文测量解析器
-├── config.ini                  # 配置文件
-├── catalog_collector_config.ini # 星表采集配置
-├── image_viewer_config.json    # 图像查看器配置
-├── screen_stretch_config.json  # 屏幕拉伸配置
-├── shortcuts.json              # 快捷键配置
-├── requirements.txt            # Python依赖包列表
-├── logo.jpg                    # 程序图标
-└── 启动GSUNView.bat           # Windows启动脚本
+├── GSUNView.py                 # Main program file
+├── photometry_module.py        # Batch photometry module
+├── app.py                      # Image processing core module
+├── BatchAlignThread.py         # Batch alignment thread
+├── BatchAlignNewThread.py      # New batch alignment thread
+├── BatchFlatfieldThread.py     # Batch flat field thread
+├── SingleFlatfieldThread.py    # Single flat field thread
+├── ListFlatfieldThread.py      # List flat field thread
+├── catalog_collector.py        # Catalog collection module
+├── coordinate_parser.py        # Coordinate parser
+├── history_logger.py           # History logger
+├── screen_stretch.py           # Screen stretch processing
+├── image_algorithms.py         # Image algorithm module
+├── asteroid_worker.py          # Asteroid processing module
+├── astrometric_solver.py       # Astrometric solver
+├── catalog_query.py            # Catalog query module
+├── config.ini                  # Configuration file
+├── catalog_collector_config.ini # Catalog collection configuration
+├── image_viewer_config.json    # Image viewer configuration
+├── screen_stretch_config.json  # Screen stretch configuration
+├── shortcuts.json              # Shortcut configuration
+├── requirements.txt            # Python dependency list
+├── logo.jpg                    # Program icon
+└── 启动GSUNView.bat           # Windows startup script
 ```
 
-## 配置说明
+## Configuration Instructions
 
-### config.ini 配置文件
+### config.ini Configuration File
 
-程序会自动生成配置文件，包含以下主要设置：
+The program will automatically generate a configuration file containing the following main settings:
 
 ```ini
 [database]
 path = H:\catalog_grappa3e
 
-[coordinates]
+coordinates]
 center_ra = 0.0
 center_dec = 0.0
 fov_width = 1.0
@@ -260,82 +294,67 @@ pixel_scale = 1.0
 search_radius = 0.5
 ```
 
-### 自定义配置
+### Custom Configuration
 
-用户可以编辑 `config.ini` 文件来自定义程序行为，包括：
-- 数据库路径
-- 默认坐标设置
-- 图像处理参数
-- 网络连接设置
+Users can edit the `config.ini` file to customize program behavior, including:
+- Database path
+- Default coordinate settings
+- Image processing parameters
+- Network connection settings
 
-## 技术支持
+## Technical Support
 
-### 常见问题
+### FAQ
 
-1. **无法打开FITS文件**
-   - 检查文件格式是否正确
-   - 确保有足够的读取权限
+1. **Cannot open FITS files**
+   - Check if the file format is correct
+   - Ensure sufficient read permissions
 
-2. **依赖包安装失败**
-   - 尝试使用conda环境
-   - 或使用较新版本的Python
+2. **Dependency package installation failed**
+   - Try using conda environment
+   - Or use a newer version of Python
 
-3. **图像显示异常**
-   - 检查图像数据是否有效
-   - 尝试调整显示参数
+3. **Image display abnormal**
+   - Check if image data is valid
+   - Try adjusting display parameters
 
-### 获取帮助
+### Get Help
 
-- 查看程序内置帮助文档
-- 访问作者网站: http://sunguoyou.lamost.org/
-- 查看日志文件获取详细错误信息
+- View built-in help documentation
+- Visit author's website: http://sunguoyou.lamost.org/
+- Check log files for detailed error information
 
-## 更新日志
+## Update Log
+
+### v4.1 (2026-03-19)
+- Added bilingual interface support (Chinese/English)
+- Added batch photometry function
+- Fixed image import crash issues
+- Added variable star import function
+- Added image cropping function
+
+### v4.0 (2026-01-10)
+- Added batch photometry function
+- Fixed some image import crash issues
+- Added variable star import function
+- Added image cropping function
 
 ### v3.1 (2026-01-05)
-- 增加本地解析功能
-- 修复对齐bug
-- 合并小行星/彗星导入按钮
+- Added local astrometric solution function
+- Fixed alignment bugs
+- Merged asteroid/comet import buttons
 
-### v3.0 (2026-01-03)
-- 增加对齐，对齐-相减，伪平场-对齐，伪平场-对齐-相减功能
-- 优化搜索功能（仅开放给PSP管理员）
-- 自定义快捷键
-- 修改对齐bug
-- 修复小行星等标记翻转不跟随
+## Copyright Notice
 
-### v2.1
-- 修复翻转，坐标错误bug
-- 优化Screen Stretch的卡顿问题
-- 图片导入效率问题，部分图片导入效果不佳问题
-- 优化伪平场功能，目前基本实现秒处理
-- 优化对齐功能，增加单独对齐功能（导入多张同天区图片，实现对齐）
-- 增加多张天区图片解析成功，自动写入多图wcs信息
-- 以及一些小错误
+Copyright © 2025-2030 Guoyou Sun (Sun Guoyou, Xingti Shoucangjia)
 
-### v2.0
-- 小行星/彗星数据库导入功能（需要再设置中设置小行星数据库MPCORB.DAT所在文件夹，MPCORB.DAT下载地址http://mpcorb.klet.org/。彗星数据库: http://www.minorplanetcenter.net/iau/MPCORB/CometEls.txt，CometEls.txt下载后放在同一目录，可在设置中设置显示小行星的极限星等，强烈建议设置，导入全部小行星容易卡死。）
-- F6 在线盲解功能
-- 图片放大显示增加拖动条
-- 自动动画功能（设置历史图库，新图文件夹，可以自动对齐制作动画。历史图库需要自行积累，会根据识别相同文件名来生成动画。）
-
-### v1.0 (2025)
-- 初始版本发布
-- 基本FITS文件处理功能
-- 图像对齐和平场校正
-- 星表采集功能
-- 图形用户界面
-
-## 许可证
-
-版权所有 © 2025-2030 孙国佑 (Guoyou Sun)
-
-本软件为原创作品，仅用于天文科学研究和教育目的。未经作者明确许可，禁止商业使用、复制、分发或修改本软件。
-
-## 免责声明
-
-作者对使用本软件导致的任何直接或间接损失不承担责任。使用者应自行承担风险。
+**Disclaimer**:
+This software is an original work for astronomical scientific research and educational purposes only.
+Commercial use, copying, distribution, or modification of this software is prohibited without explicit permission from the author.
+The author is not responsible for any direct or indirect losses caused by using this software.
 
 ---
 
-*最后更新: 2025年*
+**Developer**: Guoyou Sun (Xingti Shoucangjia)  
+**Website**: http://sunguoyou.lamost.org/  
+**Version**: 4.1
