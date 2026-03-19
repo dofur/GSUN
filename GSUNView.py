@@ -232,6 +232,9 @@ TRANSLATIONS = {
         "reset_to_default": "恢复默认",
         "language": "语言/language:",
         "author_info": "作者：Guoyou Sun(孙国佑)",
+        "author_label": "作者: Guoyou Sun(孙国佑) 正式版 V4.1",
+        "website_label": "官网: http://sunguoyou.lamost.org",
+        "zoom_label": "缩放: {scale}x",
         "save": "保存",
         "cancel": "取消",
         "loading": "加载中",
@@ -490,6 +493,7 @@ TRANSLATIONS = {
         "no_valid_time_info": "所有记录均无有效时间信息，无法生成标准格式报告！",
         "report_generated": "报告已生成！",
         "generate_report_error": "生成报告时出错: {error}",
+        "click_generate_report": "点击\"生成报告\"按钮生成报告内容",
         "apply_processing_error": "应用图像处理时出错: {error}",
         "no_valid_images": "没有加载任何有效图像！",
         "database_path_not_set": "未找到本地MPCORB.DAT或CometEls.txt，请在设置中指定小天体数据库路径",
@@ -628,6 +632,9 @@ TRANSLATIONS = {
         "reset_to_default": "Reset to Default",
         "language": "Language:",
         "author_info": "Author: Guoyou Sun",
+        "author_label": "Author: Guoyou Sun Official V4.1",
+        "website_label": "Website: http://sunguoyou.lamost.org",
+        "zoom_label": "Zoom: {scale}x",
         "save": "Save",
         "cancel": "Cancel",
         "loading": "Loading",
@@ -885,6 +892,7 @@ TRANSLATIONS = {
         "no_valid_time_info": "All records lack valid time information, cannot generate standard format report!",
         "report_generated": "Report generated!",
         "generate_report_error": "Error generating report: {error}",
+        "click_generate_report": "Click \"Generate Report\" button to generate report content",
         "apply_processing_error": "Error applying image processing: {error}",
         "no_valid_images": "No valid images loaded!",
         "database_path_not_set": "Local MPCORB.DAT or CometEls.txt not found, please specify minor body database path in settings",
@@ -1646,7 +1654,7 @@ class StarInfoDialog(QDialog):
         
         # MPC数据保存按钮
         self.mpc_save_btn = QPushButton(_("save"))
-        self.mpc_save_btn.setFixedWidth(35)
+        self.mpc_save_btn.setFixedWidth(50)
         self.mpc_save_btn.setStyleSheet("""
             QPushButton {
                 padding: 2px 5px;
@@ -7600,12 +7608,12 @@ class ImageViewer(QMainWindow):
         info_layout.setSpacing(0)
         
         # 作者信息
-        author_label = QLabel("作者: Guoyou Sun(孙国佑) 正式版 V4.1")
+        author_label = QLabel(_("author_label"))
         author_label.setStyleSheet("font-size: 8pt; color: black;")
         info_layout.addWidget(author_label)
-        
+
         # 官网链接
-        website_label = QLabel('<a href="http://sunguoyou.lamost.org/" style="color: blue; text-decoration: none;">官网: http://sunguoyou.lamost.org</a>')
+        website_label = QLabel(f'<a href="http://sunguoyou.lamost.org/" style="color: blue; text-decoration: none;">{_("website_label")}</a>')
         website_label.setOpenExternalLinks(True)
         website_label.setStyleSheet("font-size: 8pt;")
         info_layout.addWidget(website_label)
@@ -7630,7 +7638,7 @@ class ImageViewer(QMainWindow):
         main_layout.addWidget(self.image_view)
         
         # 缩放比例显示标签
-        self.zoom_label = QLabel("缩放: 1.0x")
+        self.zoom_label = QLabel(_("zoom_label").format(scale="1.0"))
         self.zoom_label.setAlignment(Qt.AlignRight)
         self.zoom_label.setStyleSheet("color: white; background-color: rgba(0, 0, 0, 128); padding: 5px;")
         self.zoom_label.setFixedSize(100, 30)
@@ -8295,7 +8303,7 @@ class ImageViewer(QMainWindow):
     
     def update_zoom_label(self, zoom_factor):
         """更新缩放比例标签"""
-        self.zoom_label.setText(f'缩放: {zoom_factor:.1f}x')
+        self.zoom_label.setText(_("zoom_label").format(scale=f"{zoom_factor:.1f}"))
     
     def on_image_clicked(self, pos):
         """处理图像点击事件 (已禁用删除标记点功能)"""
@@ -8368,7 +8376,7 @@ class ImageViewer(QMainWindow):
         """生成报告"""
         try:
             if not self.images or not self.click_records:
-                QMessageBox.warning(self, "警告", "没有可用的记录！")
+                QMessageBox.warning(self, _("warning"), _("no_records_available"))
                 return
                 
             # 检查是否有带有时间信息的记录
@@ -8376,12 +8384,12 @@ class ImageViewer(QMainWindow):
                                if record['time'] != "时间信息未知"]
             
             if not records_with_time:
-                QMessageBox.warning(self, "警告", "所有记录均无有效时间信息，无法生成标准格式报告！")
+                QMessageBox.warning(self, _("warning"), _("no_valid_time_info"))
                 # 显示一个只包含坐标的简单报告
                 simple_report = self.generate_simple_report()
                 # 查找报告对话框中的文本编辑器
                 for widget in QApplication.topLevelWidgets():
-                    if isinstance(widget, QDialog) and widget.windowTitle() == "报告展示":
+                    if isinstance(widget, QDialog) and widget.windowTitle() == _("report_display"):
                         for child in widget.findChildren(QTextEdit):
                             child.setPlainText(simple_report)
                             break
@@ -8443,16 +8451,16 @@ class ImageViewer(QMainWindow):
             
             # 查找报告对话框中的文本编辑器
             for widget in QApplication.topLevelWidgets():
-                if isinstance(widget, QDialog) and widget.windowTitle() == "报告展示":
+                if isinstance(widget, QDialog) and widget.windowTitle() == _("report_display"):
                     for child in widget.findChildren(QTextEdit):
                         child.setPlainText(report_content)
                         break
                     break
-            
-            QMessageBox.information(self, "成功", "报告已生成！")
+
+            QMessageBox.information(self, _("success"), _("report_generated"))
         except Exception as e:
             print(f"生成报告时出错: {e}")
-            QMessageBox.critical(self, "错误", f"生成报告时出错: {e}")
+            QMessageBox.critical(self, _("error"), _("generate_report_error").format(error=e))
     
     def generate_simple_report(self):
         """生成简单报告（仅包含坐标）"""
@@ -13932,7 +13940,7 @@ class ImageViewer(QMainWindow):
             report_layout.addWidget(report_text)
 
             # 不在这里生成报告内容，而是等待用户点击生成报告按钮
-            report_text.setHtml("<p>点击\"生成报告\"按钮生成报告内容</p>")
+            report_text.setHtml(f"<p>{_('click_generate_report')}</p>")
 
             tab_widget.addTab(report_tab, _("report_content"))
 
@@ -15790,7 +15798,7 @@ class ImageViewer(QMainWindow):
             
         # 如果当前有报告对话框打开，则刷新其内容
         for widget in QApplication.topLevelWidgets():
-            if isinstance(widget, QDialog) and widget.windowTitle() == "报告展示":
+            if isinstance(widget, QDialog) and widget.windowTitle() == _("report_display"):
                 for tree_widget in widget.findChildren(QTreeWidget):
                     # 清空记录树
                     tree_widget.clear()
