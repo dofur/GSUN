@@ -174,6 +174,7 @@ pip install astroalign==0.9.1 -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install scipy==1.11.2 -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install scikit-image==0.21.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install opencv-python==4.8.0.76 -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install photutils==1.9.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
 ## Quick Start
@@ -328,10 +329,10 @@ Users can edit the `config.ini` file to customize program behavior, including:
 
 ### v4.1 (2026-03-19)
 - Added bilingual interface support (Chinese/English)
-- Added batch photometry function
-- Fixed image import crash issues
-- Added variable star import function
-- Added image cropping function
+- Optimized batch photometry function
+- Fixed image flip marker following issues
+- Added 90-degree rotation function
+- Improved translation system
 
 ### v4.0 (2026-01-10)
 - Added batch photometry function
